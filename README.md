@@ -41,22 +41,4 @@ These are the external libraries or services that the application depends on. Th
 
 Today, you will learn how to create a messaging backend that allows users to save and read messages. Hexagonal architecture adheres to strict application layout that needs to be implemented. Below is the application layout that you will use. This might look like a lot of work, but it will make sense as we move forward. Go ahead and create the below application structure.
 
-└── Messenger
-├── cmd
-│ └── main.go
-├── go.mod
-├── go.sum
-└── internal
-├── adapters
-│ ├── handler
-│ │ └── http.go
-│ └── repository
-│ ├── postgres.go
-│ └── redis.go
-└── core
-├── domain
-│ └── model.go
-├── ports
-│ └── ports.go
-└── services
-└── services.go
+![](images/structure.png)
