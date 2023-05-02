@@ -5,4 +5,4 @@ while True:
     os.system('git add .')
     os.system('git commit -m "hexa-arch"')
     os.system('git push -u origin main')
-    time.sleep(60)  # sleep for 1 min
+    time.sleep(300)  # sleep for 5 min
