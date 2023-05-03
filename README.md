@@ -5,27 +5,27 @@ This is the source code for the original article:
 
 [Hexagonal Architecture Deep Dive with PostgreSQL, Redis and Go Practices](https://medium.com/towardsdev/hexagonal-architecture-deep-dive-with-postgresql-redis-and-go-practices-4b051f940e93)
 
-## What is Hexagonal Architecture?
+## 🏡 What is Hexagonal Architecture?
 
 Hexagonal Architecture, also known as Ports and Adapters Architecture or Clean Architecture, is a software architecture pattern that promotes loose coupling between the application core (business logic) and external components such as user interface, database, and external services.
 
 In Hexagonal Architecture, the core of the application is isolated from external components and is instead accessed through a set of well-defined interfaces or ports. Adapters are then used to implement the required interfaces and integrate with the external components.
 
-## Hexagonal Architecture Components
+## 🔮 Hexagonal Architecture Components
 
 Here are the components of the Hexagonal Architecture:
 
-### Core Business Logic:
+### 🎖 Core Business Logic:
 
 The Core Business Logic is responsible for the main functionality of the application. This component represents the heart of the application and should be designed to be independent of any external dependencies. In Hexagonal Architecture, the Core Business Logic is implemented as a set of use cases that encapsulate the behavior of the application.
 
 For example, if we are building a banking application, the Core Business Logic would include use cases such as creating an account, transferring funds, and checking account balance.
 
-### Adapters:
+### 👯 Adapters:
 
 The Adapters are responsible for connecting the Core Business Logic to the external world. Adapters can be of two types: Primary and Secondary.
 
-#### Primary Adapter:
+#### 🕺 Primary Adapter:
 
 The Primary Adapter is responsible for handling incoming requests from the external world and sending them to the Core Business Logic. In Hexagonal Architecture, the Primary Adapter is typically an HTTP server, which receives HTTP requests from clients and converts them into requests that can be understood by the Core Business Logic.
 
