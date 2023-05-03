@@ -31,13 +31,13 @@ The Primary Adapter is responsible for handling incoming requests from the exter
 
 For example, in a banking application, the Primary Adapter would be an HTTP server that listens for incoming requests from clients, such as transferring funds or checking account balances, and then converts them into use cases that can be understood by the Core Business Logic.
 
-#### Secondary Adapters:
+#### 🥁 Secondary Adapters:
 
 The Secondary Adapters are responsible for interfacing with external dependencies that the Core Business Logic relies on. These dependencies can be databases, message queues, or third-party APIs. Secondary Adapters implement the ports defined by the Core Business Logic.
 
 For example, in a banking application, the Secondary Adapters would include database adapters that interface with the Core Business Logic to store and retrieve data about accounts, transactions, and other related information.
 
-### Interfaces:
+### 😈 Interfaces:
 
 In software architecture, an interface refers to a contract or an agreement between two software components. It defines a set of rules or protocols that a component must follow in order to communicate with another component.
 
@@ -45,11 +45,11 @@ In the context of hexagonal architecture, interfaces play a critical role as the
 
 For example, let's say you have an online shopping application that needs to process payments. You can define an interface for the payment gateway adapter, which outlines the methods that the core business logic can use to interact with the payment gateway. You can then have multiple payment gateway adapters that implement this interface, such as PayPal, Stripe, and Braintree. The core business logic only interacts with the payment gateway adapters through their defined interface, allowing for easy replacement or addition of payment gateways without affecting the core business logic.
 
-### Dependencies:
+### 👨‍👦‍👦 Dependencies:
 
 These are the external libraries or services that the application depends on. They are managed by the adapters, and should not be directly accessed by the core business logic. This allows the core business logic to remain independent of any specific infrastructure or technology choices.
 
-## Application structure
+## 🤡 Application structure
 
 Now, let's dive into how to create a messaging backend that allows users to save and read messages. Hexagonal architecture adheres to strict application layout that needs to be implemented. Below is the application layout that you will use. This might look like a lot of work, but it will make sense as we move forward.
 
