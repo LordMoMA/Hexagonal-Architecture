@@ -1,13 +1,15 @@
 # Hexagonal Architecture Deep Dive with PostgreSQL, Redis and Go Practices
 
 ![](images/arch.webp)
-Source Code for the article:
+This is the source code for the original article:
 
 [Hexagonal Architecture Deep Dive with PostgreSQL, Redis and Go Practices](https://medium.com/towardsdev/hexagonal-architecture-deep-dive-with-postgresql-redis-and-go-practices-4b051f940e93)
 
 ## What is Hexagonal Architecture?
 
-Hexagonal Architecture, also known as Ports and Adapters Architecture or Clean Architecture, is a software architecture pattern that emphasizes the separation of concerns between the core business logic of an application and the external systems it interacts with. In this pattern, the core business logic is at the center of the architecture, surrounded by adapters that allow it to interact with the outside world. The adapters can be thought of as the “ports” through which the application communicates with external systems.
+Hexagonal Architecture, also known as Ports and Adapters Architecture or Clean Architecture, is a software architecture pattern that promotes loose coupling between the application core (business logic) and external components such as user interface, database, and external services.
+
+In Hexagonal Architecture, the core of the application is isolated from external components and is instead accessed through a set of well-defined interfaces or ports. Adapters are then used to implement the required interfaces and integrate with the external components.
 
 ## Hexagonal Architecture Components
 
@@ -15,23 +17,33 @@ Here are the components of the Hexagonal Architecture:
 
 ### Core Business Logic:
 
-This is the central component of the architecture, and it contains the application’s core domain logic. This component should be independent of any external systems and should not be affected by changes in the infrastructure or the user interface.
+The Core Business Logic is responsible for the main functionality of the application. This component represents the heart of the application and should be designed to be independent of any external dependencies. In Hexagonal Architecture, the Core Business Logic is implemented as a set of use cases that encapsulate the behavior of the application.
+
+For example, if we are building a banking application, the Core Business Logic would include use cases such as creating an account, transferring funds, and checking account balance.
 
 ### Adapters:
 
-These are the components that connect the core business logic to the external systems. They can be thought of as the “ports” through which the application communicates with the outside world. Adapters can take many forms, including APIs, databases, user interfaces, and messaging systems.
+The Adapters are responsible for connecting the Core Business Logic to the external world. Adapters can be of two types: Primary and Secondary.
 
-### Primary Adapter:
+##### Primary Adapter:
 
-This is the adapter that handles the application’s primary input/output. For example, in a web application, the primary adapter might be an HTTP server that accepts incoming requests and returns responses. The primary adapter is responsible for translating incoming requests into domain-specific operations that can be processed by the core business logic, and translating the responses back into a format that can be understood by the requesting system.
+The Primary Adapter is responsible for handling incoming requests from the external world and sending them to the Core Business Logic. In Hexagonal Architecture, the Primary Adapter is typically an HTTP server, which receives HTTP requests from clients and converts them into requests that can be understood by the Core Business Logic.
 
-### Secondary Adapters:
+For example, in a banking application, the Primary Adapter would be an HTTP server that listens for incoming requests from clients, such as transferring funds or checking account balances, and then converts them into use cases that can be understood by the Core Business Logic.
 
-These are the adapters that handle the application’s secondary input/output. They can be thought of as “plugins” that provide additional functionality to the application. For example, a secondary adapter might be a database adapter that stores data for the application.
+##### Secondary Adapters:
+
+The Secondary Adapters are responsible for interfacing with external dependencies that the Core Business Logic relies on. These dependencies can be databases, message queues, or third-party APIs. Secondary Adapters implement the ports defined by the Core Business Logic.
+
+For example, in a banking application, the Secondary Adapters would include database adapters that interface with the Core Business Logic to store and retrieve data about accounts, transactions, and other related information.
 
 ### Interfaces:
 
-These are the contracts that define the communication between the core business logic and the adapters. They ensure that the adapters provide the necessary functionality to the core business logic, and that the core business logic provides the necessary information to the adapters. Interfaces can be thought of as the “language” that the adapters and the core business logic use to communicate with each other.
+In software architecture, an interface refers to a contract or an agreement between two software components. It defines a set of rules or protocols that a component must follow in order to communicate with another component.
+
+In the context of hexagonal architecture, interfaces play a critical role as they define the boundaries of the core business logic and the adapters. The core business logic only interacts with the adapters through their interfaces. This allows for easy replacement of adapters without affecting the core business logic.
+
+For example, let's say you have an online shopping application that needs to process payments. You can define an interface for the payment gateway adapter, which outlines the methods that the core business logic can use to interact with the payment gateway. You can then have multiple payment gateway adapters that implement this interface, such as PayPal, Stripe, and Braintree. The core business logic only interacts with the payment gateway adapters through their defined interface, allowing for easy replacement or addition of payment gateways without affecting the core business logic.
 
 ### Dependencies:
 
