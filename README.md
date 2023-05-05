@@ -61,4 +61,5 @@ Now, let's dive into how to create a messaging backend that allows users to save
 
 - Finish the whole CRUD process of the messaging service
 - Add Authentication
+- Add Unit Test
 - Add a payment service
