@@ -68,3 +68,13 @@ func (m *MessengerPostgresRepository) ReadMessages() ([]*domain.Message, error) 
 	}
 	return messages, nil
 }
+
+// update message
+func (m *MessengerPostgresRepository) UpdateMessage(id string, message domain.Message) error {
+	req := m.db.Model(&message).Where("id = ?", id).Update(message)
+	if req.RowsAffected == 0 {
+		return errors.New("message not found")
+	}
+	return nil
+}
+	
