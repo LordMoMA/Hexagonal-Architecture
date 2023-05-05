@@ -56,3 +56,9 @@ These are the external libraries or services that the application depends on. Th
 Now, let's dive into how to create a messaging backend that allows users to save and read messages. Hexagonal architecture adheres to strict application layout that needs to be implemented. Below is the application layout that we will use. This might look like a lot of work, but it will make sense as we move forward.
 
 ![](images/structure.png)
+
+# To-dos:
+
+- Finish the whole CRUD process of the messaging service
+- Add Authentication
+- Add a payment service
