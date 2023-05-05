@@ -39,6 +39,6 @@ func InitRoutes() {
    handler := handler.NewHTTPHandler(*svc)
    router.GET("/messages/:id", handler.ReadMessage)
    router.GET("/messages", handler.ReadMessages)
-   router.POST("/messages", handler.SaveMessage)
+   router.POST("/messages", handler.CreateMessage)
    router.Run(":5000")
 }

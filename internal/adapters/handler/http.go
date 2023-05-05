@@ -18,7 +18,7 @@ func NewHTTPHandler(MessengerService services.MessengerService) *HTTPHandler {
    }
 }
 
-func (h *HTTPHandler) SaveMessage(ctx *gin.Context) {
+func (h *HTTPHandler) CreateMessage(ctx *gin.Context) {
    var message domain.Message
    if err := ctx.ShouldBindJSON(&message); err != nil {
        ctx.JSON(http.StatusBadRequest, gin.H{
@@ -28,7 +28,7 @@ func (h *HTTPHandler) SaveMessage(ctx *gin.Context) {
        return
    }
 
-   err := h.svc.SaveMessage(message)
+   err := h.svc.CreateMessage(message)
    if err != nil {
        ctx.JSON(http.StatusBadRequest, gin.H{
            "error": err,

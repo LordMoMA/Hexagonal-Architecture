@@ -40,7 +40,7 @@ func NewMessengerPostgresRepository() *MessengerPostgresRepository {
 	}
 }
 
-func (m *MessengerPostgresRepository) SaveMessage(message domain.Message) error {
+func (m *MessengerPostgresRepository) CreateMessage(message domain.Message) error {
 	req := m.db.Create(&message)
 	if req.RowsAffected == 0 {
 		return errors.New(fmt.Sprintf("messages not saved: %v", req.Error))

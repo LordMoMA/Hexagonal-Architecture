@@ -22,7 +22,7 @@ func NewMessengerRedisRepository(host string) *MessengerRedisRepository {
    }
 }
 
-func (r *MessengerRedisRepository) SaveMessage(message domain.Message) error {
+func (r *MessengerRedisRepository) CreateMessage(message domain.Message) error {
    json, err := json.Marshal(message)
    if err != nil {
        return err
