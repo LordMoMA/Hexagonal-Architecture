@@ -12,7 +12,6 @@ import (
 
 var (
    repo        = flag.String("db", "postgres", "Database for storing messages")
-   // redisHost   = "localhost:6379"
    httpHandler *handler.HTTPHandler
    svc         *services.MessengerService
 )
