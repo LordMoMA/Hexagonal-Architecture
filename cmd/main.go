@@ -39,5 +39,6 @@ func InitRoutes() {
    router.GET("/messages/:id", handler.ReadMessage)
    router.GET("/messages", handler.ReadMessages)
    router.POST("/messages", handler.CreateMessage)
+   router.DELETE("/messages/:id", handler.DeleteMessage)
    router.Run(":5000")
 }
