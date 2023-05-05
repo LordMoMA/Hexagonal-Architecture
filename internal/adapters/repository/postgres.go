@@ -69,7 +69,6 @@ func (m *MessengerPostgresRepository) ReadMessages() ([]*domain.Message, error) 
 	return messages, nil
 }
 
-// update message
 func (m *MessengerPostgresRepository) UpdateMessage(id string, message domain.Message) error {
 	req := m.db.Model(&message).Where("id = ?", id).Update(message)
 	if req.RowsAffected == 0 {
@@ -77,4 +76,15 @@ func (m *MessengerPostgresRepository) UpdateMessage(id string, message domain.Me
 	}
 	return nil
 }
+
+func (m *MessengerPostgresRepository) DeleteMessage(id string) error {
+	message := &domain.Message{}
+	req := m.db.Where("id = ?", id).Delete(&message)
+	if req.RowsAffected == 0 {
+		return errors.New("message not found")
+	}
+	return nil
+}
+
+
 	
