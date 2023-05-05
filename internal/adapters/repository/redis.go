@@ -2,21 +2,31 @@ package repository
 
 import (
 	"encoding/json"
+	"os"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/go-redis/redis/v7"
+	"github.com/joho/godotenv"
 )
 
 type MessengerRedisRepository struct {
    client *redis.Client
 }
 
-func NewMessengerRedisRepository(host string) *MessengerRedisRepository {
-   client := redis.NewClient(&redis.Options{
-       Addr:     host,
-       Password: "",
-       DB:       0,
-   })
+func NewMessengerRedisRepository() *MessengerRedisRepository {
+    err := godotenv.Load()
+    if err != nil {
+        panic(err)
+    }
+    addr := os.Getenv("REDIS_ADDR")
+
+    client := redis.NewClient(&redis.Options{
+        Addr:     addr,
+        Password: "",
+        DB:       0,
+    })
+
+
    return &MessengerRedisRepository{
        client: client,
    }
