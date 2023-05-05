@@ -33,3 +33,11 @@ func (m *MessengerService) ReadMessage(id string) (*domain.Message, error) {
 func (m *MessengerService) ReadMessages() ([]*domain.Message, error) {
    return m.repo.ReadMessages()
 }
+
+func (m *MessengerService) UpdateMessage(id string, message domain.Message) error {
+   return m.repo.UpdateMessage(id, message)
+}
+
+func (m *MessengerService) DeleteMessage(id string) error {
+   return m.repo.DeleteMessage(id)
+}
