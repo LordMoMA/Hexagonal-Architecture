@@ -12,7 +12,7 @@ import (
 
 var (
    repo        = flag.String("db", "postgres", "Database for storing messages")
-   httpHandler *handler.HTTPHandler
+   // httpHandler *handler.HTTPHandler
    svc         *services.MessengerService
 )
 
