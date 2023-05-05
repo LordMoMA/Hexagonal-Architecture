@@ -1,3 +1,4 @@
+.env
 git_automation.py
 # Folder view configuration files
 .DS_Store
