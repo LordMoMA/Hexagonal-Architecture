@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -34,12 +33,12 @@ func main() {
 	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
-	db, err := gorm.Open("postgres", conn)
+	_, err := gorm.Open("postgres", conn)
 	if err != nil {
 		panic(err)
 	}
 
-   newdb, err := repository.NewDB(db)
+   // newdb := repository.NewDB(db)
 
 
    // flag.Parse()
