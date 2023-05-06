@@ -33,10 +33,12 @@ func main() {
 	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
-	_, err := gorm.Open("postgres", conn)
+	db, err := gorm.Open("postgres", conn)
 	if err != nil {
 		panic(err)
 	}
+
+   defer db.Close()
 
    // newdb := repository.NewDB(db)
 
