@@ -18,7 +18,7 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 	}
 	
 	user = &domain.User{
-		ID: uuid.New(),
+		ID: uuid.New().String(),
 		Email: email,
 		Password: password,
 		Membership: false,
