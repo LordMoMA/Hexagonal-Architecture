@@ -11,7 +11,11 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type MessengerPostgresRepository struct {
+type DBStructure struct {
+	Users map[int]User `json:"users"`
+	Messages map[int]Message `json:"messages"`
+}
+	type MessengerPostgresRepository struct {
 	db *gorm.DB
 }
 
