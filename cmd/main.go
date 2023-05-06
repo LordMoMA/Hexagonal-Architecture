@@ -3,11 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -17,17 +19,35 @@ var (
 )
 
 func main() {
-   flag.Parse()
+   err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
 
-   fmt.Printf("Application running using %s\n", *repo)
-   switch *repo {
-   case "redis":
-       store := repository.NewMessengerRedisRepository()
-       svc = services.NewMessengerService(store)
-   default:
-       store := repository.NewMessengerPostgresRepository()
-       svc = services.NewMessengerService(store)
-   }
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+
+	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := gorm.Open("postgres", conn)
+	if err != nil {
+		panic(err)
+	}
+   // flag.Parse()
+
+   // fmt.Printf("Application running using %s\n", *repo)
+   // switch *repo {
+   // case "redis":
+   //     store := repository.NewMessengerRedisRepository()
+   //     svc = services.NewMessengerService(store)
+   // default:
+   //     store := repository.NewMessengerPostgresRepository()
+   //     svc = services.NewMessengerService(store)
+   // }
 
    InitRoutes()
 
