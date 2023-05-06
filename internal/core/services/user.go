@@ -27,8 +27,8 @@ func (u *UserService) ReadUsers() ([]*domain.User, error) {
 	return u.repo.ReadUsers()
 }
 
-func (u *UserService) UpdateUser(id string, user domain.User) error {
-	return u.repo.UpdateUser(id, user)
+func (u *UserService) UpdateUser(id, email, password string) error {
+	return u.repo.UpdateUser(id, email, password)
 }
 
 func (u *UserService) DeleteUser(id string) error {
