@@ -3,45 +3,15 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"os"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"github.com/joho/godotenv"
 )
 
 // 	type MessengerPostgresRepository struct {
 // 	db *gorm.DB
 // }
 
-// be sure to hide your password in a .env file, this is for simplicity here.
-func NewMessengerPostgresRepository() *DB {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
-
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
-
-	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-
-	db, err := gorm.Open("postgres", conn)
-	if err != nil {
-		panic(err)
-	}
-
-	db.AutoMigrate(&domain.Message{})
-
-	return &DB{
-		db: db,
-	}
-}
 
 func (m *DB) CreateMessage(message domain.Message) error {
 	req := m.db.Create(&message)
