@@ -101,7 +101,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 func getToken(ctx *gin.Context) (string, error) {
 	authHeader := ctx.Request.Header.Get("Authorization")
 	if authHeader == "" {
-		return "", errors.New("Token not found")
+		return "", errors.New("token not found")
 	}
 	tokenString := authHeader[7:]
 	return tokenString, nil
@@ -124,16 +124,16 @@ func validateToken(tokenString string) error {
 	}
 
 	if !token.Valid {
-		return errors.New("Token not valid")
+		return errors.New("token not valid")
 	}
 
 	claims, ok := token.Claims.(*jwt.RegisteredClaims)
 	if !ok || claims.ExpiresAt == nil || claims.ExpiresAt.Before(time.Now().UTC()) {
-		return errors.New("Token has expired")
+		return errors.New("token has expired")
 	}
 
 	if claims.Issuer == "LordMoMA-refresh" {
-		return errors.New("Token is a refresh token, please use access token")
+		return errors.New("token is a refresh token, please use access token")
 	}
 
 	return nil
