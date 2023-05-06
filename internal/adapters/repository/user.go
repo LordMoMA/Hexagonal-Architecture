@@ -71,7 +71,6 @@ func (u *DB) ReadUsers() ([]*domain.User, error) {
 
 
 func (u *DB) UpdateUser(id, email, password string) error {
-	// get user by id
 	user := &domain.User{}
 	req := u.db.First(&user, "id = ? ", id)
 	if req.RowsAffected == 0 {

@@ -125,7 +125,7 @@ func (h *UserHandler) LoginUser(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"id":             response.ID,
+	"id":             response.ID,
     "email":          response.Email,
     "access_token":   response.AccessToken,
     "refresh_token":  response.RefreshToken,
