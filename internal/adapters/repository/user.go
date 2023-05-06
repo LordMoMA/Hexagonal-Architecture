@@ -6,6 +6,7 @@ import (
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 
@@ -16,11 +17,16 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 	if req.RowsAffected != 0 {
 		return nil, errors.New("user already exists")
 	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, errors.New(fmt.Sprintf("password not hashed: %v", err))
+	}
 	
 	user = &domain.User{
 		ID: uuid.New().String(),
 		Email: email,
-		Password: password,
+		Password: string(hashedPassword),
 		Membership: false,
 
 	}
