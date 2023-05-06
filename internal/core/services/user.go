@@ -15,7 +15,7 @@ func NewUserService(repo ports.UserRepository) *UserService {
 	}
 }
 
-func (u *UserService) CreateUser(email, password string) error {
+func (u *UserService) CreateUser(email, password string) (*domain.User,error) {
 	return u.repo.CreateUser(email, password)
 }
 
