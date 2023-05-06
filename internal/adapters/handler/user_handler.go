@@ -106,3 +106,25 @@ func (h *UserHandler) DeleteUser(ctx *gin.Context) {
 	})
 }
 
+func (h *UserHandler) LoginUser(ctx *gin.Context) {
+	var user domain.User
+	if err := ctx.ShouldBindJSON(&user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Error": err,
+		})
+
+		return
+	}
+
+	token, err := h.svc.LoginUser(user.Email, user.Password)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"token": token,
+	})
+}
