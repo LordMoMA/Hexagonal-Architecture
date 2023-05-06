@@ -1,8 +1,9 @@
 package repository
 
-import "sync"
+import "github.com/jinzhu/gorm"
 
 type UserRepository struct{
-	mux  *sync.RWMutex
+	db *gorm.DB
 	
 }
+
