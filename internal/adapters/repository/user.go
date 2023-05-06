@@ -3,9 +3,12 @@ package repository
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/config"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -94,8 +97,23 @@ func (u *DB) DeleteUser(id string) error {
 	return nil
 }
 
-// login user
+
+
 func (u *DB) LoginUser(email, password string) (*domain.User, error) {
+	
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
+   jwtSecret := os.Getenv("JWT_SECRET")
+   apiKey := os.Getenv("API_KEY")
+
+   apiCfg := &config.APIConfig{
+      JWTSecret: jwtSecret,
+      APIKey:    apiKey,
+   }
+
 	user := &domain.User{}
 	req := u.db.First(&user, "email = ?", email)
 	if req.RowsAffected == 0 {
@@ -106,11 +124,16 @@ func (u *DB) LoginUser(email, password string) (*domain.User, error) {
 	if err != nil {
 		return nil, fmt.Errorf("password not matched: %v", err)
 	}
-	// create JWT token
-	token, err := jwt.CreateToken(user.ID)
-	if err != nil {
-		return nil, fmt.Errorf("token not created: %v", err)
+	
+	if len(apiCfg.SecretKey) == 0 {
+		return nil, errors.New("secret key not found")
 	}
+
+	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"email": email,
+		"password": password,
+	})
+
 
 	return user, nil
 }
