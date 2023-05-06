@@ -1,4 +1,9 @@
 package domain
+
+type DBStructure struct {
+	Users map[int]User `json:"users"`
+	Messages map[int]Message `json:"messages"`
+}
 type Message struct {
    ID   string `json:"id"`
    UserID int `json:"user_id"`
