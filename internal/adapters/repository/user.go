@@ -71,10 +71,8 @@ func (u *DB) UpdateUser(id, email, password string) error {
 	}
 
 	user = &domain.User{
-		ID: id,
 		Email: email,
 		Password: string(hashedPassword),
-		Membership: false,
 	}
 	
 	req = u.db.Update(&user)
