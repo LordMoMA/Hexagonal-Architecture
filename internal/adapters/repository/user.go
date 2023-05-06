@@ -177,7 +177,7 @@ func (u *DB) verifyPassword(hash, password string) error {
 
 func (u *DB) generateAccessToken(userID, jwtSecret string) (string, error) {
     claims := jwt.RegisteredClaims{
-        Issuer:    "LordMoMA",
+        Issuer:    "LordMoMA-access",
         Subject:   userID,
         IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
         ExpiresAt: jwt.NewNumericDate(time.Now().Add(1 * time.Hour).UTC()),
@@ -189,7 +189,7 @@ func (u *DB) generateAccessToken(userID, jwtSecret string) (string, error) {
 
 func (u *DB) generateRefreshToken(userID, jwtSecret string) (string, error) {
     claims := jwt.RegisteredClaims{
-        Issuer:    "LordMoMA",
+        Issuer:    "LordMoMA-refresh",
         Subject:   userID,
         IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
         ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour).UTC()),
