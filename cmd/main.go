@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
@@ -13,7 +12,7 @@ import (
 )
 
 var (
-   repo        = flag.String("db", "postgres", "Database for storing messages")
+   // repo        = flag.String("db", "postgres", "Database for storing messages")
    // httpHandler *handler.HTTPHandler
    svc         *services.MessengerService
 )
