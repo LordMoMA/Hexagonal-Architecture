@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
@@ -120,14 +121,17 @@ func (u *DB) LoginUser(email, password string) (*domain.User, error) {
 		return nil, errors.New("user not found")
 	}
 
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return nil, fmt.Errorf("password not matched: %v", err)
 	}
 	
-	if len(apiCfg.SecretKey) == 0 {
+	if len(apiCfg.JWTSecret) == 0 {
 		return nil, errors.New("secret key not found")
 	}
+
+	assessTokenExpirationTime := time.Now().Add(1 * time.Hour)
+	refreshTokenExpirationTime := time.Now().Add(60 * 24 * time.Hour)
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
