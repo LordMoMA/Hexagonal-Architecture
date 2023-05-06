@@ -22,8 +22,8 @@ func main() {
    fmt.Printf("Application running using %s\n", *repo)
    switch *repo {
    case "redis":
-      //  store := repository.NewMessengerRedisRepository()
-      //  svc = services.NewMessengerService(store)
+       store := repository.NewMessengerRedisRepository()
+       svc = services.NewMessengerService(store)
    default:
        store := repository.NewMessengerPostgresRepository()
        svc = services.NewMessengerService(store)
