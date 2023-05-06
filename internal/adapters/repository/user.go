@@ -106,7 +106,7 @@ type LoginResponse struct {
 	Membership  bool   `json:"membership"`
 }
 
-func (u *DB) LoginUser(email, password string) (*domain.User, error) {
+func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
 	
 	err := godotenv.Load()
 	if err != nil {
@@ -165,17 +165,15 @@ func (u *DB) LoginUser(email, password string) (*domain.User, error) {
 		return nil, fmt.Errorf("refresh token not signed: %v", err)
 	}
 
-	user = &domain.User{
+	res := &LoginResponse{
 		ID: user.ID,
 		Email: user.Email,
-		Password: user.Password,
 		Membership: user.Membership,
 		AccessToken: accessTokenString,
 		RefreshToken: refreshTokenString,
 	}
 
-
-	return user, nil
+	return res, nil
 }
 
 
