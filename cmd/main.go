@@ -6,6 +6,7 @@ import (
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/config"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -24,13 +25,13 @@ func main() {
 		panic(err)
 	}
 
-   // jwtSecret := os.Getenv("JWT_SECRET")
-   // apiKey := os.Getenv("API_KEY")
+   jwtSecret := os.Getenv("JWT_SECRET")
+   apiKey := os.Getenv("API_KEY")
 
-   // apiCfg := &config.APIConfig{
-   //    JWTSecret: jwtSecret,
-   //    APIKey:    apiKey,
-   // }
+   apiCfg := &config.APIConfig{
+      JWTSecret: jwtSecret,
+      APIKey:    apiKey,
+   }
 
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
@@ -72,6 +73,8 @@ func InitRoutes() {
    v1.POST("/users", userHandler.CreateUser)
    v1.PUT("/users/:id", userHandler.UpdateUser)
    v1.DELETE("/users/:id", userHandler.DeleteUser)
+
+   v1.POST("/login", userHandler.Login(apiCfg))
    
    router.Run(":5000")
 }
