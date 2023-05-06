@@ -1,11 +1,13 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type UserHandler struct {
@@ -67,6 +69,26 @@ func (h *UserHandler) ReadUsers(ctx *gin.Context) {
 }
 
 func (h *UserHandler) UpdateUser(ctx *gin.Context) {
+	//extract the token
+	authHeader := ctx.Request.Header.Get("Authorization")
+	if authHeader == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "Token not found",
+		})
+	}
+	tokenString := authHeader[7:]
+
+	// parse and validate the token
+	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{},error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %w", token.Header["alg"])
+		}
+		return []byte(config.apiCfg.JWTSecret), nil
+	})
+
+	
+	
+
 	id := ctx.Param("id")
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
