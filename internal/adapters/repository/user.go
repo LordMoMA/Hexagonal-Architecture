@@ -15,6 +15,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type LoginResponse struct {
+	ID 		 string `json:"id"`
+	Email 	 string `json:"email"`
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+	Membership  bool   `json:"membership"`
+}
 
 func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 
@@ -96,14 +103,6 @@ func (u *DB) DeleteUser(id string) error {
 		return errors.New("user not found")
 	}
 	return nil
-}
-
-type LoginResponse struct {
-	ID 		 string `json:"id"`
-	Email 	 string `json:"email"`
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
-	Membership  bool   `json:"membership"`
 }
 
 func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
@@ -194,7 +193,7 @@ func (u *DB) generateRefreshToken(userID, jwtSecret string) (string, error) {
         Issuer:    "LordMoMA",
         Subject:   userID,
         IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
-        ExpiresAt: jwt.NewNumericDate(time.Now().Add(60 * 24 * time.Hour).UTC()),
+        ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour).UTC()),
     }
 
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
