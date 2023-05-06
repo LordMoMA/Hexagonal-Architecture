@@ -135,9 +135,9 @@ func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
     return &LoginResponse{
         ID:           user.ID,
         Email:        user.Email,
-        Membership:   user.Membership,
         AccessToken:  accessToken,
         RefreshToken: refreshToken,
+        Membership:   user.Membership,
     }, nil
 }
 
