@@ -26,6 +26,7 @@ type UserRepository interface {
    ReadUsers() ([]*domain.User, error)
    UpdateUser(id, email, password string) error
    DeleteUser(id string) error
+   LoginUser(email, password string) (*domain.User, error)
 }
 
 
