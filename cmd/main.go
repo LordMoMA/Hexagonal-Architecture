@@ -14,8 +14,6 @@ import (
 )
 
 var (
-   // repo        = flag.String("db", "postgres", "Database for storing messages")
-   // httpHandler *handler.HTTPHandler
    svc         *services.MessengerService
 )
 
@@ -24,6 +22,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+   // jwtSecret := os.Getenv("JWT_SECRET")
+   // apiKey := os.Getenv("API_KEY")
+
+   // apiCfg := &config.APIConfig{
+   //    JWTSecret: jwtSecret,
+   //    APIKey:    apiKey,
+   // }
 
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
@@ -39,25 +45,8 @@ func main() {
 		panic(err)
 	}
 
-   // defer db.Close()
-
    store := repository.NewDB(db)
    svc = services.NewMessengerService(store)
-
-   // newdb := repository.NewDB(db)
-
-
-   // flag.Parse()
-
-   // fmt.Printf("Application running using %s\n", *repo)
-   // switch *repo {
-   // case "redis":
-   //     store := repository.NewMessengerRedisRepository()
-   //     svc = services.NewMessengerService(store)
-   // default:
-   //     store := repository.NewMessengerPostgresRepository()
-   //     svc = services.NewMessengerService(store)
-   // }
 
    InitRoutes()
 
@@ -66,11 +55,11 @@ func main() {
 func InitRoutes() {
    router := gin.Default()
    v1 := router.Group("/v1")
-   handler := handler.NewMessageHandler(*svc)
-   v1.GET("/messages/:id", handler.ReadMessage)
-   v1.GET("/messages", handler.ReadMessages)
-   v1.POST("/messages", handler.CreateMessage)
-   v1.PUT("/messages/:id", handler.UpdateMessage)
-   v1.DELETE("/messages/:id", handler.DeleteMessage)
+   messageHandler := handler.NewMessageHandler(*svc)
+   v1.GET("/messages/:id", messageHandler.ReadMessage)
+   v1.GET("/messages", messageHandler.ReadMessages)
+   v1.POST("/messages", messageHandler.CreateMessage)
+   v1.PUT("/messages/:id", messageHandler.UpdateMessage)
+   v1.DELETE("/messages/:id", messageHandler.DeleteMessage)
    router.Run(":5000")
 }
