@@ -66,7 +66,7 @@ func InitRoutes() {
    v1.PUT("/messages/:id", messageHandler.UpdateMessage)
    v1.DELETE("/messages/:id", messageHandler.DeleteMessage)
 
-   // userHandler := handler.NewUserHandler(*svc)
+   userHandler := handler.NewUserHandler(*svc)
    
    router.Run(":5000")
 }

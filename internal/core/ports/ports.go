@@ -21,7 +21,7 @@ type MessengerRepository interface {
 }
 
 type UserRepository interface {
-   CreateUser(user domain.User) error
+   CreateUser(email, password string) (*domain.User, error)
    ReadUser(id string) (*domain.User, error)
    ReadUsers() ([]*domain.User, error)
    UpdateUser(id string, user domain.User) error
