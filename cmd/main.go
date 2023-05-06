@@ -14,7 +14,7 @@ import (
 )
 
 var (
-   svc         *services.MessengerService
+   msgService         *services.MessengerService
 )
 
 func main() {
@@ -46,7 +46,7 @@ func main() {
 	}
 
    store := repository.NewDB(db)
-   svc = services.NewMessengerService(store)
+   msgService = services.NewMessengerService(store)
 
    InitRoutes()
 
@@ -55,11 +55,15 @@ func main() {
 func InitRoutes() {
    router := gin.Default()
    v1 := router.Group("/v1")
-   messageHandler := handler.NewMessageHandler(*svc)
+
+   messageHandler := handler.NewMessageHandler(*msgService)
    v1.GET("/messages/:id", messageHandler.ReadMessage)
    v1.GET("/messages", messageHandler.ReadMessages)
    v1.POST("/messages", messageHandler.CreateMessage)
    v1.PUT("/messages/:id", messageHandler.UpdateMessage)
    v1.DELETE("/messages/:id", messageHandler.DeleteMessage)
+
+   // userHandler := handler.NewUserHandler(*svc)
+   
    router.Run(":5000")
 }
