@@ -39,9 +39,9 @@ func main() {
 		panic(err)
 	}
 
-   defer db.Close()
+   // defer db.Close()
 
-   store := repository.DB()
+   store := repository.NewDB(db)
    svc = services.NewMessengerService(store)
 
    // newdb := repository.NewDB(db)
