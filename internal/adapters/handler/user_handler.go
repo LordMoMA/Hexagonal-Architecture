@@ -28,7 +28,7 @@ func (h *UserHandler) CreateUser(ctx *gin.Context) {
 		return
 	}
 
-	err := h.svc.CreateUser(user)
+	_, err := h.svc.CreateUser(user.Email, user.Password)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
