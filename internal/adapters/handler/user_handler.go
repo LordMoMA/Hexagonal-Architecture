@@ -159,6 +159,7 @@ func (h *UserHandler) DeleteUser(ctx *gin.Context) {
 	})
 }
 
+
 func (h *UserHandler) LoginUser(ctx *gin.Context) {
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
