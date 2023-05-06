@@ -20,4 +20,12 @@ type MessengerRepository interface {
    DeleteMessage(id string) error
 }
 
+type UserRepository interface {
+   CreateUser(user domain.User) error
+   ReadUser(id string) (*domain.User, error)
+   ReadUsers() ([]*domain.User, error)
+   UpdateUser(id string, user domain.User) error
+   DeleteUser(id string) error
+}
+
 
