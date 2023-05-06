@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -136,13 +135,12 @@ func (u *DB) LoginUser(email, password string) (*domain.User, error) {
 
 	accessTokenClaims:= jwt.RegisteredClaims{
 		Issuer: "LordMoMA",
-		Subject: strconv.Itoa(user.ID),
+		Subject: user.ID,
+		IssuedAt: jwt.NewNumericDate(time.Now().UTC()),
+		ExpiresAt: jwt.NewNumericDate(assessTokenExpirationTime.UTC()),
 	}
 
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email": email,
-		"password": password,
-	})
+	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
 
 
 	return user, nil
