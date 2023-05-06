@@ -2,7 +2,7 @@ package domain
 
 type Message struct {
    ID   string `json:"id"`
-   UserID string `json:"user_id"`
+   // UserID string `json:"user_id"`
    Body string `json:"body"`
 }
 
