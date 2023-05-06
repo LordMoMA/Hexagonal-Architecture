@@ -92,5 +92,6 @@ func (r *MessengerRedisRepository) UpdateMessage(id string, message domain.Messa
 
 // delete message
 func (r *MessengerRedisRepository) DeleteMessage(id string) error {
-
+    r.client.HDel("messages", id)
+    return nil
 }
