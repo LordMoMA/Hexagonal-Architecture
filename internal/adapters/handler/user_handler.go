@@ -118,10 +118,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "Token is a refresh token, please use access token.",
 		})
-
-
-	
-	
+	}
 
 	id := ctx.Param("id")
 	var user domain.User
