@@ -39,5 +39,70 @@ func (h *UserHandler) CreateUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{
 		"message": "New user created successfully",
 	})	
-	
 }
+
+func (h *UserHandler) ReadUser(ctx *gin.Context) {
+	id := ctx.Param("id")
+	user, err := h.svc.ReadUser(id)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
+}
+
+func (h *UserHandler) ReadUsers(ctx *gin.Context) {
+	
+	users, err := h.svc.ReadUsers()
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, users)
+}
+
+func (h *UserHandler) UpdateUser(ctx *gin.Context) {
+	id := ctx.Param("id")
+	var user domain.User
+	if err := ctx.ShouldBindJSON(&user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Error": err,
+		})
+
+		return
+	}
+
+	err := h.svc.UpdateUser(id, user)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "User updated successfully",
+	})
+}
+
+func (h *UserHandler) DeleteUser(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	err := h.svc.DeleteUser(id)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "User deleted successfully",
+	})
+}
+
