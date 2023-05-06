@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/ports"
 )
@@ -35,7 +36,7 @@ func (u *UserService) DeleteUser(id string) error {
 	return u.repo.DeleteUser(id)
 }
 
-func (u *UserService) LoginUser(email, password string) (*domain.User, error) {
+func (u *UserService) LoginUser(email, password string) (repository.LoginResponse, error) {
 	return u.repo.LoginUser(email, password)
 }
 
