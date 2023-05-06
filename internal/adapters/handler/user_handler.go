@@ -77,7 +77,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	err := h.svc.UpdateUser(id, user)
+	err := h.svc.UpdateUser(id, user.Email, user.Password)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
