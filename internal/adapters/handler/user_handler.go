@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
@@ -69,7 +70,10 @@ func (h *UserHandler) ReadUsers(ctx *gin.Context) {
 }
 
 func (h *UserHandler) UpdateUser(ctx *gin.Context) {
-	//extract the token
+	apiCfg, err := repository.LoadAPIConfig()
+    if err != nil {
+        return nil, err
+    }
 	authHeader := ctx.Request.Header.Get("Authorization")
 	if authHeader == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -83,7 +87,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %w", token.Header["alg"])
 		}
-		return []byte(APIConfig.JWTSecret), nil
+		return []byte(apiCfg.JWTSecret), nil
 	})
 
 	

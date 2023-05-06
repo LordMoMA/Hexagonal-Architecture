@@ -105,7 +105,7 @@ func (u *DB) DeleteUser(id string) error {
 }
 
 func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
-    apiCfg, err := loadAPIConfig()
+    apiCfg, err := LoadAPIConfig()
     if err != nil {
         return nil, err
     }
@@ -139,7 +139,7 @@ func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
     }, nil
 }
 
-func loadAPIConfig() (*config.APIConfig, error) {
+func LoadAPIConfig() (*config.APIConfig, error) {
     err := godotenv.Load()
     if err != nil {
         return nil, err
