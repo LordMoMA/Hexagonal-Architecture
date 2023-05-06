@@ -81,6 +81,7 @@ func (r *MessengerRedisRepository) UpdateMessage(id string, message domain.Messa
         return err
     }
     message.ID = id
+    message.Body = value
     json, err := json.Marshal(message)
     if err != nil {
         return err
