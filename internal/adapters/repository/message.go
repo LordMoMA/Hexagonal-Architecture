@@ -16,7 +16,7 @@ import (
 func (m *DB) CreateMessage(message domain.Message) error {
 	req := m.db.Create(&message)
 	if req.RowsAffected == 0 {
-		return errors.New(fmt.Sprintf("messages not saved: %v", req.Error))
+		return fmt.Errorf("messages not saved: %v", req.Error)
 	}
 	return nil
 }
@@ -34,7 +34,7 @@ func (m *DB) ReadMessages() ([]*domain.Message, error) {
 	var messages []*domain.Message
 	req := m.db.Find(&messages)
 	if req.Error != nil {
-		return nil, errors.New(fmt.Sprintf("messages not found: %v", req.Error))
+		return nil, fmt.Errorf("messages not found: %v", req.Error)
 	}
 	return messages, nil
 }

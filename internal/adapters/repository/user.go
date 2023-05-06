@@ -20,7 +20,7 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("password not hashed: %v", err))
+		return nil, fmt.Errorf("password not hashed: %v", err)
 	}
 	
 	user = &domain.User{
@@ -32,7 +32,7 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 	}
 	req = u.db.Create(&user)
 	if req.RowsAffected == 0 {
-		return nil, errors.New(fmt.Sprintf("user not saved: %v", req.Error))
+		return nil, fmt.Errorf("user not saved: %v", req.Error)
 	}
 	return user, nil
 }
@@ -52,7 +52,7 @@ func (u *DB) ReadUsers() ([]*domain.User, error) {
 	var users []*domain.User
 	req := u.db.Find(&users)
 	if req.Error != nil {
-		return nil, errors.New(fmt.Sprintf("users not found: %v", req.Error))
+		return nil, fmt.Errorf("users not found: %v", req.Error)
 	}
 	return users, nil
 }
