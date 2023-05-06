@@ -76,6 +76,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
 		})
+	}
 
 
 	authHeader := ctx.Request.Header.Get("Authorization")
@@ -89,7 +90,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 	// parse and validate the token
 	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{},error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %w", token.Header["alg"])
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return []byte(apiCfg.JWTSecret), nil
 	})
@@ -98,6 +99,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
 		})
+	}
 
 	if !token.Valid {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -130,7 +132,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	err := h.svc.UpdateUser(id, user.Email, user.Password)
+	err = h.svc.UpdateUser(id, user.Email, user.Password)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -142,8 +144,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		"message": "User updated successfully",
 	})
 }
-}
-}
+
 
 func (h *UserHandler) DeleteUser(ctx *gin.Context) {
 	id := ctx.Param("id")
