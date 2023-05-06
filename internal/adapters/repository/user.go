@@ -98,7 +98,13 @@ func (u *DB) DeleteUser(id string) error {
 	return nil
 }
 
-
+type LoginResponse struct {
+	ID 		 string `json:"id"`
+	Email 	 string `json:"email"`
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+	Membership  bool   `json:"membership"`
+}
 
 func (u *DB) LoginUser(email, password string) (*domain.User, error) {
 	
