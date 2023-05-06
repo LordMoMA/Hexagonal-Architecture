@@ -75,10 +75,6 @@ func (u *DB) UpdateUser(id, email, password string) error {
 		Password: string(hashedPassword),
 	}
 	
-	req = u.db.Update(&user)
-	if req.RowsAffected == 0 {
-		return fmt.Errorf("user not saved: %v", req.Error)
-	}
 	return nil
 
 }
