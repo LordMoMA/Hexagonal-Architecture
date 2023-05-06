@@ -76,12 +76,6 @@ func (r *MessengerRedisRepository) ReadMessages() ([]*domain.Message, error) {
 
 // update message
 func (r *MessengerRedisRepository) UpdateMessage(id string, message domain.Message) error {
-    value, err := r.client.HGet("messages", id).Result()
-    if err != nil {
-        return err
-    }
-    message.ID = id
-    message.Body = value
     json, err := json.Marshal(message)
     if err != nil {
         return err
@@ -89,6 +83,9 @@ func (r *MessengerRedisRepository) UpdateMessage(id string, message domain.Messa
     r.client.HSet("messages", id, json)
     return nil
 }
+
+
+
 
 // delete message
 func (r *MessengerRedisRepository) DeleteMessage(id string) error {
