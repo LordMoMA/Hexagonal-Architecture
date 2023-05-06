@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
@@ -92,6 +93,21 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		}
 		return []byte(apiCfg.JWTSecret), nil
 	})
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+
+	if !token.Valid {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "Token not valid",
+		})
+	}
+
+	// check token has expired or not
+	claims, ok := token.Claims.(*jwt.RegisteredClaims)
+	if !ok || claims.ExpiresAt == nil || claims.ExpiresAt.Before(time.Now().UTC())
 
 	
 	
