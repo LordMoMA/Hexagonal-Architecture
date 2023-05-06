@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/golang-jwt/jwt/v5"
+
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -106,7 +108,9 @@ func (u *DB) LoginUser(email, password string) (*domain.User, error) {
 	}
 	// create JWT token
 	token, err := jwt.CreateToken(user.ID)
-	
+	if err != nil {
+		return nil, fmt.Errorf("token not created: %v", err)
+	}
 
 	return user, nil
 }
