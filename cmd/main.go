@@ -46,7 +46,9 @@ func main() {
 	}
 
    store := repository.NewDB(db)
+
    msgService = services.NewMessengerService(store)
+   userService = services.NewUserService(store)
 
    InitRoutes()
 
