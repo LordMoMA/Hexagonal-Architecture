@@ -15,6 +15,7 @@ import (
 
 var (
    msgService         *services.MessengerService
+   userService        *services.UserService
 )
 
 func main() {
