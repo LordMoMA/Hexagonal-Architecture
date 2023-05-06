@@ -19,8 +19,11 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 	id := len(DBStructure.Users) + 1
 	
 	user = &domain.User{
+		ID: id,
 		Email: email,
 		Password: password,
+		Membership: false,
+
 	}
 	req = u.db.Create(&user)
 	if req.RowsAffected == 0 {
