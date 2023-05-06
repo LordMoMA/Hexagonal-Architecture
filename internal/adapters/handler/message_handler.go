@@ -8,17 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type HTTPHandler struct {
+type MessageHandler struct {
    svc services.MessengerService
 }
 
-func NewMessageHandler(MessengerService services.MessengerService) *HTTPHandler {
-   return &HTTPHandler{
+func NewMessageHandler(MessengerService services.MessengerService) *MessageHandler {
+   return &MessageHandler{
        svc: MessengerService,
    }
 }
 
-func (h *HTTPHandler) CreateMessage(ctx *gin.Context) {
+func (h *MessageHandler) CreateMessage(ctx *gin.Context) {
    var message domain.Message
    if err := ctx.ShouldBindJSON(&message); err != nil {
        ctx.JSON(http.StatusBadRequest, gin.H{
@@ -41,7 +41,7 @@ func (h *HTTPHandler) CreateMessage(ctx *gin.Context) {
    })
 }
 
-func (h *HTTPHandler) ReadMessage(ctx *gin.Context) {
+func (h *MessageHandler) ReadMessage(ctx *gin.Context) {
    id := ctx.Param("id")
    message, err := h.svc.ReadMessage(id)
 
@@ -54,7 +54,7 @@ func (h *HTTPHandler) ReadMessage(ctx *gin.Context) {
    ctx.JSON(http.StatusOK, message)
 }
 
-func (h *HTTPHandler) ReadMessages(ctx *gin.Context) {
+func (h *MessageHandler) ReadMessages(ctx *gin.Context) {
 
    messages, err := h.svc.ReadMessages()
 
@@ -68,7 +68,7 @@ func (h *HTTPHandler) ReadMessages(ctx *gin.Context) {
 }
 
 
-func (h *HTTPHandler) UpdateMessage(ctx *gin.Context) {
+func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
     id := ctx.Param("id")
     var message domain.Message
     if err := ctx.ShouldBindJSON(&message); err != nil {
@@ -92,7 +92,7 @@ func (h *HTTPHandler) UpdateMessage(ctx *gin.Context) {
     }
 
 
-func (h *HTTPHandler) DeleteMessage(ctx *gin.Context) {
+func (h *MessageHandler) DeleteMessage(ctx *gin.Context) {
     id := ctx.Param("id")
     err := h.svc.DeleteMessage(id)
     if err != nil {
