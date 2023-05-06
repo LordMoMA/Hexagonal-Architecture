@@ -74,7 +74,7 @@ func InitRoutes() {
    v1.PUT("/users/:id", userHandler.UpdateUser)
    v1.DELETE("/users/:id", userHandler.DeleteUser)
 
-   v1.POST("/login", userHandler.Login)
+   v1.POST("/login", userHandler.LoginUser)
    
    router.Run(":5000")
 }
