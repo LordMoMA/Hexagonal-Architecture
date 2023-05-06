@@ -5,7 +5,7 @@ This is the source code for the original article:
 
 [Hexagonal Architecture Deep Dive with PostgreSQL, Redis and Go Practices](https://medium.com/towardsdev/hexagonal-architecture-deep-dive-with-postgresql-redis-and-go-practices-4b051f940e93)
 
-Note that the codebase has been developed with richer features than the article examples.
+Note that the codebase has evolved with more complexity than the article examples.
 
 ## 🏡 What is Hexagonal Architecture?
 
