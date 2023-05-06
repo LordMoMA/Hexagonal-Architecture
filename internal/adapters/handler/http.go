@@ -66,3 +66,43 @@ func (h *HTTPHandler) ReadMessages(ctx *gin.Context) {
    }
    ctx.JSON(http.StatusOK, messages)
 }
+
+
+func (h *HTTPHandler) UpdateMessage(ctx *gin.Context) {
+    id := ctx.Param("id")
+    var message domain.Message
+    if err := ctx.ShouldBindJSON(&message); err != nil {
+         ctx.JSON(http.StatusBadRequest, gin.H{
+              "error": err,
+         })
+         return
+    }
+    
+    err := h.svc.UpdateMessage(id, message)
+    if err != nil {
+         ctx.JSON(http.StatusBadRequest, gin.H{
+              "error": err,
+         })
+         return
+    }
+    
+    ctx.JSON(http.StatusOK, gin.H{
+         "message": "Message updated successfully",
+    })
+    }
+
+
+func (h *HTTPHandler) DeleteMessage(ctx *gin.Context) {
+    id := ctx.Param("id")
+    err := h.svc.DeleteMessage(id)
+    if err != nil {
+         ctx.JSON(http.StatusBadRequest, gin.H{
+              "error": err,
+         })
+         return
+    }
+    
+    ctx.JSON(http.StatusOK, gin.H{
+         "message": "Message deleted successfully",
+    })
+    }
