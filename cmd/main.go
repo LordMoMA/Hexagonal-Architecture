@@ -65,11 +65,12 @@ func main() {
 
 func InitRoutes() {
    router := gin.Default()
+   v1 := router.Group("/v1")
    handler := handler.NewMessageHandler(*svc)
-   router.GET("/messages/:id", handler.ReadMessage)
-   router.GET("/messages", handler.ReadMessages)
-   router.POST("/messages", handler.CreateMessage)
-   router.PUT("/messages/:id", handler.UpdateMessage)
-   router.DELETE("/messages/:id", handler.DeleteMessage)
+   v1.GET("/messages/:id", handler.ReadMessage)
+   v1.GET("/messages", handler.ReadMessages)
+   v1.POST("/messages", handler.CreateMessage)
+   v1.PUT("/messages/:id", handler.UpdateMessage)
+   v1.DELETE("/messages/:id", handler.DeleteMessage)
    router.Run(":5000")
 }
