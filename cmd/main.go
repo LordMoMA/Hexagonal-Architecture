@@ -65,7 +65,7 @@ func main() {
 
 func InitRoutes() {
    router := gin.Default()
-   handler := handler.NewHTTPHandler(*svc)
+   handler := handler.NewMessageHandler(*svc)
    router.GET("/messages/:id", handler.ReadMessage)
    router.GET("/messages", handler.ReadMessages)
    router.POST("/messages", handler.CreateMessage)

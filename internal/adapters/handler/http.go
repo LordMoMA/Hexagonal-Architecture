@@ -12,7 +12,7 @@ type HTTPHandler struct {
    svc services.MessengerService
 }
 
-func NewHTTPHandler(MessengerService services.MessengerService) *HTTPHandler {
+func NewMessageHandler(MessengerService services.MessengerService) *HTTPHandler {
    return &HTTPHandler{
        svc: MessengerService,
    }
