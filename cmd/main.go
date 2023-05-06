@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pg"
+	_ "github.com/lib/pq"
 )
 
 var (
