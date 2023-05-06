@@ -71,9 +71,12 @@ func (h *UserHandler) ReadUsers(ctx *gin.Context) {
 
 func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 	apiCfg, err := repository.LoadAPIConfig()
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+
+
 	authHeader := ctx.Request.Header.Get("Authorization")
 	if authHeader == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
