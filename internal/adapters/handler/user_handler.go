@@ -142,6 +142,8 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		"message": "User updated successfully",
 	})
 }
+}
+}
 
 func (h *UserHandler) DeleteUser(ctx *gin.Context) {
 	id := ctx.Param("id")
