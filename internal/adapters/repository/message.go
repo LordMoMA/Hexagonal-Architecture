@@ -11,16 +11,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type DBStructure struct {
-	Users map[int]User `json:"users"`
-	Messages map[int]Message `json:"messages"`
-}
-	type MessengerPostgresRepository struct {
-	db *gorm.DB
-}
+// 	type MessengerPostgresRepository struct {
+// 	db *gorm.DB
+// }
 
 // be sure to hide your password in a .env file, this is for simplicity here.
-func NewMessengerPostgresRepository() *MessengerPostgresRepository {
+func NewMessengerPostgresRepository() *DB {
 	err := godotenv.Load()
 	if err != nil {
 		panic(err)
@@ -42,12 +38,12 @@ func NewMessengerPostgresRepository() *MessengerPostgresRepository {
 
 	db.AutoMigrate(&domain.Message{})
 
-	return &MessengerPostgresRepository{
+	return &DB{
 		db: db,
 	}
 }
 
-func (m *MessengerPostgresRepository) CreateMessage(message domain.Message) error {
+func (m *DB) CreateMessage(message domain.Message) error {
 	req := m.db.Create(&message)
 	if req.RowsAffected == 0 {
 		return errors.New(fmt.Sprintf("messages not saved: %v", req.Error))
@@ -55,7 +51,7 @@ func (m *MessengerPostgresRepository) CreateMessage(message domain.Message) erro
 	return nil
 }
 
-func (m *MessengerPostgresRepository) ReadMessage(id string) (*domain.Message, error) {
+func (m *DB) ReadMessage(id string) (*domain.Message, error) {
 	message := &domain.Message{}
 	req := m.db.First(&message, "id = ? ", id)
 	if req.RowsAffected == 0 {
@@ -64,7 +60,7 @@ func (m *MessengerPostgresRepository) ReadMessage(id string) (*domain.Message, e
 	return message, nil
 }
 
-func (m *MessengerPostgresRepository) ReadMessages() ([]*domain.Message, error) {
+func (m *DB) ReadMessages() ([]*domain.Message, error) {
 	var messages []*domain.Message
 	req := m.db.Find(&messages)
 	if req.Error != nil {
@@ -73,7 +69,7 @@ func (m *MessengerPostgresRepository) ReadMessages() ([]*domain.Message, error) 
 	return messages, nil
 }
 
-func (m *MessengerPostgresRepository) UpdateMessage(id string, message domain.Message) error {
+func (m *DB) UpdateMessage(id string, message domain.Message) error {
 	req := m.db.Model(&message).Where("id = ?", id).Update(message)
 	if req.RowsAffected == 0 {
 		return errors.New("message not found")
@@ -81,7 +77,7 @@ func (m *MessengerPostgresRepository) UpdateMessage(id string, message domain.Me
 	return nil
 }
 
-func (m *MessengerPostgresRepository) DeleteMessage(id string) error {
+func (m *DB) DeleteMessage(id string) error {
 	message := &domain.Message{}
 	req := m.db.Where("id = ?", id).Delete(&message)
 	if req.RowsAffected == 0 {
