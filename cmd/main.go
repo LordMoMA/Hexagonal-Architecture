@@ -6,11 +6,9 @@ import (
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/config"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -20,18 +18,18 @@ var (
 )
 
 func main() {
-   err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
+   // err := godotenv.Load()
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-   jwtSecret := os.Getenv("JWT_SECRET")
-   apiKey := os.Getenv("API_KEY")
+   // jwtSecret := os.Getenv("JWT_SECRET")
+   // apiKey := os.Getenv("API_KEY")
 
-   apiCfg := &config.APIConfig{
-      JWTSecret: jwtSecret,
-      APIKey:    apiKey,
-   }
+   // apiCfg := &config.APIConfig{
+   //    JWTSecret: jwtSecret,
+   //    APIKey:    apiKey,
+   // }
 
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
