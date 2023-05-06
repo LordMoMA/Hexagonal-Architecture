@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/config"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
@@ -84,7 +83,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %w", token.Header["alg"])
 		}
-		return []byte(*config.APIConfig.JWTSecret), nil
+		return []byte(APIConfig.JWTSecret), nil
 	})
 
 	
