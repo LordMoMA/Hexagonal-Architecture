@@ -107,75 +107,169 @@ type LoginResponse struct {
 }
 
 func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
-	
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
+    apiCfg, err := loadAPIConfig()
+    if err != nil {
+        return nil, err
+    }
 
-   jwtSecret := os.Getenv("JWT_SECRET")
-   apiKey := os.Getenv("API_KEY")
+    user, err := u.findUserByEmail(email)
+    if err != nil {
+        return nil, err
+    }
 
-   apiCfg := &config.APIConfig{
-      JWTSecret: jwtSecret,
-      APIKey:    apiKey,
-   }
+    err = u.verifyPassword(user.Password, password)
+    if err != nil {
+        return nil, err
+    }
 
-	user := &domain.User{}
-	req := u.db.First(&user, "email = ?", email)
-	if req.RowsAffected == 0 {
-		return nil, errors.New("user not found")
-	}
+    accessToken, err := u.generateAccessToken(user.ID, apiCfg.JWTSecret)
+    if err != nil {
+        return nil, err
+    }
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	if err != nil {
-		return nil, fmt.Errorf("password not matched: %v", err)
-	}
-	
-	if len(apiCfg.JWTSecret) == 0 {
-		return nil, errors.New("secret key not found")
-	}
+    refreshToken, err := u.generateRefreshToken(user.ID, apiCfg.JWTSecret)
+    if err != nil {
+        return nil, err
+    }
 
-	assessTokenExpirationTime := time.Now().Add(1 * time.Hour)
-	refreshTokenExpirationTime := time.Now().Add(60 * 24 * time.Hour)
+    return &LoginResponse{
+        ID:           user.ID,
+        Email:        user.Email,
+        Membership:   user.Membership,
+        AccessToken:  accessToken,
+        RefreshToken: refreshToken,
+    }, nil
+}
 
-	accessTokenClaims:= jwt.RegisteredClaims{
-		Issuer: "LordMoMA",
-		Subject: user.ID,
-		IssuedAt: jwt.NewNumericDate(time.Now().UTC()),
-		ExpiresAt: jwt.NewNumericDate(assessTokenExpirationTime.UTC()),
-	}
+func loadAPIConfig() (*config.APIConfig, error) {
+    err := godotenv.Load()
+    if err != nil {
+        return nil, err
+    }
 
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
-	accessTokenString, err := accessToken.SignedString([]byte(apiCfg.JWTSecret))
-	if err != nil {
-		return nil, fmt.Errorf("access token not signed: %v", err)
-	}
+    jwtSecret := os.Getenv("JWT_SECRET")
+    apiKey := os.Getenv("API_KEY")
 
-	refreshTokenClaims:= jwt.RegisteredClaims{
-		Issuer: "LordMoMA",
-		Subject: user.ID,
-		IssuedAt: jwt.NewNumericDate(time.Now().UTC()),
-		ExpiresAt: jwt.NewNumericDate(refreshTokenExpirationTime.UTC()),
-	}
+    if len(jwtSecret) == 0 {
+        return nil, errors.New("JWT secret not found")
+    }
 
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims)
-	refreshTokenString, err := refreshToken.SignedString([]byte(apiCfg.JWTSecret))
-	if err != nil {
-		return nil, fmt.Errorf("refresh token not signed: %v", err)
-	}
+    return &config.APIConfig{
+        JWTSecret: jwtSecret,
+        APIKey:    apiKey,
+    }, nil
+}
 
-	res := &LoginResponse{
-		ID: user.ID,
-		Email: user.Email,
-		Membership: user.Membership,
-		AccessToken: accessTokenString,
-		RefreshToken: refreshTokenString,
-	}
+func (u *DB) findUserByEmail(email string) (*domain.User, error) {
+    user := &domain.User{}
+    req := u.db.First(&user, "email = ?", email)
+    if req.RowsAffected == 0 {
+        return nil, errors.New("user not found")
+    }
+    return user, nil
+}
 
-	return res, nil
+func (u *DB) verifyPassword(hash, password string) error {
+    err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+    if err != nil {
+        return errors.New("password not matched")
+    }
+    return nil
+}
+
+func (u *DB) generateAccessToken(userID, jwtSecret string) (string, error) {
+    claims := jwt.RegisteredClaims{
+        Issuer:    "LordMoMA",
+        Subject:   userID,
+        IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
+        ExpiresAt: jwt.NewNumericDate(time.Now().Add(1 * time.Hour).UTC()),
+    }
+
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+    return token.SignedString([]byte(jwtSecret))
+}
+
+func (u *DB) generateRefreshToken(userID, jwtSecret string) (string, error) {
+    claims := jwt.RegisteredClaims{
+        Issuer:    "LordMoMA",
+        Subject:   userID,
+        IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
+        ExpiresAt: jwt.NewNumericDate(time.Now().Add(60 * 24 * time.Hour).UTC()),
+    }
+
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+    return token.SignedString([]byte(jwtSecret))
 }
 
 
+// func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
+	
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+//    jwtSecret := os.Getenv("JWT_SECRET")
+//    apiKey := os.Getenv("API_KEY")
+
+//    apiCfg := &config.APIConfig{
+//       JWTSecret: jwtSecret,
+//       APIKey:    apiKey,
+//    }
+
+// 	user := &domain.User{}
+// 	req := u.db.First(&user, "email = ?", email)
+// 	if req.RowsAffected == 0 {
+// 		return nil, errors.New("user not found")
+// 	}
+
+// 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+// 	if err != nil {
+// 		return nil, fmt.Errorf("password not matched: %v", err)
+// 	}
+	
+// 	if len(apiCfg.JWTSecret) == 0 {
+// 		return nil, errors.New("secret key not found")
+// 	}
+
+// 	assessTokenExpirationTime := time.Now().Add(1 * time.Hour)
+// 	refreshTokenExpirationTime := time.Now().Add(60 * 24 * time.Hour)
+
+// 	accessTokenClaims:= jwt.RegisteredClaims{
+// 		Issuer: "LordMoMA",
+// 		Subject: user.ID,
+// 		IssuedAt: jwt.NewNumericDate(time.Now().UTC()),
+// 		ExpiresAt: jwt.NewNumericDate(assessTokenExpirationTime.UTC()),
+// 	}
+
+// 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
+// 	accessTokenString, err := accessToken.SignedString([]byte(apiCfg.JWTSecret))
+// 	if err != nil {
+// 		return nil, fmt.Errorf("access token not signed: %v", err)
+// 	}
+
+// 	refreshTokenClaims:= jwt.RegisteredClaims{
+// 		Issuer: "LordMoMA",
+// 		Subject: user.ID,
+// 		IssuedAt: jwt.NewNumericDate(time.Now().UTC()),
+// 		ExpiresAt: jwt.NewNumericDate(refreshTokenExpirationTime.UTC()),
+// 	}
+
+// 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims)
+// 	refreshTokenString, err := refreshToken.SignedString([]byte(apiCfg.JWTSecret))
+// 	if err != nil {
+// 		return nil, fmt.Errorf("refresh token not signed: %v", err)
+// 	}
+
+// 	res := &LoginResponse{
+// 		ID: user.ID,
+// 		Email: user.Email,
+// 		Membership: user.Membership,
+// 		AccessToken: accessTokenString,
+// 		RefreshToken: refreshTokenString,
+// 	}
+
+// 	return res, nil
+// }
 
 
