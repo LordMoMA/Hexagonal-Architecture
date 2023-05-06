@@ -11,3 +11,5 @@ type User struct {
 	Password string `json:"password"`
 	Membership bool `json:"is_member"`
 }
+
+
