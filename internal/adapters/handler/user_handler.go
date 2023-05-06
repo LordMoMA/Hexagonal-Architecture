@@ -6,3 +6,8 @@ type UserHandler struct {
 	svc services.UserService
 }
 
+func NewUserHandler(UserService services.UserService) *UserHandler {
+	return &UserHandler{
+		svc: UserService,
+	}
+}
