@@ -28,7 +28,6 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 		Email: email,
 		Password: string(hashedPassword),
 		Membership: false,
-
 	}
 	req = u.db.Create(&user)
 	if req.RowsAffected == 0 {
@@ -58,12 +57,32 @@ func (u *DB) ReadUsers() ([]*domain.User, error) {
 }
 
 
-func (u *DB) UpdateUser(id string, user domain.User) error {
-	req := u.db.Model(&user).Where("id = ?", id).Update(user)
+func (u *DB) UpdateUser(id, email, password string) error {
+	// get user by id
+	user := &domain.User{}
+	req := u.db.First(&user, "id = ? ", id)
 	if req.RowsAffected == 0 {
 		return errors.New("user not found")
 	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("password not hashed: %v", err)
+	}
+
+	user = &domain.User{
+		ID: id,
+		Email: email,
+		Password: string(hashedPassword),
+		Membership: false,
+	}
+	
+	req = u.db.Update(&user)
+	if req.RowsAffected == 0 {
+		return fmt.Errorf("user not saved: %v", req.Error)
+	}
 	return nil
+
 }
 
 
