@@ -73,3 +73,13 @@ func (r *MessengerRedisRepository) ReadMessages() ([]*domain.Message, error) {
    return messages, nil
 
 }
+
+// update message
+func (r *MessengerRedisRepository) UpdateMessage(id string, message domain.Message) error {
+    
+}
+
+// delete message
+func (r *MessengerRedisRepository) DeleteMessage(id string) error {
+
+}
