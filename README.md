@@ -5,6 +5,8 @@ This is the source code for the original article:
 
 [Hexagonal Architecture Deep Dive with PostgreSQL, Redis and Go Practices](https://medium.com/towardsdev/hexagonal-architecture-deep-dive-with-postgresql-redis-and-go-practices-4b051f940e93)
 
+Note that the codebase has been developed with richer features than the article examples.
+
 ## 🏡 What is Hexagonal Architecture?
 
 Hexagonal Architecture, also known as Ports and Adapters Architecture or Clean Architecture, is a software architecture pattern that promotes loose coupling between the application core (business logic) and external components such as user interface, database, and external services.
