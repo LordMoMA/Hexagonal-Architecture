@@ -61,7 +61,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 
 # 👺 To-dos:
 
-- ✅ Finish the whole CRUD process of the messaging service
+- ✅ Finish CRUD process of the messaging service
 - ⌛️ REST API Design
 - ⌛️ Add User
 - ⌛️ Alter the whole project with Redis as cache, postgresql as database
