@@ -9,6 +9,7 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -18,10 +19,10 @@ var (
 )
 
 func main() {
-   // err := godotenv.Load()
-	// if err != nil {
-	// 	panic(err)
-	// }
+   err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
 
    // jwtSecret := os.Getenv("JWT_SECRET")
    // apiKey := os.Getenv("API_KEY")

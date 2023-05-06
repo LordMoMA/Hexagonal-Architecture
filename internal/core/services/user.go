@@ -36,7 +36,7 @@ func (u *UserService) DeleteUser(id string) error {
 	return u.repo.DeleteUser(id)
 }
 
-func (u *UserService) LoginUser(email, password string) (repository.LoginResponse, error) {
+func (u *UserService) LoginUser(email, password string) (*repository.LoginResponse, error) {
 	return u.repo.LoginUser(email, password)
 }
 
