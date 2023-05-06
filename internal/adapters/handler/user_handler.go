@@ -116,7 +116,7 @@ func (h *UserHandler) LoginUser(ctx *gin.Context) {
 		return
 	}
 
-	token, err := h.svc.LoginUser(user.Email, user.Password)
+	response, err := h.svc.LoginUser(user.Email, user.Password)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -125,6 +125,10 @@ func (h *UserHandler) LoginUser(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"token": token,
+		"id":             response.ID,
+    "email":          response.Email,
+    "access_token":   response.AccessToken,
+    "refresh_token":  response.RefreshToken,
+    "is_member":      response.Membership,
 	})
 }
