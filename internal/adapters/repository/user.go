@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
+	"github.com/google/uuid"
 )
 
 
@@ -15,11 +16,9 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 	if req.RowsAffected != 0 {
 		return nil, errors.New("user already exists")
 	}
-
-	id := len(DBStructure.Users) + 1
 	
 	user = &domain.User{
-		ID: id,
+		ID: uuid.New(),
 		Email: email,
 		Password: password,
 		Membership: false,
