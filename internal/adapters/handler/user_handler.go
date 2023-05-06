@@ -107,7 +107,18 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 
 	// check token has expired or not
 	claims, ok := token.Claims.(*jwt.RegisteredClaims)
-	if !ok || claims.ExpiresAt == nil || claims.ExpiresAt.Before(time.Now().UTC())
+	if !ok || claims.ExpiresAt == nil || claims.ExpiresAt.Before(time.Now().UTC()) {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "Token has expired",
+		})
+	}
+
+	// check if token is a refresh token
+	if claims.Issuer == "LordMoMA-refresh" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "Token is a refresh token, please use access token.",
+		})
+
 
 	
 	
