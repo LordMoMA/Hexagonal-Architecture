@@ -92,6 +92,24 @@ func (u *DB) DeleteUser(id string) error {
 	return nil
 }
 
+// login user
+func (u *DB) LoginUser(email, password string) (*domain.User, error) {
+	user := &domain.User{}
+	req := u.db.First(&user, "email = ?", email)
+	if req.RowsAffected == 0 {
+		return nil, errors.New("user not found")
+	}
+
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return nil, fmt.Errorf("password not matched: %v", err)
+	}
+	// create JWT token
+	token, err := jwt.CreateToken(user.ID)
+	
+
+	return user, nil
+}
 
 
 
