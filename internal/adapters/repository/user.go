@@ -141,6 +141,32 @@ func (u *DB) LoginUser(email, password string) (*domain.User, error) {
 	}
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
+	accessTokenString, err := accessToken.SignedString([]byte(apiCfg.JWTSecret))
+	if err != nil {
+		return nil, fmt.Errorf("access token not signed: %v", err)
+	}
+
+	refreshTokenClaims:= jwt.RegisteredClaims{
+		Issuer: "LordMoMA",
+		Subject: user.ID,
+		IssuedAt: jwt.NewNumericDate(time.Now().UTC()),
+		ExpiresAt: jwt.NewNumericDate(refreshTokenExpirationTime.UTC()),
+	}
+
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims)
+	refreshTokenString, err := refreshToken.SignedString([]byte(apiCfg.JWTSecret))
+	if err != nil {
+		return nil, fmt.Errorf("refresh token not signed: %v", err)
+	}
+
+	user = &domain.User{
+		ID: user.ID,
+		Email: user.Email,
+		Password: user.Password,
+		Membership: user.Membership,
+		AccessToken: accessTokenString,
+		RefreshToken: refreshTokenString,
+	}
 
 
 	return user, nil
