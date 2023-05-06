@@ -143,7 +143,7 @@ func validateToken(authHeader string, jwtSecret string) (string, error) {
 
 	// Check if token is a refresh token
 	if claims.Issuer == "LordMoMA-refresh" {
-		return "", errors.New("token is a refresh token, please use access token.")
+		return "", errors.New("token is a refresh token, please use access token")
 	}
 
 	// Extract user ID from token
@@ -152,85 +152,6 @@ func validateToken(authHeader string, jwtSecret string) (string, error) {
 	return userID, nil
 }
 
-
-
-// func (h *UserHandler) UpdateUser(ctx *gin.Context) {
-// 	apiCfg, err := repository.LoadAPIConfig()
-// 	if err != nil {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"error": err,
-// 		})
-// 	}
-
-
-// 	authHeader := ctx.Request.Header.Get("Authorization")
-// 	if authHeader == "" {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"error": "Token not found",
-// 		})
-// 	}
-// 	tokenString := authHeader[7:]
-
-// 	// parse and validate the token
-// 	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{},error) {
-// 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-// 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-// 		}
-// 		return []byte(apiCfg.JWTSecret), nil
-// 	})
-
-// 	if err != nil {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"error": err,
-// 		})
-// 	}
-
-// 	if !token.Valid {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"error": "Token not valid",
-// 		})
-// 	}
-
-// 	// check token has expired or not
-// 	claims, ok := token.Claims.(*jwt.RegisteredClaims)
-// 	if !ok || claims.ExpiresAt == nil || claims.ExpiresAt.Before(time.Now().UTC()) {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"error": "Token has expired",
-// 		})
-// 	}
-
-// 	// check if token is a refresh token
-// 	if claims.Issuer == "LordMoMA-refresh" {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"error": "Token is a refresh token, please use access token.",
-// 		})
-// 	}
-
-// 	// extract user id from the token
-// 	userID := claims.Subject
-
-// 	var user domain.User
-
-// 	if err := ctx.ShouldBindJSON(&user); err != nil {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"Error": err,
-// 		})
-
-// 		return
-// 	}
-
-// 	err = h.svc.UpdateUser(userID, user.Email, user.Password)
-// 	if err != nil {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{
-// 			"error": err,
-// 		})
-// 		return
-// 	}
-
-// 	ctx.JSON(http.StatusOK, gin.H{
-// 		"message": "User updated successfully",
-// 	})
-// }
 
 
 func (h *UserHandler) DeleteUser(ctx *gin.Context) {
