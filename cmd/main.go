@@ -39,7 +39,7 @@ func main() {
 		panic(err)
 	}
 
-   repository.NewDB(db)
+   newdb, err := repository.NewDB(db)
 
 
    // flag.Parse()
