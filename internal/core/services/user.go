@@ -19,3 +19,24 @@ func (u *UserService) CreateUser(user domain.User) error {
 	return u.repo.CreateUser(user)
 }
 
+func (u *UserService) ReadUser(id string) (*domain.User, error) {
+	return u.repo.ReadUser(id)
+}
+
+func (u *UserService) ReadUsers() ([]*domain.User, error) {
+	return u.repo.ReadUsers()
+}
+
+func (u *UserService) UpdateUser(id string, user domain.User) error {
+	return u.repo.UpdateUser(id, user)
+}
+
+func (u *UserService) DeleteUser(id string) error {
+	return u.repo.DeleteUser(id)
+}
+
+func (u *UserService) LoginUser(email, password string) (*domain.User, error) {
+	return u.repo.LoginUser(email, password)
+}
+
+
