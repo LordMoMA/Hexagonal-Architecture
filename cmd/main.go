@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -39,6 +40,9 @@ func main() {
 	}
 
    defer db.Close()
+
+   store := repository.DB()
+   svc = services.NewMessengerService(store)
 
    // newdb := repository.NewDB(db)
 
