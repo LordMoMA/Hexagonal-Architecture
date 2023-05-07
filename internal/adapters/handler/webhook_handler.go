@@ -28,8 +28,10 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 	}
 	apiString := strings.TrimPrefix(authHeader, "ApiKey " )
 
-
-
+	if apiString != apiKey {
+		HandleError(ctx, http.StatusBadRequest, errors.New("invalid api key"))
+		return
+	}
 
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
