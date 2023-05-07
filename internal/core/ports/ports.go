@@ -41,10 +41,10 @@ type UserRepository interface {
 	UpdateMembershipStatus(id string, status bool) error
 }
 
-type UserMembershipService interface {
+type PaymentService interface {
 	UpdateMembershipStatus(id string, status bool) error
 }
 
-type UserMembershipRepository interface {
+type PaymentRepository interface {
 	UpdateMembershipStatus(id string, status bool) error
 }
