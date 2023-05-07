@@ -9,7 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserIdRequest struct {
+type WebhookRequest struct {
+	Event  string `json:"event"`
 	UserId string `json:"user_id"`
 }
 
@@ -36,11 +37,17 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 		return
 	}
 
-	var req UserIdRequest
+	var req WebhookRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
+
+	if req.Event != "membership_status_updated" {
+		HandleError(ctx, http.StatusBadRequest, errors.New("invalid event type"))
+		return
+	}
+
 	userId := req.UserId
 
 	err = h.svc.UpdateMembershipStatus(userId, true)
