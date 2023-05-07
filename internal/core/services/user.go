@@ -40,5 +40,9 @@ func (u *UserService) LoginUser(email, password string) (*repository.LoginRespon
 	return u.repo.LoginUser(email, password)
 }
 
+func (u *UserService) UpdateMembershipStatus(id string, status bool) error {
+	return u.repo.UpdateMembershipStatus(id, status)
+}
+
 
 
