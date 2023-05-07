@@ -123,7 +123,7 @@ func ValidateToken(authHeader string, jwtSecret string) (string, error) {
 	if authHeader == "" {
 		return "", errors.New("token not found")
 	}
-
+	
 	// Extract token from header
 	tokenString := authHeader[7:]
 
