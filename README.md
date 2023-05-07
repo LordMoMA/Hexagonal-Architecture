@@ -66,13 +66,13 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Add User
 - ✅ Add JWT Authentication
 - ✅ Optimise error handling with clean code
-- ⌛️ Add Webhook to update membership status
+- ✅ Add Webhook to update membership status (idempotent)
 - ⌛️ Alter the whole project with Redis as cache, postgresql as database
 - ⌛️ Add Unit Test
 - ⌛️ Add a payment service
 - ⌛️ Add Distributed system
 
-# Pros and Cons of using GORM in this project
+# 🚀 Pros and Cons of using GORM in this project
 
 GORM is a popular Object-Relational Mapping (ORM) library for the Go programming language that provides a convenient way to interact with databases, including PostgreSQL.
 
