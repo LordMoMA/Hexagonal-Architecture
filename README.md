@@ -65,7 +65,8 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ REST API Design
 - ✅ Add User
 - ✅ Add JWT Authentication
-- ✅ Optimise with clean code
+- ✅ Optimise error handling with clean code
+- ⌛️ Add Webhook to update membership status
 - ⌛️ Alter the whole project with Redis as cache, postgresql as database
 - ⌛️ Add Unit Test
 - ⌛️ Add a payment service
