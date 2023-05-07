@@ -71,6 +71,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ⌛️ Add Unit Test
 - ⌛️ Add a payment service
 - ⌛️ Add Distributed system
+- ⌛️ Add URL Queries
 
 # 🚀 Pros and Cons of using GORM in this project
 
