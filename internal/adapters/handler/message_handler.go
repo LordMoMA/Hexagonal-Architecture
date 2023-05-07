@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,26 @@ func NewMessageHandler(MessengerService services.MessengerService) *MessageHandl
 }
 
 func (h *MessageHandler) CreateMessage(ctx *gin.Context) {
+    apiCfg, err := repository.LoadAPIConfig()
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	// Validate token
+	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+    
    var message domain.Message
+   message.UserID = userID
+
    if err := ctx.ShouldBindJSON(&message); err != nil {
        ctx.JSON(http.StatusBadRequest, gin.H{
            "Error": err,
@@ -28,7 +48,7 @@ func (h *MessageHandler) CreateMessage(ctx *gin.Context) {
        return
    }
 
-   err := h.svc.CreateMessage(message)
+   err = h.svc.CreateMessage(userID, message)
    if err != nil {
        ctx.JSON(http.StatusBadRequest, gin.H{
            "error": err,
@@ -37,7 +57,7 @@ func (h *MessageHandler) CreateMessage(ctx *gin.Context) {
    }
 
    ctx.JSON(http.StatusCreated, gin.H{
-       "message": "New message created successfully",
+    "message": "message created successfully",
    })
 }
 

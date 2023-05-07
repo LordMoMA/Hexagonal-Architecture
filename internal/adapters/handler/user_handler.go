@@ -81,7 +81,7 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 	}
 
 	// Validate token
-	userID, err := validateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -111,7 +111,37 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 	})
 }
 
-func validateToken(authHeader string, jwtSecret string) (string, error) {
+func (h *UserHandler) DeleteUser(ctx *gin.Context) {
+	apiCfg, err := repository.LoadAPIConfig()
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	err = h.svc.DeleteUser(userID)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "User deleted successfully",
+	})
+}
+
+func ValidateToken(authHeader string, jwtSecret string) (string, error) {
 	// Check if token exists in the header
 	if authHeader == "" {
 		return "", errors.New("token not found")
@@ -150,24 +180,6 @@ func validateToken(authHeader string, jwtSecret string) (string, error) {
 	userID := claims.Subject
 
 	return userID, nil
-}
-
-
-
-func (h *UserHandler) DeleteUser(ctx *gin.Context) {
-	id := ctx.Param("id")
-
-	err := h.svc.DeleteUser(id)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, gin.H{
-		"message": "User deleted successfully",
-	})
 }
 
 

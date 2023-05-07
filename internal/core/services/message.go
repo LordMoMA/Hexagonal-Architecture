@@ -19,9 +19,9 @@ func NewMessengerService(repo ports.MessengerRepository) *MessengerService {
 }
 
 
-func (m *MessengerService) CreateMessage(message domain.Message) error {
+func (m *MessengerService) CreateMessage(userID string, message domain.Message) error {
    message.ID = uuid.New().String()
-   return m.repo.CreateMessage(message)
+   return m.repo.CreateMessage(userID, message)
 }
 
 

@@ -7,7 +7,7 @@ import (
 
 
 type MessengerService interface {
-   CreateMessage(message domain.Message) error
+   CreateMessage(userID string, message domain.Message) error
    ReadMessage(id string) (*domain.Message, error)
    ReadMessages() ([]*domain.Message, error)
    UpdateMessage(id string, message domain.Message) error
@@ -16,7 +16,7 @@ type MessengerService interface {
 
 
 type MessengerRepository interface {
-   CreateMessage(message domain.Message) error
+   CreateMessage(userID string, message domain.Message) error
    ReadMessage(id string) (*domain.Message, error)
    ReadMessages() ([]*domain.Message, error)
    UpdateMessage(id string, message domain.Message) error

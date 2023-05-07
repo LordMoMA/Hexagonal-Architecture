@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
+	"github.com/google/uuid"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
@@ -13,12 +14,18 @@ import (
 // }
 
 
-func (m *DB) CreateMessage(message domain.Message) error {
+func (m *DB) CreateMessage(userID string, message domain.Message) error {
+	message.ID = uuid.New().String()
+	message = domain.Message{
+		ID:      message.ID,
+		UserID: userID,
+		Body:   message.Body,
+	}
 	req := m.db.Create(&message)
 	if req.RowsAffected == 0 {
 		return fmt.Errorf("messages not saved: %v", req.Error)
 	}
-	return nil
+	return  nil
 }
 
 func (m *DB) ReadMessage(id string) (*domain.Message, error) {
