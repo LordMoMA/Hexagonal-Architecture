@@ -130,24 +130,24 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
 
 
 func (h *MessageHandler) DeleteMessage(ctx *gin.Context) {
-    apiCfg, err := repository.LoadAPIConfig()
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
-		return
-	}
+    // apiCfg, err := repository.LoadAPIConfig()
+	// if err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": err,
+	// 	})
+	// 	return
+	// }
 
-	_, err = ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
-		return
-	}
+	// _, err = ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	// if err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": err,
+	// 	})
+	// 	return
+	// }
 
     id := ctx.Param("id")
-    err = h.svc.DeleteMessage(id)
+    err := h.svc.DeleteMessage(id)
     if err != nil {
          ctx.JSON(http.StatusBadRequest, gin.H{
               "error": err,
