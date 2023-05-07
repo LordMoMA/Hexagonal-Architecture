@@ -3,13 +3,15 @@ package handler
 import (
 	"errors"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/gin-gonic/gin"
 )
+
+type UserIdRequest struct {
+	UserId string `json:"user_id"`
+}
 
 func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 	apiCfg, err := repository.LoadAPIConfig()
@@ -34,20 +36,15 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 		return
 	}
 
-	// get user_id from request body
-	userID, err := ctx.Request.Body.Read([]byte("user_id"))
-	if err != nil {
-		HandleError(ctx, http.StatusBadRequest, err)
-		return
-	}
 
-	var user domain.User
-	if err := ctx.ShouldBindJSON(&user); err != nil {
+	var req UserIdRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
+	userId := req.UserId
 	
-	err = h.svc.UpdateMembershipStatus(strconv.Itoa(userID), true)
+	err = h.svc.UpdateMembershipStatus(userId, true)
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
