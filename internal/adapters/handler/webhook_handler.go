@@ -29,13 +29,12 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 		HandleError(ctx, http.StatusBadRequest, errors.New("no api key provided"))
 		return
 	}
-	apiString := strings.TrimPrefix(authHeader, "ApiKey " )
+	apiString := strings.TrimPrefix(authHeader, "ApiKey ")
 
 	if apiString != apiKey {
 		HandleError(ctx, http.StatusBadRequest, errors.New("invalid api key"))
 		return
 	}
-
 
 	var req UserIdRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -43,7 +42,7 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 		return
 	}
 	userId := req.UserId
-	
+
 	err = h.svc.UpdateMembershipStatus(userId, true)
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
