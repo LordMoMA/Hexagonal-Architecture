@@ -184,7 +184,7 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 		return
 	}
 	
-	err = h.svc.UpdateMembershipStatus(user.ID, user.Membership)
+	err = h.svc.UpdateMembershipStatus(user.ID, true)
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
