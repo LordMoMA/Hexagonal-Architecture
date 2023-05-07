@@ -91,18 +91,14 @@ func (h *MessageHandler) ReadMessages(ctx *gin.Context) {
 func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
     apiCfg, err := repository.LoadAPIConfig()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	// Validate token
 	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
     
@@ -110,10 +106,8 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
    id := ctx.Param("id")
    msg, err := h.svc.ReadMessage(id)
    if err != nil {
-           ctx.JSON(http.StatusBadRequest, gin.H{
-               "error": err,
-           })
-           return
+        HandleError(ctx, http.StatusBadRequest, err)
+        return
    }
    if msg.UserID != userID {
            ctx.JSON(http.StatusBadRequest, gin.H{  
