@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
@@ -33,13 +34,20 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 		return
 	}
 
+	// get user_id from request body
+	userID, err := ctx.Request.Body.Read([]byte("user_id"))
+	if err != nil {
+		HandleError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 	
-	err = h.svc.UpdateMembershipStatus(user.ID, true)
+	err = h.svc.UpdateMembershipStatus(strconv.Itoa(userID), true)
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
