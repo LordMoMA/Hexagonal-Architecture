@@ -89,6 +89,23 @@ func (h *MessageHandler) ReadMessages(ctx *gin.Context) {
 
 
 func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
+    apiCfg, err := repository.LoadAPIConfig()
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	// Validate token
+	_, err = ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+    
     id := ctx.Param("id")
     var message domain.Message
     if err := ctx.ShouldBindJSON(&message); err != nil {
@@ -98,7 +115,7 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
          return
     }
     
-    err := h.svc.UpdateMessage(id, message)
+    err = h.svc.UpdateMessage(id, message)
     if err != nil {
          ctx.JSON(http.StatusBadRequest, gin.H{
               "error": err,
