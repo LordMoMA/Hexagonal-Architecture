@@ -42,9 +42,7 @@ type UserRepository interface {
 }
 
 type PaymentService interface {
-	UpdateMembershipStatus(id string, status bool) error
 }
 
 type PaymentRepository interface {
-	UpdateMembershipStatus(id string, status bool) error
 }
