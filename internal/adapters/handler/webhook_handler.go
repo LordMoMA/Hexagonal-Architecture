@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
@@ -20,10 +21,14 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 	apiKey := apiCfg.APIKey
 
 	// check if api key is valid
-	if ctx.Request.Header.Get("Authorization") != apiKey {
-		HandleError(ctx, http.StatusBadRequest, errors.New("invalid api key"))
+	authHeader := ctx.Request.Header.Get("Authorization")
+	if authHeader == "" {
+		HandleError(ctx, http.StatusBadRequest, errors.New("no api key provided"))
 		return
 	}
+	apiString := strings.TrimPrefix(authHeader, "ApiKey " )
+
+
 
 
 	var user domain.User
