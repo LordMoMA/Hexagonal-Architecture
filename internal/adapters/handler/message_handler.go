@@ -23,18 +23,14 @@ func NewMessageHandler(MessengerService services.MessengerService) *MessageHandl
 func (h *MessageHandler) CreateMessage(ctx *gin.Context) {
     apiCfg, err := repository.LoadAPIConfig()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	// Validate token
 	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
     
@@ -42,19 +38,14 @@ func (h *MessageHandler) CreateMessage(ctx *gin.Context) {
    message.UserID = userID
 
    if err := ctx.ShouldBindJSON(&message); err != nil {
-       ctx.JSON(http.StatusBadRequest, gin.H{
-           "Error": err,
-       })
-
-       return
+        HandleError(ctx, http.StatusBadRequest, err)
+        return
    }
 
    err = h.svc.CreateMessage(userID, message)
    if err != nil {
-       ctx.JSON(http.StatusBadRequest, gin.H{
-           "error": err,
-       })
-       return
+        HandleError(ctx, http.StatusBadRequest, err)
+        return
    }
 
    ctx.JSON(http.StatusCreated, gin.H{
