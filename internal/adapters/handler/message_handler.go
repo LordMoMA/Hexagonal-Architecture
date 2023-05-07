@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
@@ -110,25 +111,19 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
         return
    }
    if msg.UserID != userID {
-           ctx.JSON(http.StatusBadRequest, gin.H{  
-               "error": "You are not authorized to delete this message",
-           })
-           return
+        HandleError(ctx, http.StatusBadRequest, fmt.Errorf("you are not authorized to delete this message"))
+        return
    }
 
     var message domain.Message
     if err := ctx.ShouldBindJSON(&message); err != nil {
-         ctx.JSON(http.StatusBadRequest, gin.H{
-              "error": err,
-         })
+        HandleError(ctx, http.StatusBadRequest, err)
          return
     }
     
     err = h.svc.UpdateMessage(id, message)
     if err != nil {
-         ctx.JSON(http.StatusBadRequest, gin.H{
-              "error": err,
-         })
+        HandleError(ctx, http.StatusBadRequest, err)
          return
     }
     
@@ -147,9 +142,7 @@ func (h *MessageHandler) DeleteMessage(ctx *gin.Context) {
 
 	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
@@ -157,10 +150,8 @@ func (h *MessageHandler) DeleteMessage(ctx *gin.Context) {
     id := ctx.Param("id")
     message, err := h.svc.ReadMessage(id)
     if err != nil {
-            ctx.JSON(http.StatusBadRequest, gin.H{
-                "error": err,
-            })
-            return
+        HandleError(ctx, http.StatusBadRequest, err)
+        return
     }
     if message.UserID != userID {
             ctx.JSON(http.StatusBadRequest, gin.H{  
