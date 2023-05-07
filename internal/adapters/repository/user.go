@@ -139,6 +139,25 @@ func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
     }, nil
 }
 
+// UpdateMembershipStatus
+func (u *DB) UpdateMembershipStatus(id string, membership bool) error {
+	user := &domain.User{}
+	req := u.db.First(&user, "id = ? ", id)
+	if req.RowsAffected == 0 {
+		return errors.New("user not found")
+	}
+
+	user = &domain.User{
+		Membership: membership,
+	}
+	req = u.db.Model(&user).Where("id = ?", id).Update(user)
+	if req.RowsAffected == 0 {
+		return errors.New("unable to update membership status :(")
+	}
+	return nil
+}
+
+
 func LoadAPIConfig() (*config.APIConfig, error) {
     err := godotenv.Load()
     if err != nil {

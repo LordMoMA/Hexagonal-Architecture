@@ -176,15 +176,15 @@ func (h *UserHandler) UpdateMembershipStatus(ctx *gin.Context) {
 		HandleError(ctx, http.StatusBadRequest, errors.New("invalid api key"))
 		return
 	}
-	
+
 
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
-
-	err := h.svc.UpdateMembershipStatus(user.ID, user.Membership)
+	
+	err = h.svc.UpdateMembershipStatus(user.ID, user.Membership)
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
 		return
