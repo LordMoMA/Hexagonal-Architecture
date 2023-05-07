@@ -67,10 +67,8 @@ func (h *MessageHandler) ReadMessage(ctx *gin.Context) {
    message, err := h.svc.ReadMessage(id)
 
    if err != nil {
-       ctx.JSON(http.StatusBadRequest, gin.H{
-           "error": err.Error(),
-       })
-       return
+        HandleError(ctx, http.StatusBadRequest, err)
+        return
    }
    ctx.JSON(http.StatusOK, message)
 }
@@ -80,10 +78,8 @@ func (h *MessageHandler) ReadMessages(ctx *gin.Context) {
    messages, err := h.svc.ReadMessages()
 
    if err != nil {
-       ctx.JSON(http.StatusBadRequest, gin.H{
-           "error": err.Error(),
-       })
-       return
+        HandleError(ctx, http.StatusBadRequest, err)
+        return
    }
    ctx.JSON(http.StatusOK, messages)
 }
@@ -111,7 +107,7 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
         return
    }
    if msg.UserID != userID {
-        HandleError(ctx, http.StatusBadRequest, fmt.Errorf("you are not authorized to delete this message"))
+        HandleError(ctx, http.StatusBadRequest, fmt.Errorf("you are not authorized to update this message"))
         return
    }
 
@@ -124,7 +120,7 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
     err = h.svc.UpdateMessage(id, message)
     if err != nil {
         HandleError(ctx, http.StatusBadRequest, err)
-         return
+        return
     }
     
     ctx.JSON(http.StatusOK, gin.H{
@@ -154,18 +150,14 @@ func (h *MessageHandler) DeleteMessage(ctx *gin.Context) {
         return
     }
     if message.UserID != userID {
-            ctx.JSON(http.StatusBadRequest, gin.H{  
-                "error": "You are not authorized to delete this message",
-            })
-            return
+        HandleError(ctx, http.StatusBadRequest, fmt.Errorf("you are not authorized to delete this message"))
+        return
     }
 
     err = h.svc.DeleteMessage(id)
     if err != nil {
-         ctx.JSON(http.StatusBadRequest, gin.H{
-              "error": err,
-         })
-         return
+        HandleError(ctx, http.StatusBadRequest, err)
+        return
     }
     
     ctx.JSON(http.StatusOK, gin.H{
