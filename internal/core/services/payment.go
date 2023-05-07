@@ -11,7 +11,3 @@ func NewPaymentService(repo ports.PaymentRepository) *PaymentService {
 		repo: repo,
 	}
 }
-
-func (u *UserService) UpdateMembershipStatus(id string, status bool) error {
-	return u.repo.UpdateMembershipStatus(id, status)
-}

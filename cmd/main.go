@@ -14,16 +14,15 @@ import (
 )
 
 var (
-   msgService         *services.MessengerService
-   userService        *services.UserService
+	msgService  *services.MessengerService
+	userService *services.UserService
 )
 
 func main() {
-   err := godotenv.Load()
+	err := godotenv.Load()
 	if err != nil {
 		panic(err)
 	}
-
 
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
@@ -39,35 +38,37 @@ func main() {
 		panic(err)
 	}
 
-   store := repository.NewDB(db)
+	store := repository.NewDB(db)
 
-   msgService = services.NewMessengerService(store)
-   userService = services.NewUserService(store)
+	msgService = services.NewMessengerService(store)
+	userService = services.NewUserService(store)
 
-   InitRoutes()
+	InitRoutes()
 
 }
 
 func InitRoutes() {
-   router := gin.Default()
-   v1 := router.Group("/v1")
+	router := gin.Default()
+	v1 := router.Group("/v1")
 
-   messageHandler := handler.NewMessageHandler(*msgService)
-   v1.GET("/messages/:id", messageHandler.ReadMessage)
-   v1.GET("/messages", messageHandler.ReadMessages)
-   v1.POST("/messages", messageHandler.CreateMessage)
-   v1.PUT("/messages/:id", messageHandler.UpdateMessage)
-   v1.DELETE("/messages/:id", messageHandler.DeleteMessage)
+	messageHandler := handler.NewMessageHandler(*msgService)
+	v1.GET("/messages/:id", messageHandler.ReadMessage)
+	v1.GET("/messages", messageHandler.ReadMessages)
+	v1.POST("/messages", messageHandler.CreateMessage)
+	v1.PUT("/messages/:id", messageHandler.UpdateMessage)
+	v1.DELETE("/messages/:id", messageHandler.DeleteMessage)
 
-   userHandler := handler.NewUserHandler(*userService)
-   v1.GET("/users/:id", userHandler.ReadUser)
-   v1.GET("/users", userHandler.ReadUsers)
-   v1.POST("/users", userHandler.CreateUser)
-   v1.PUT("/users", userHandler.UpdateUser)
-   v1.DELETE("/users", userHandler.DeleteUser)
+	userHandler := handler.NewUserHandler(*userService)
+	v1.GET("/users/:id", userHandler.ReadUser)
+	v1.GET("/users", userHandler.ReadUsers)
+	v1.POST("/users", userHandler.CreateUser)
+	v1.PUT("/users", userHandler.UpdateUser)
+	v1.DELETE("/users", userHandler.DeleteUser)
 
-   v1.POST("/login", userHandler.LoginUser)
-   v1.POST("/membership/webhooks", userHandler.UpdateMembershipStatus)
-   
-   router.Run(":5000")
+	v1.POST("/login", userHandler.LoginUser)
+	v1.POST("/membership/webhooks", userHandler.UpdateMembershipStatus)
+
+	v1.POST("/payments", userHandler.CreatePayment)
+
+	router.Run(":5000")
 }

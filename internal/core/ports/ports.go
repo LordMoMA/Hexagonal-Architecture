@@ -42,7 +42,9 @@ type UserRepository interface {
 }
 
 type PaymentService interface {
+	CreatePayment(userID string, payment domain.Payment) error
 }
 
 type PaymentRepository interface {
+	CreatePayment(userID string, payment domain.Payment) error
 }
