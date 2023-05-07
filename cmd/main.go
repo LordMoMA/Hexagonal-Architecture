@@ -24,13 +24,6 @@ func main() {
 		panic(err)
 	}
 
-   // jwtSecret := os.Getenv("JWT_SECRET")
-   // apiKey := os.Getenv("API_KEY")
-
-   // apiCfg := &config.APIConfig{
-   //    JWTSecret: jwtSecret,
-   //    APIKey:    apiKey,
-   // }
 
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
