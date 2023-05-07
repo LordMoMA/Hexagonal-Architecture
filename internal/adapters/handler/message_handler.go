@@ -98,7 +98,7 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
 	}
 
 	// Validate token
-	_, err = ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -106,7 +106,22 @@ func (h *MessageHandler) UpdateMessage(ctx *gin.Context) {
 		return
 	}
     
-    id := ctx.Param("id")
+   // check if userID match with message.UserID
+   id := ctx.Param("id")
+   msg, err := h.svc.ReadMessage(id)
+   if err != nil {
+           ctx.JSON(http.StatusBadRequest, gin.H{
+               "error": err,
+           })
+           return
+   }
+   if msg.UserID != userID {
+           ctx.JSON(http.StatusBadRequest, gin.H{  
+               "error": "You are not authorized to delete this message",
+           })
+           return
+   }
+
     var message domain.Message
     if err := ctx.ShouldBindJSON(&message); err != nil {
          ctx.JSON(http.StatusBadRequest, gin.H{
