@@ -26,18 +26,13 @@ func NewUserHandler(UserService services.UserService) *UserHandler {
 func (h *UserHandler) CreateUser(ctx *gin.Context) {
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Error": err,
-		})
-
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	_, err := h.svc.CreateUser(user.Email, user.Password)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
@@ -51,9 +46,7 @@ func (h *UserHandler) ReadUser(ctx *gin.Context) {
 	user, err := h.svc.ReadUser(id)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
@@ -63,9 +56,7 @@ func (h *UserHandler) ReadUsers(ctx *gin.Context) {
 	
 	users, err := h.svc.ReadUsers()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 	ctx.JSON(http.StatusOK, users)
@@ -74,35 +65,27 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 	// Load API configuration
 	apiCfg, err := repository.LoadAPIConfig()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	// Validate token
 	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	// Update user
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	err = h.svc.UpdateUser(userID, user.Email, user.Password)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
@@ -114,25 +97,19 @@ func (h *UserHandler) UpdateUser(ctx *gin.Context) {
 func (h *UserHandler) DeleteUser(ctx *gin.Context) {
 	apiCfg, err := repository.LoadAPIConfig()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	err = h.svc.DeleteUser(userID)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
@@ -186,18 +163,13 @@ func ValidateToken(authHeader string, jwtSecret string) (string, error) {
 func (h *UserHandler) LoginUser(ctx *gin.Context) {
 	var user domain.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Error": err,
-		})
-
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
 	response, err := h.svc.LoginUser(user.Email, user.Password)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		HandleError(ctx, http.StatusBadRequest, err)
 		return
 	}
 
