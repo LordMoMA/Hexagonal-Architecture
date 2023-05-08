@@ -25,7 +25,7 @@ func NewPaymentHandler(paymentService services.PaymentService) *PaymentHandler {
 type CreatePaymentRequest struct {
 	ProductName        string `json:"product_name" binding:"required"`
 	ProductDescription string `json:"product_description" binding:"required"`
-	Amount             int64  `json:"amount" binding:"required"`
+	Amount             string `json:"amount" binding:"required"`
 	Currency           string `json:"currency" binding:"required"`
 	// SuccessURL         string `json:"success_url" binding:"required"`
 	// CancelURL          string `json:"cancel_url" binding:"required"`
@@ -60,7 +60,7 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 		UserID:   req.UserID,
 		Amount:   req.Amount,
 		Currency: req.Currency,
-		Status:   pi.Status,
+		Status:   "pending",
 	}
 
 	// Return client_secret to client

@@ -14,9 +14,9 @@ type User struct {
 }
 
 type Payment struct {
-	OrderID  string  `json:"id"`
-	UserID   string  `json:"user_id"`
-	Amount   float64 `json:"amount"`
-	Currency string  `json:"currency"`
-	Status   string  `json:"status"`
+	OrderID  string `json:"id"`
+	UserID   string `json:"user_id"`
+	Amount   string `json:"amount"`
+	Currency string `json:"currency"`
+	Status   string `json:"status"`
 }
