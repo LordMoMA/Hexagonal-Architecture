@@ -71,7 +71,7 @@ func InitRoutes() {
 	v1.POST("/membership/webhooks", userHandler.UpdateMembershipStatus)
 
 	paymentHandler := handler.NewPaymentHandler(*paymentService)
-	v1.POST("/payments", paymentHandler.ProcessPaymentWithStripe)
+	v1.POST("/payments", paymentHandler.CreateCheckoutSession)
 
-	router.Run(":5000")
+	router.Run(":4242")
 }

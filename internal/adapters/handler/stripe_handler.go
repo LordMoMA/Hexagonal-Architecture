@@ -22,7 +22,7 @@ func NewPaymentHandler(paymentService services.PaymentService) *PaymentHandler {
 	}
 }
 
-func (h *PaymentHandler) createCheckoutSession(ctx *gin.Context) {
+func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
 	domain := "http://localhost:4242"
 	params := &stripe.CheckoutSessionParams{
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
@@ -45,14 +45,8 @@ func (h *PaymentHandler) createCheckoutSession(ctx *gin.Context) {
 
 	ctx.Redirect(http.StatusSeeOther, s.URL)
 
-	// send webhook call to notify checkout session has been created
-	webhookBody := map[string]interface{}{
-		"checkout_session_id": s.ID,
-		"status":              "created",
-	}
-	if err := sendWebhook("http://example.com/webhook", webhookBody); err != nil {
-		log.Printf("failed to send webhook: %v", err)
-	}
+	// send stripe webhook call to notify checkout session has been created
+
 }
 
 // CreateCheckoutSessionRequest
