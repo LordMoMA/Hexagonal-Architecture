@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go"
@@ -52,6 +53,15 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 		StatementDescriptor: stripe.String("Custom descriptor"),
 	}
 	pi, _ := paymentintent.New(params)
+
+	// Create Payment object in database
+	payment := &domain.Payment{
+		OrderID:  pi.ID,
+		UserID:   req.UserID,
+		Amount:   req.Amount,
+		Currency: req.Currency,
+		Status:   pi.Status,
+	}
 
 	// Return client_secret to client
 	ctx.JSON(http.StatusOK, gin.H{"client_secret": pi.ClientSecret})
