@@ -67,9 +67,10 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Add JWT Authentication and Authorisation
 - ✅ Optimise error handling with clean code
 - ✅ Add Webhook to update membership status (idempotent)
+- ⌛️ Add a payment service
+- ⌛️ Work with Stripe API
 - ⌛️ Alter the whole project with Redis as cache, postgresql as database
 - ⌛️ Add Unit Test
-- ⌛️ Add a payment service
 - ⌛️ Add Distributed system
 - ⌛️ Add URL Queries
 

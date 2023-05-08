@@ -14,8 +14,9 @@ import (
 )
 
 var (
-	msgService  *services.MessengerService
-	userService *services.UserService
+	msgService     *services.MessengerService
+	userService    *services.UserService
+	paymentService *services.PaymentService
 )
 
 func main() {
@@ -42,6 +43,7 @@ func main() {
 
 	msgService = services.NewMessengerService(store)
 	userService = services.NewUserService(store)
+	paymentService = services.NewPaymentService(store)
 
 	InitRoutes()
 
@@ -68,7 +70,8 @@ func InitRoutes() {
 	v1.POST("/login", userHandler.LoginUser)
 	v1.POST("/membership/webhooks", userHandler.UpdateMembershipStatus)
 
-	v1.POST("/payments", userHandler.CreatePayment)
+	paymentHandler := handler.NewPaymentHandler(*paymentService)
+	v1.POST("/payments", paymentHandler.CreateCheckoutSession)
 
 	router.Run(":5000")
 }
