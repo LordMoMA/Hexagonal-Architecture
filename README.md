@@ -71,7 +71,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Work with Stripe API
 - ⌛️ Alter the whole project with Redis as cache, postgresql as database
 - ⌛️ Add Unit Test
-- ⌛️ Add Distributed system
+- ⌛️ Add Distributed services
 - ⌛️ Add URL Queries
 
 # 🚀 Pros and Cons of using GORM in this project
@@ -85,3 +85,13 @@ Whether GORM is better to use than directly using PostgreSQL depends on the spec
 In general, the use of an ORM can simplify and speed up development, especially for CRUD operations. However, it may introduce additional overhead and performance concerns.
 
 please show me step by step of how payment service can work with Stripe API based on the following payment structure of hexagonal architecture, no need to use code.
+
+# 🧠 Thoughts on the Payment Service and Stripe API Integration
+
+If you already have an API endpoint that interacts with the Stripe API, you may not need a payment service in the Hexagonal Architecture. However, if you want to store payment data in your local database for future reference or analysis, you can create a payment service to handle this.
+
+To get the payment data from the Stripe API endpoint, you can use webhooks to receive events from Stripe when a payment is made. You can then parse the webhook data and store the relevant payment information in your local database.
+
+Alternatively, if you are using Stripe's checkout feature, you can use the client_secret that is returned when you create a PaymentIntent to confirm the payment after it is made. Once the payment is confirmed, you can retrieve the payment data from Stripe using the PaymentIntent ID and store it in your local database.
+
+Overall, the payment service in the Hexagonal Architecture would be responsible for storing and retrieving payment data from the local database, and potentially for processing payments and interacting with the Stripe API via webhooks or other methods.
