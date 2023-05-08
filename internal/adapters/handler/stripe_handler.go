@@ -7,7 +7,6 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
-	"github.com/stripe/stripe-go/paymentintent"
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/checkout/session"
 )
@@ -23,6 +22,13 @@ func NewPaymentHandler(paymentService services.PaymentService) *PaymentHandler {
 }
 
 func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
+	apiCfg, err := repository.LoadAPIConfig()
+	if err != nil {
+		HandleError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	stripe.Key = apiCfg.StripeKey
+
 	domain := "http://localhost:4242"
 	params := &stripe.CheckoutSessionParams{
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
@@ -48,6 +54,8 @@ func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
 	// send stripe webhook call to notify checkout session has been created
 
 }
+
+/*
 
 // CreateCheckoutSessionRequest
 type CreatePaymentRequest struct {
@@ -101,3 +109,5 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 	// Return client_secret to client
 	ctx.JSON(http.StatusOK, gin.H{"client_secret": pi.ClientSecret})
 }
+
+*/
