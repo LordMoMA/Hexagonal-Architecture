@@ -51,8 +51,6 @@ func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
 
 	ctx.Redirect(http.StatusSeeOther, s.URL)
 
-	// send stripe webhook call to notify checkout session has been created
-
 }
 
 /*
