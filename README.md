@@ -107,3 +107,17 @@ Stripe Checkout is a pre-built payment page that handles the payment process on 
 PaymentIntent, on the other hand, is a flexible API that allows merchants to create and manage payment transactions programmatically. With PaymentIntent, merchants have more control over the payment process, including the ability to handle complex payment scenarios, such as partial payments, deferred payments, and payments with multiple payment methods. In other words, the PaymentIntent API is a low-level API that allows you to create and manage payment transactions programmatically. It is not a pre-built payment form like Stripe Checkout.
 
 In summary, Stripe Checkout is a pre-built payment form that makes it easy for merchants to get started with Stripe payments, while PaymentIntent provides a more flexible and powerful API for handling payment transactions programmatically.
+
+# 👾 The Myths of Integration Testing and Unit Testing
+
+In the context of software testing, integration testing and unit testing are two different types of tests that serve different purposes.
+
+Unit testing focuses on testing individual units of code in isolation, typically at the function or method level. The goal of unit testing is to ensure that each unit of code works correctly on its own, without dependencies on other parts of the system. Unit tests are usually automated and can be run frequently as part of a continuous integration process.
+
+Integration testing, on the other hand, tests the interactions and dependencies between different parts of the system. Integration tests may involve multiple units of code, subsystems, or external systems. The goal of integration testing is to ensure that all the pieces of the system work correctly together as a whole.
+
+In the context of the hexagonal architecture, the unit tests would typically test the behavior of the core domain logic in isolation, while the integration tests would test the interactions and dependencies between the core logic and the adapters (such as the database or external APIs).
+
+In the provided structure, the unit folder contains the user_service_test.go file, which likely contains tests for the UserService functions at the core level, testing their functionality in isolation from other parts of the system.
+
+The integration folder contains the user_integration_test.go file, which likely contains tests that simulate the interaction between the UserService and the adapters, such as the UserRepository. These tests may use a real database or external API, and aim to test the behavior of the system as a whole.

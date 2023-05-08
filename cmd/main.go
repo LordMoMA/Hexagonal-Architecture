@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
@@ -40,9 +41,13 @@ func main() {
 	}
 
 	store := repository.NewDB(db)
+	redisCache, err := cache.NewRedisCache("localhost:6379", "")
+	if err != nil {
+		panic(err)
+	}
 
 	msgService = services.NewMessengerService(store)
-	userService = services.NewUserService(store)
+	userService = services.NewUserService(store, redisCache)
 	paymentService = services.NewPaymentService(store)
 
 	InitRoutes()
@@ -74,7 +79,7 @@ func InitRoutes() {
 
 	paymentHandler := handler.NewPaymentHandler(*paymentService)
 	v1.POST("/create-checkout-session", paymentHandler.CreateCheckoutSession)
-	v1.POST("/payments", paymentHandler.CreatePayment)
+	// v1.POST("/payments", paymentHandler.CreatePayment)
 
 	router.Run(":4242")
 }

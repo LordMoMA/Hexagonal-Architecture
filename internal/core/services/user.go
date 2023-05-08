@@ -4,15 +4,18 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/ports"
+	"github.com/rogpeppe/go-internal/cache"
 )
 
 type UserService struct {
-	repo ports.UserRepository
+	repo  ports.UserRepository
+	cache cache.Cache
 }
 
-func NewUserService(repo ports.UserRepository) *UserService {
+func NewUserService(repo ports.UserRepository, cache cache.Cache) *UserService {
 	return &UserService{
-		repo: repo,
+		repo:  repo,
+		cache: cache,
 	}
 }
 
