@@ -19,6 +19,16 @@ func NewPaymentHandler(paymentService services.PaymentService) *PaymentHandler {
 	}
 }
 
+// CreateCheckoutSessionRequest
+type CreateCheckoutSessionRequest struct {
+	ProductName        string `json:"product_name" binding:"required"`
+	ProductDescription string `json:"product_description" binding:"required"`
+	Amount             int64  `json:"amount" binding:"required"`
+	Currency           string `json:"currency" binding:"required"`
+	SuccessURL         string `json:"success_url" binding:"required"`
+	CancelURL          string `json:"cancel_url" binding:"required"`
+}
+
 func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
 	// Parse request parameters
 	var req CreateCheckoutSessionRequest
