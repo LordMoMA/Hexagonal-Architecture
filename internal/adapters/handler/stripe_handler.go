@@ -68,6 +68,7 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 		Currency: req.Currency,
 		Status:   "pending",
 	}
+	err = h.svc.ProcessPaymentWithStripe(userID, payment)
 
 	// Return client_secret to client
 	ctx.JSON(http.StatusOK, gin.H{"client_secret": pi.ClientSecret})
