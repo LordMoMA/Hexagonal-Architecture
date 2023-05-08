@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/checkout/session"
+	"github.com/stripe/stripe-go/paymentintent"
 )
 
 type PaymentHandler struct {
@@ -45,20 +46,16 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 	}
 
 	// Call the Stripe checkout API
-	params := &stripe.CheckoutSessionParams{
-		PaymentMethodTypes: stripe.StringSlice([]string{"card"}),
-		LineItems: []*stripe.CheckoutSessionLineItemParams{
-			{
-				Name:        stripe.String(req.ProductName),
-				Description: stripe.String(req.ProductDescription),
-				Amount:      stripe.Int64(req.Amount),
-				Currency:    stripe.String(req.Currency),
-				Quantity:    stripe.Int64(1),
-			},
-		},
-		SuccessURL: stripe.String(req.SuccessURL),
-		CancelURL:  stripe.String(req.CancelURL),
+	params := &stripe.PaymentIntentParams{
+		Amount:      stripe.Int64(paymentRequest.Amount),
+		Currency:    stripe.String(paymentRequest.Currency),
+		Description: stripe.String(paymentRequest.Description),
 	}
+	paymentIntent, err := paymentintent.New(params)
+	if err != nil {
+		return err
+	}
+
 	s, err := session.New(params)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
