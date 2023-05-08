@@ -8,7 +8,7 @@ const stripePromise = loadStripe('pk_test_51N5AmpKb78q3bJ6oKOHNQzp9xc8cY2JptmWEl
 export default function App() {
   const options = {
     // passing the client secret obtained from the server
-    clientSecret: '{{CLIENT_SECRET}}',
+    clientSecret: '{{pi_3N5UFzKb78q3bJ6o1Nd8oLv6_secret_oOSIMWeFIpbUaGcMikTkDLH2F}}',
   };
 
   return (
