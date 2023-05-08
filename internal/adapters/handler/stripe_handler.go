@@ -44,7 +44,7 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 		return
 	}
 
-	// Call the Stripe checkout API
+	// Call the Stripe API to create a PaymentIntent
 	params := &stripe.PaymentIntentParams{
 		Amount:              stripe.Int64(1099),
 		Currency:            stripe.String(string(stripe.CurrencyUSD)),
@@ -53,6 +53,6 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 	}
 	pi, _ := paymentintent.New(params)
 
-	// Return the session ID
+	// Return client_secret to client
 	ctx.JSON(http.StatusOK, gin.H{"client_secret": pi.ClientSecret})
 }
