@@ -46,11 +46,10 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 
 	// Call the Stripe checkout API
 	params := &stripe.PaymentIntentParams{
-		Amount: stripe.Int64(2000),
-		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
-			Enabled: stripe.Bool(true),
-		},
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Amount:              stripe.Int64(1099),
+		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		PaymentMethodTypes:  []*string{stripe.String("card")},
+		StatementDescriptor: stripe.String("Custom descriptor"),
 	}
 	pi, _ := paymentintent.New(params)
 
