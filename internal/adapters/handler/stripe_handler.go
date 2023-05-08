@@ -54,10 +54,16 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 	}
 	pi, _ := paymentintent.New(params)
 
+	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	if err != nil {
+		HandleError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
 	// Create Payment object in database
 	payment := &domain.Payment{
 		OrderID:  pi.ID,
-		UserID:   req.UserID,
+		UserID:   userID,
 		Amount:   req.Amount,
 		Currency: req.Currency,
 		Status:   "pending",
