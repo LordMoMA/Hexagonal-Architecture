@@ -53,10 +53,6 @@ func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
 
 }
 
-func (h *PaymentHandler) HandleWebhook(ctx *gin.Context) {
-
-}
-
 /*
 
 // CreateCheckoutSessionRequest
