@@ -67,8 +67,8 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Add JWT Authentication and Authorisation
 - ✅ Optimise error handling with clean code
 - ✅ Add Webhook to update membership status (idempotent)
-- ⌛️ Add a payment service
-- ⌛️ Work with Stripe API
+- ✅ Add a payment service
+- ✅ Work with Stripe API
 - ⌛️ Alter the whole project with Redis as cache, postgresql as database
 - ⌛️ Add Unit Test
 - ⌛️ Add Distributed system
@@ -83,3 +83,25 @@ It provides a high-level, expressive and easy-to-use API for CRUD (Create, Read,
 Whether GORM is better to use than directly using PostgreSQL depends on the specific use case. If you need a high-level, user-friendly API to interact with your PostgreSQL database, then GORM can be a great choice. On the other hand, if you have specific requirements for your database interactions or need to optimize performance for a large-scale application, then direct interaction with the PostgreSQL database using a lower-level database driver may be more appropriate.
 
 In general, the use of an ORM can simplify and speed up development, especially for CRUD operations. However, it may introduce additional overhead and performance concerns.
+
+please show me step by step of how payment service can work with Stripe API based on the following payment structure of hexagonal architecture, no need to use code.
+
+└── Payment
+├── cmd
+│ └── main.go
+├── go.mod
+├── go.sum
+└── internal
+├── adapters
+│ ├── handler
+│ │ └── payment_handler.go
+│ └── repository
+│ ├── postgres.go
+│ └── payment.go
+└── core
+├── domain
+│ └── model.go
+├── ports
+│ └── ports.go
+└── services
+└── payment.go
