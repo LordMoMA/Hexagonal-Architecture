@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go"
@@ -29,7 +30,13 @@ type CreateCheckoutSessionRequest struct {
 	CancelURL          string `json:"cancel_url" binding:"required"`
 }
 
-func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
+func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
+	apiCfg, err := repository.LoadAPIConfig()
+	if err != nil {
+		HandleError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	stripe.Key = apiCfg.StripeKey
 	// Parse request parameters
 	var req CreateCheckoutSessionRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {

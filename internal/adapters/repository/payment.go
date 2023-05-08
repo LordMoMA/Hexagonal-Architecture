@@ -6,7 +6,7 @@ import (
 )
 
 // create payment
-func (p *DB) CreatePayment(userID string, payment domain.Payment) error {
+func (p *DB) ProcessPaymentWithStripe(userID string, payment domain.Payment) error {
 	payment.OrderID = uuid.New().String()
 	payment = domain.Payment{
 		OrderID: payment.OrderID,

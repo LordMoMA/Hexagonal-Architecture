@@ -15,6 +15,6 @@ func NewPaymentService(repo ports.PaymentRepository) *PaymentService {
 	}
 }
 
-func (p *PaymentService) CreatePayment(userID string, payment domain.Payment) error {
-	return p.repo.CreatePayment(userID, payment)
+func (p *PaymentService) ProcessPaymentWithStripe(userID string, payment domain.Payment) error {
+	return p.repo.ProcessPaymentWithStripe(userID, payment)
 }
