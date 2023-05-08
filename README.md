@@ -53,7 +53,7 @@ You can then have multiple payment gateway adapters that implement this interfac
 
 These are the external libraries or services that the application depends on. They are managed by the adapters, and should not be directly accessed by the core business logic. This allows the core business logic to remain independent of any specific infrastructure or technology choices.
 
-## 🤡 Application structure
+## 🤡 Application structure (to be updated)
 
 Now, let's dive into how to create a messaging backend that allows users to save and read messages. Hexagonal architecture adheres to strict application layout that needs to be implemented. Below is the application layout that we will use. This might look like a lot of work, but it will make sense as we move forward.
 
