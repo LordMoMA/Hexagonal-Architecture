@@ -11,6 +11,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.1.1
 	github.com/stripe/stripe-go v70.15.0+incompatible
+	github.com/stripe/stripe-go/v74 v74.17.0
 	golang.org/x/crypto v0.5.0
 )
 

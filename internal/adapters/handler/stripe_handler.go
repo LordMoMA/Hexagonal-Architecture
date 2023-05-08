@@ -6,10 +6,10 @@ import (
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/paymentintent"
+	"github.com/stripe/stripe-go/v74/checkout/session"
 )
 
 type PaymentHandler struct {
