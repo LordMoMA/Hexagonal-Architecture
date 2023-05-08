@@ -7,7 +7,6 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/checkout/session"
 	"github.com/stripe/stripe-go/paymentintent"
 )
 
@@ -55,12 +54,6 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 	}
 	pi, _ := paymentintent.New(params)
 
-	s, err := session.New(params)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
 	// Return the session ID
-	ctx.JSON(http.StatusOK, gin.H{"sessionId": s.ID})
+	ctx.JSON(http.StatusOK, gin.H{"client_secret": pi.ClientSecret})
 }
