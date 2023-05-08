@@ -95,3 +95,15 @@ To get the payment data from the Stripe API endpoint, you can use webhooks to re
 Alternatively, if you are using Stripe's checkout feature, you can use the client_secret that is returned when you create a PaymentIntent to confirm the payment after it is made. Once the payment is confirmed, you can retrieve the payment data from Stripe using the PaymentIntent ID and store it in your local database.
 
 Overall, the payment service in the Hexagonal Architecture would be responsible for storing and retrieving payment data from the local database, and potentially for processing payments and interacting with the Stripe API via webhooks or other methods.
+
+# 🌈 The Stripe's Checkout and PaymentIntent Confusion
+
+When you are working with Stripe API for the first time, you might be confused about the difference between Stripe's Checkout and PaymentIntent. This is because they are both used to accept payments, but they serve different purposes and have different capabilities.
+
+Stripe's Checkout and PaymentIntent are both features that allow you to accept payments through Stripe, but they serve different purposes and have different capabilities.
+
+Stripe Checkout is a pre-built payment page that handles the payment process on behalf of the merchant. It allows merchants to quickly and easily integrate a payment flow into their website without having to build their own payment form. Stripe Checkout also supports many payment methods, including credit and debit cards, Apple Pay, and Google Pay.
+
+PaymentIntent, on the other hand, is a flexible API that allows merchants to create and manage payment transactions programmatically. With PaymentIntent, merchants have more control over the payment process, including the ability to handle complex payment scenarios, such as partial payments, deferred payments, and payments with multiple payment methods. In other words, the PaymentIntent API is a low-level API that allows you to create and manage payment transactions programmatically. It is not a pre-built payment form like Stripe Checkout.
+
+In summary, Stripe Checkout is a pre-built payment form that makes it easy for merchants to get started with Stripe payments, while PaymentIntent provides a more flexible and powerful API for handling payment transactions programmatically.
