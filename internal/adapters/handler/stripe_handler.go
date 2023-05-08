@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/paymentintent"
@@ -17,6 +19,39 @@ type PaymentHandler struct {
 func NewPaymentHandler(paymentService services.PaymentService) *PaymentHandler {
 	return &PaymentHandler{
 		svc: paymentService,
+	}
+}
+
+func (h *PaymentHandler) createCheckoutSession(ctx *gin.Context) {
+	domain := "http://localhost:4242"
+	params := &stripe.CheckoutSessionParams{
+		LineItems: []*stripe.CheckoutSessionLineItemParams{
+			&stripe.CheckoutSessionLineItemParams{
+				// Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+				Price:    stripe.String("price_1N5VNbKb78q3bJ6obePPkame"),
+				Quantity: stripe.Int64(1),
+			},
+		},
+		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
+		SuccessURL: stripe.String(domain + "?success=true"),
+		CancelURL:  stripe.String(domain + "?canceled=true"),
+	}
+
+	s, err := session.New(params)
+
+	if err != nil {
+		log.Printf("session.New: %v", err)
+	}
+
+	ctx.Redirect(http.StatusSeeOther, s.URL)
+
+	// send webhook call to notify checkout session has been created
+	webhookBody := map[string]interface{}{
+		"checkout_session_id": s.ID,
+		"status":              "created",
+	}
+	if err := sendWebhook("http://example.com/webhook", webhookBody); err != nil {
+		log.Printf("failed to send webhook: %v", err)
 	}
 }
 
