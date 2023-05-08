@@ -55,3 +55,11 @@ func (c *RedisCache) Set(key string, value interface{}, duration time.Duration) 
 
 	return nil
 }
+
+func (c *RedisCache) Delete(key string) error {
+	if err := c.client.Del(context.Background(), key).Err(); err != nil {
+		return fmt.Errorf("failed to delete value for key %q: %v", key, err)
+	}
+
+	return nil
+}
