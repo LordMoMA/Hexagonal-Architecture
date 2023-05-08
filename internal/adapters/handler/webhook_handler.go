@@ -89,7 +89,7 @@ func handleWebhook(c *gin.Context) {
 	// If you are testing with the CLI, find the secret by running 'stripe listen'
 	// If you are using an endpoint defined with the API or dashboard, look in your webhook settings
 	// at https://dashboard.stripe.com/webhooks
-	endpointSecret := "whsec_408c7ab650a0a5e17e672ac88f826e3ef0e20383b249dff96e7adda1556be950"
+	endpointSecret := "whsec_"
 	signatureHeader := c.GetHeader("Stripe-Signature")
 	event, err = webhook.ConstructEvent(payload, signatureHeader, endpointSecret)
 	if err != nil {
