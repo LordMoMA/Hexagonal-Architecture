@@ -22,7 +22,7 @@ func NewPaymentHandler(paymentService services.PaymentService) *PaymentHandler {
 }
 
 // CreateCheckoutSessionRequest
-type CreateCheckoutSessionRequest struct {
+type CreatePaymentRequest struct {
 	ProductName        string `json:"product_name" binding:"required"`
 	ProductDescription string `json:"product_description" binding:"required"`
 	Amount             int64  `json:"amount" binding:"required"`
@@ -39,7 +39,7 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 	}
 	stripe.Key = apiCfg.StripeKey
 	// Parse request parameters
-	var req CreateCheckoutSessionRequest
+	var req CreatePaymentRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -47,14 +47,13 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 
 	// Call the Stripe checkout API
 	params := &stripe.PaymentIntentParams{
-		Amount:      stripe.Int64(paymentRequest.Amount),
-		Currency:    stripe.String(paymentRequest.Currency),
-		Description: stripe.String(paymentRequest.Description),
+		Amount: stripe.Int64(2000),
+		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
+			Enabled: stripe.Bool(true),
+		},
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	}
-	paymentIntent, err := paymentintent.New(params)
-	if err != nil {
-		return err
-	}
+	pi, _ := paymentintent.New(params)
 
 	s, err := session.New(params)
 	if err != nil {
