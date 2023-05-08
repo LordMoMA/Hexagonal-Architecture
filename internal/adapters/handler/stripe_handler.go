@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go"
@@ -54,21 +53,21 @@ func (h *PaymentHandler) ProcessPaymentWithStripe(ctx *gin.Context) {
 	}
 	pi, _ := paymentintent.New(params)
 
-	userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
-	if err != nil {
-		HandleError(ctx, http.StatusBadRequest, err)
-		return
-	}
+	// userID, err := ValidateToken(ctx.Request.Header.Get("Authorization"), apiCfg.JWTSecret)
+	// if err != nil {
+	// 	HandleError(ctx, http.StatusBadRequest, err)
+	// 	return
+	// }
 
-	// Create Payment object in database
-	payment := &domain.Payment{
-		OrderID:  pi.ID,
-		UserID:   userID,
-		Amount:   req.Amount,
-		Currency: req.Currency,
-		Status:   "pending",
-	}
-	err = h.svc.ProcessPaymentWithStripe(userID, payment)
+	// // Create Payment object in database
+	// payment := &domain.Payment{
+	// 	OrderID:  pi.ID,
+	// 	UserID:   userID,
+	// 	Amount:   req.Amount,
+	// 	Currency: req.Currency,
+	// 	Status:   "pending",
+	// }
+	// err = h.svc.ProcessPaymentWithStripe(userID, payment)
 
 	// Return client_secret to client
 	ctx.JSON(http.StatusOK, gin.H{"client_secret": pi.ClientSecret})
