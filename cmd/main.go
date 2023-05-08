@@ -51,6 +51,7 @@ func main() {
 
 func InitRoutes() {
 	router := gin.Default()
+	router.Static("/", "internal/web/public")
 	v1 := router.Group("/v1")
 
 	messageHandler := handler.NewMessageHandler(*msgService)
