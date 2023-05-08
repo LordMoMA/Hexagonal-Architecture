@@ -62,7 +62,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 # 👺 To-dos:
 
 - ✅ Finish CRUD process of the messaging service
-- ✅ REST API Design
+- ✅ REST API Design with Gin
 - ✅ Add User service
 - ✅ Add JWT Authentication and Authorisation
 - ✅ Optimise error handling with clean code
@@ -85,23 +85,3 @@ Whether GORM is better to use than directly using PostgreSQL depends on the spec
 In general, the use of an ORM can simplify and speed up development, especially for CRUD operations. However, it may introduce additional overhead and performance concerns.
 
 please show me step by step of how payment service can work with Stripe API based on the following payment structure of hexagonal architecture, no need to use code.
-
-└── Payment
-├── cmd
-│ └── main.go
-├── go.mod
-├── go.sum
-└── internal
-├── adapters
-│ ├── handler
-│ │ └── payment_handler.go
-│ └── repository
-│ ├── postgres.go
-│ └── payment.go
-└── core
-├── domain
-│ └── model.go
-├── ports
-│ └── ports.go
-└── services
-└── payment.go
