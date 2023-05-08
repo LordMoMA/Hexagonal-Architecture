@@ -1,11 +1,11 @@
-# Hexagonal Architecture Deep Dive with PostgreSQL, Redis and Go Practices
+# 🌌 Hexagonal Architecture with Go - A Thorough Exploration of Backend Engineering
 
 ![](images/arch.webp)
 This is the source code for the original article:
 
 [Hexagonal Architecture Deep Dive with PostgreSQL, Redis and Go Practices](https://medium.com/towardsdev/hexagonal-architecture-deep-dive-with-postgresql-redis-and-go-practices-4b051f940e93)
 
-Note that the codebase has evolved with more complexity than the article examples.
+Note that the codebase has evolved with more complexity than the article's example. The article is just a starting point for the project.
 
 ## 🏡 What is Hexagonal Architecture?
 
