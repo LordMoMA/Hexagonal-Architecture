@@ -72,7 +72,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ postgreSQL as database
 - ✅ Redis as cache on users to improve performance
 - ✅ Add a new server for v2/payments endpoint
-- ⌛️ Add load balancer for two servers
+- ⌛️ Add load balancer for server cluster
 - ⌛️ Design wallet service
 - ⌛️ Design payment event service
 - ⌛️ Design a double-entry ledger system
