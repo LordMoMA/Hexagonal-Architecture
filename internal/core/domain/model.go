@@ -6,6 +6,7 @@ type Message struct {
 	Body   string `json:"body"`
 }
 
+// add a balance in user
 type User struct {
 	ID         string `json:"id"`
 	Email      string `json:"email"`

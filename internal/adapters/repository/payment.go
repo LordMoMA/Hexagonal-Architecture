@@ -1,14 +1,6 @@
 package repository
 
-import (
-	"fmt"
-
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
-	"github.com/google/uuid"
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/checkout/session"
-)
-
+/*
 //get balance
 func (p *DB) GetBalance(userID string) (string, error) {
 	var balance string
@@ -22,12 +14,10 @@ func (p *DB) GetBalance(userID string) (string, error) {
 
 // deposit
 func (p *DB) Deposit(userID string, amount string, payment domain.Payment) error {
-	payment.OrderID = uuid.New().String()
+
 	payment = domain.Payment{
-		OrderID: payment.OrderID,
-		UserID:  userID,
-		Amount:  payment.Amount,
-		Status: "success",
+
+
 	}
 	req := p.db.Create(&payment)
 	if req.RowsAffected == 0 {
@@ -39,7 +29,7 @@ func (p *DB) Deposit(userID string, amount string, payment domain.Payment) error
 func (p *DB) Withdraw(userID string, amount string, payment domain.Payment) error {
 	payment.OrderID = uuid.New().String()
 	payment = domain.Payment{
-		OrderID: payment.OrderID,	
+		OrderID: payment.OrderID,
 		UserID:  userID,
 		Amount:  payment.Amount,
 		Status: "success",
@@ -91,3 +81,4 @@ func (p *DB) ProcessPaymentWithStripe(userID string, payment domain.Payment) err
 	return nil
 }
 
+*/

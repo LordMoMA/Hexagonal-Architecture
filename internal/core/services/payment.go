@@ -19,12 +19,12 @@ func (p *PaymentService) ProcessPaymentWithStripe(userID string, payment domain.
 	return p.repo.ProcessPaymentWithStripe(userID, payment)
 }
 
-// deposit
-func (p *PaymentService) Deposit(userID string, amount float64) error {
-	return p.repo.Deposit(userID, amount)
-}
+// // deposit
+// func (p *PaymentService) Deposit(userID string, amount float64) error {
+// 	return p.repo.Deposit(userID, amount)
+// }
 
-// withdraw
-func (p *PaymentService) Withdraw(userID string, amount float64) error {
-	return p.repo.Withdraw(userID, amount)
-}
+// // withdraw
+// func (p *PaymentService) Withdraw(userID string, amount float64) error {
+// 	return p.repo.Withdraw(userID, amount)
+// }
