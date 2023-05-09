@@ -126,14 +126,24 @@ The integration folder contains the user_integration_test.go file, which likely 
 
 To improve the maximum TPS (transactions per second) of the v1/payments API service, there are several strategies that can be employed:
 
-Optimize database queries: One of the most common bottlenecks in a high-traffic API service is the database. By optimizing queries, indexing tables, and caching frequently-accessed data, the response time can be improved, leading to a higher TPS.
+### Optimize database queries:
 
-Load balancing: Distributing the incoming traffic across multiple servers can help increase the TPS of the API service. Load balancing can be done using hardware load balancers or software load balancers such as Nginx or HAProxy.
+One of the most common bottlenecks in a high-traffic API service is the database. By optimizing queries, indexing tables, and caching frequently-accessed data, the response time can be improved, leading to a higher TPS.
 
-Caching: Caching frequently-accessed data can reduce the number of database queries required and improve the TPS. Memcached or Redis can be used for caching.
+### Load balancing:
 
-Asynchronous processing: By using asynchronous processing for time-consuming tasks, such as sending emails or processing images, the API service can handle more requests per second.
+Distributing the incoming traffic across multiple servers can help increase the TPS of the API service. Load balancing can be done using hardware load balancers or software load balancers such as Nginx or HAProxy.
 
-Horizontal scaling: Adding more servers to the server cluster can help increase the TPS. Kubernetes or Docker Swarm can be used for container orchestration to manage the scaling of the API service.
+### Caching:
+
+Caching frequently-accessed data can reduce the number of database queries required and improve the TPS. Memcached or Redis can be used for caching.
+
+### Asynchronous processing:
+
+By using asynchronous processing for time-consuming tasks, such as sending emails or processing images, the API service can handle more requests per second.
+
+### Horizontal scaling:
+
+Adding more servers to the server cluster can help increase the TPS. Kubernetes or Docker Swarm can be used for container orchestration to manage the scaling of the API service.
 
 By implementing these strategies, the maximum TPS of the v1/payments API service can be improved.
