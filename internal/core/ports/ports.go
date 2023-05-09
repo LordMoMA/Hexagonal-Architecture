@@ -42,9 +42,11 @@ type UserRepository interface {
 }
 
 type PaymentService interface {
-	ProcessPaymentWithStripe(userID string, payment domain.Payment) error
+	CreateCheckoutSession(userID string, payment domain.Payment) error
+	// ProcessPaymentWithStripe(userID string, payment domain.Payment) error
 }
 
 type PaymentRepository interface {
-	ProcessPaymentWithStripe(userID string, payment domain.Payment) error
+	CreateCheckoutSession(userID string, payment domain.Payment) error
+	// ProcessPaymentWithStripe(userID string, payment domain.Payment) error
 }
