@@ -158,6 +158,21 @@ Adding more servers to the server cluster can help increase the TPS. Kubernetes 
 
 By implementing these strategies, the maximum TPS of the v1/payments API service can be improved.
 
+# About Nginx as a Load Balancer
+
+In the context of the hexagonal architecture, Nginx can be used as a load balancer to distribute the incoming traffic across multiple servers. This can help increase the TPS (transactions per second) of the API service.
+
+Take a look at `internal/config/nignx.conf` file:
+
+    ```nginx
+        upstream myapp {
+      server localhost:5000 weight=3 max_fails=3 fail_timeout=30s;
+    }
+
+In this configuration, Nginx is acting as a reverse proxy and load balancer. It receives HTTP requests from clients and forwards them to one of the backend servers specified in the upstream block, in this case localhost:5000. The weight parameter specifies how much traffic each server should receive relative to the others. The max_fails and fail_timeout parameters specify how Nginx should handle failures on a backend server.
+
+So, with this configuration, Nginx is distributing the load across multiple backend servers, which can help improve the performance and availability of your application.
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 - The main scaling bottleneck in the architecture was the orchestration management that was implemented using AWS Step Functions. Our service performed multiple state transitions for every second of the stream, so we quickly reached account limits. Besides that, AWS Step Functions charges users per state transition. The second cost problem we discovered was about the way we were passing video frames (images) around different components. To reduce computationally expensive video conversion jobs, we built a microservice that splits videos into frames and temporarily uploads images to an… S3 bucket. Defect detectors (where each of them also runs as a separate microservice) then downloaded images and processed it concurrently using AWS Lambda. However, the high number of Tier-1 calls to the S3 bucket was expensive.
