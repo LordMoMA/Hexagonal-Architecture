@@ -147,3 +147,5 @@ By using asynchronous processing for time-consuming tasks, such as sending email
 Adding more servers to the server cluster can help increase the TPS. Kubernetes or Docker Swarm can be used for container orchestration to manage the scaling of the API service.
 
 By implementing these strategies, the maximum TPS of the v1/payments API service can be improved.
+
+# 🍕 Thoughts on Recent Amazon Prime Video's dump of its AWS distributed serverless architecture and move to “monolith”
