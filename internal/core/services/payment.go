@@ -25,4 +25,6 @@ func (p *PaymentService) Deposit(userID string, amount float64) error {
 }
 
 // withdraw
-
+func (p *PaymentService) Withdraw(userID string, amount float64) error {
+	return p.repo.Withdraw(userID, amount)
+}

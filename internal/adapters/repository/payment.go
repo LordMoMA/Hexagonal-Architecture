@@ -5,6 +5,8 @@ import (
 	"github.com/google/uuid"
 )
 
+// deposit
+
 // create payment
 func (p *DB) ProcessPaymentWithStripe(userID string, payment domain.Payment) error {
 	payment.OrderID = uuid.New().String()
@@ -19,3 +21,4 @@ func (p *DB) ProcessPaymentWithStripe(userID string, payment domain.Payment) err
 	}
 	return nil
 }
+
