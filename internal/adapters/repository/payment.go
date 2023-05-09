@@ -1,8 +1,12 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/google/uuid"
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/checkout/session"
 )
 
 //get balance
@@ -46,6 +50,27 @@ func (p *DB) Withdraw(userID string, amount string, payment domain.Payment) erro
 	}
 	return nil
 }
+
+func getOrderIDFromStripeSession(sessionID string) (string, error) {
+    stripe.Key = "your-stripe-api-key"
+
+    // Retrieve the Stripe Checkout Session from the API
+    checkoutSession, err := session.Get(sessionID, nil)
+
+    if err != nil {
+        return "", fmt.Errorf("unable to retrieve checkout session from Stripe: %v", err)
+    }
+
+    // Retrieve the order ID from the session metadata
+    orderID, ok := checkoutSession.Metadata["order_id"]
+
+    if !ok {
+        return "", fmt.Errorf("order ID not found in session metadata")
+    }
+
+    return orderID, nil
+}
+
 
 // create payment
 func (p *DB) ProcessPaymentWithStripe(userID string, payment domain.Payment) error {
