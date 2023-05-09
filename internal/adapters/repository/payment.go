@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/google/uuid"
@@ -52,7 +53,12 @@ func (p *DB) Withdraw(userID string, amount string, payment domain.Payment) erro
 }
 
 func getOrderIDFromStripeSession(sessionID string) (string, error) {
-    stripe.Key = "your-stripe-api-key"
+	apiCfg, err := LoadAPIConfig()
+	if err != nil {
+		HandleError(ctx, http.StatusBadRequest, err)
+		return "", err
+	}
+	stripe.Key = apiCfg.StripeKey
 
     // Retrieve the Stripe Checkout Session from the API
     checkoutSession, err := session.Get(sessionID, nil)
