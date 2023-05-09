@@ -62,7 +62,7 @@ func main() {
 
 func InitRoutes() {
 	router := gin.Default()
-	// router.Static("/", "internal/web/public")
+	router2 := gin.Default()
 
 	v1 := router.Group("/v1")
 
@@ -83,7 +83,7 @@ func InitRoutes() {
 	v1.POST("/login", userHandler.LoginUser)
 	v1.POST("/membership/webhooks", userHandler.UpdateMembershipStatus)
 
-	v2 := router.Group("/v2")
+	v2 := router2.Group("/v2")
 	paymentHandler := handler.NewPaymentHandler(*paymentService)
 	v2.POST("/create-checkout-session", paymentHandler.CreateCheckoutSession)
 	// v2.POST("/wallet/deposit", paymentHandler.Deposit)
@@ -96,7 +96,7 @@ func InitRoutes() {
 		}
 	}()
 
-	if err := router.Run(":4242"); err != nil {
+	if err := router2.Run(":4242"); err != nil {
 		log.Fatalf("failed to run payments service: %v", err)
 	}
 
