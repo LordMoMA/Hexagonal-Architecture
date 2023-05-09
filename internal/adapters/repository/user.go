@@ -47,10 +47,21 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 }
 
 func (u *DB) ReadUser(id string) (*domain.User, error) {
+	cachekey := "users"
 	user := &domain.User{}
+	err := u.cache.Get(cachekey, &user)
+	if err == nil {
+		return user, nil
+	}
+
 	req := u.db.First(&user, "id = ? ", id)
 	if req.RowsAffected == 0 {
 		return nil, errors.New("user not found")
+	}
+
+	err = u.cache.Set(cachekey, user, time.Minute*10)
+	if err != nil {
+		fmt.Printf("Error storing user in cache: %v", err)
 	}
 	return user, nil
 }
