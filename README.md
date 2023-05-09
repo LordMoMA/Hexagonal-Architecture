@@ -70,7 +70,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Add a payment service
 - ✅ Work with Stripe API
 - ✅ postgreSQL as database
-- ✅ Redis as cache
+- ✅ Redis as cache on users to improve performance
 - ✅ Add a new server for v2/payments endpoint
 - ⌛️ Add load balancer for two servers
 - ⌛️ Add Unit Test
