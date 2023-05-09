@@ -8,6 +8,7 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -47,7 +48,7 @@ func main() {
 	}
 
 	// Create or modify the database tables based on the model structs found in the imported package
-	db.AutoMigrate()
+	db.AutoMigrate(&domain.Message{}, &domain.User{}, &domain.Payment{})
 
 	store := repository.NewDB(db, redisCache)
 

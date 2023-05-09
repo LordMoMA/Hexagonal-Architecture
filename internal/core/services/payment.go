@@ -23,3 +23,6 @@ func (p *PaymentService) ProcessPaymentWithStripe(userID string, payment domain.
 func (p *PaymentService) Deposit(userID string, amount float64) error {
 	return p.repo.Deposit(userID, amount)
 }
+
+// withdraw
+
