@@ -1,5 +1,7 @@
 package repository
 
+// payment event and wallet two servieces
+
 /*
 //get balance
 func (p *DB) GetBalance(userID string) (string, error) {
