@@ -156,7 +156,7 @@ By using asynchronous processing for time-consuming tasks, such as sending email
 
 Adding more servers to the server cluster can help increase the TPS. Kubernetes or Docker Swarm can be used for container orchestration to manage the scaling of the API service.
 
-By implementing these strategies, the maximum TPS of the v1/payments API service can be improved.
+By implementing these strategies, the maximum TPS of the `v1/payments` API service can be improved.
 
 # About Nginx as a Load Balancer
 
@@ -168,6 +168,7 @@ Take a look at `internal/config/nignx.conf` file:
         upstream myapp {
       server localhost:5000 weight=3 max_fails=3 fail_timeout=30s;
     }
+    ```
 
 In this configuration, Nginx is acting as a reverse proxy and load balancer. It receives HTTP requests from clients and forwards them to one of the backend servers specified in the upstream block, in this case localhost:5000. The weight parameter specifies how much traffic each server should receive relative to the others. The max_fails and fail_timeout parameters specify how Nginx should handle failures on a backend server.
 
