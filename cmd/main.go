@@ -81,7 +81,9 @@ func InitRoutes() {
 	v2 := router.Group("/v2")
 	paymentHandler := handler.NewPaymentHandler(*paymentService)
 	v2.POST("/create-checkout-session", paymentHandler.CreateCheckoutSession)
-	// v2.POST("/payments", paymentHandler.CreatePayment)
+	v2.POST("/wallet/deposit", paymentHandler.Deposit)
+	v2.POST("/wallet/withdraw", paymentHandler.Withdraw)
+	
 
 	go func() {
 		if err := router.Run(":5000"); err != nil {

@@ -18,3 +18,8 @@ func NewPaymentService(repo ports.PaymentRepository) *PaymentService {
 func (p *PaymentService) ProcessPaymentWithStripe(userID string, payment domain.Payment) error {
 	return p.repo.ProcessPaymentWithStripe(userID, payment)
 }
+
+// deposit
+func (p *PaymentService) Deposit(userID string, amount float64) error {
+	return p.repo.Deposit(userID, amount)
+}
