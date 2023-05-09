@@ -45,6 +45,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// Create or modify the database tables based on the model structs found in the imported package
+	db.AutoMigrate()
+
 	store := repository.NewDB(db, redisCache)
 
 	msgService = services.NewMessengerService(store)
@@ -83,7 +87,7 @@ func InitRoutes() {
 	v2.POST("/create-checkout-session", paymentHandler.CreateCheckoutSession)
 	v2.POST("/wallet/deposit", paymentHandler.Deposit)
 	v2.POST("/wallet/withdraw", paymentHandler.Withdraw)
-	
+
 
 	go func() {
 		if err := router.Run(":5000"); err != nil {
