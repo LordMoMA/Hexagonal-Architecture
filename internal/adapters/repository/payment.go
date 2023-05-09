@@ -1,5 +1,11 @@
 package repository
 
+import "github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
+
+func (c *DB) CreateCheckoutSession(userID string, payment domain.Payment) error {
+	return nil
+}
+
 // payment event and wallet two servieces
 
 /*
