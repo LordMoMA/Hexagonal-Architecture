@@ -7,6 +7,7 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/checkout/session"
 )
@@ -48,9 +49,19 @@ func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
 	if err != nil {
 		log.Printf("session.New: %v", err)
 	}
+	orderID := generateOrderID()
+
+	// Add the order ID to the checkout session metadata
+	s.Metadata = map[string]string{
+		"order_id": orderID,
+	}
 
 	ctx.Redirect(http.StatusSeeOther, s.URL)
+}
 
+func generateOrderID() string {
+	// Generate a unique order ID, for example:
+	return uuid.New().String()
 }
 
 /*

@@ -5,6 +5,17 @@ import (
 	"github.com/google/uuid"
 )
 
+//get balance
+func (p *DB) GetBalance(userID string) (string, error) {
+	var balance string
+	req := p.db.Table("payments").Where("user_id = ?", userID).Select("sum(amount) as balance").Row()
+	err := req.Scan(&balance)
+	if err != nil {
+		return "", err
+	}
+	return balance, nil
+}
+
 // deposit
 func (p *DB) Deposit(userID string, amount string, payment domain.Payment) error {
 	payment.OrderID = uuid.New().String()
