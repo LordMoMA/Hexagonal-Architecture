@@ -14,8 +14,13 @@ type User struct {
 }
 
 type Payment struct {
-	OrderID  string `json:"id"`
+	CheckoutID string `json:"checkout_id"`
+	ProductName string `json:"product_name"`
 	UserID   string `json:"user_id"`
+}
+
+type Order struct {
+	OrderID  string `json:"id"`
 	Amount   string `json:"amount"`
 	Currency string `json:"currency"`
 	Status   string `json:"status"`
