@@ -111,6 +111,10 @@ PaymentIntent, on the other hand, is a flexible API that allows merchants to cre
 
 In summary, Stripe Checkout is a pre-built payment form that makes it easy for merchants to get started with Stripe payments, while PaymentIntent provides a more flexible and powerful API for handling payment transactions programmatically.
 
+# On Redis Parameters
+
+In the Get method of RedisCache, the value parameter is defined as interface{} because it can take any type of value that is stored in the cache. The Get method is used to retrieve a value from the cache by providing the key. However, since the type of the value stored in the cache is unknown, it is specified as an empty interface interface{} which is a type that can hold any value.
+
 # 👾 The Myths of Integration Testing and Unit Testing
 
 In the context of software testing, integration testing and unit testing are two different types of tests that serve different purposes.

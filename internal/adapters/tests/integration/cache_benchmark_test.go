@@ -5,10 +5,10 @@ import (
 	"time"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
-	"github.com/rogpeppe/go-internal/cache"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/ports"
 )
 
-func BenchmarkCache(b *testing.B, cache cache.Cache) {
+func BenchmarkCache(b *testing.B, cache ports.CacheRepository) {
 	user := domain.User{
 		Email:    "test@example.com",
 		Password: "password",

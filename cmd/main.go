@@ -41,14 +41,14 @@ func main() {
 		panic(err)
 	}
 
-	store := repository.NewDB(db)
 	redisCache, err := cache.NewRedisCache("localhost:6379", "")
 	if err != nil {
 		panic(err)
 	}
+	store := repository.NewDB(db, redisCache)
 
 	msgService = services.NewMessengerService(store)
-	userService = services.NewUserService(store, redisCache)
+	userService = services.NewUserService(store)
 	paymentService = services.NewPaymentService(store)
 
 	InitRoutes()

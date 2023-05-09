@@ -8,13 +8,11 @@ import (
 
 type UserService struct {
 	repo  ports.UserRepository
-	cache ports.CacheRepository
 }
 
-func NewUserService(repo ports.UserRepository, cache ports.CacheRepository) *UserService {
+func NewUserService(repo ports.UserRepository) *UserService {
 	return &UserService{
 		repo:  repo,
-		cache: cache,
 	}
 }
 
