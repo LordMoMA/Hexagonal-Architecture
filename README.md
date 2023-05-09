@@ -75,6 +75,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ⌛️ Add load balancer for two servers
 - ⌛️ Design wallet service
 - ⌛️ Design payment event service
+- ⌛️ Design a double-entry ledger system
 - ⌛️ Add Unit Test
 - ⌛️ Add Distributed services
 - ⌛️ Add URL Queries
