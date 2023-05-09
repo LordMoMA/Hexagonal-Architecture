@@ -69,7 +69,8 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Add Webhook to update membership status (idempotent)
 - ✅ Add a payment service
 - ✅ Work with Stripe API
-- ⌛️ Alter the whole project with Redis as cache, postgresql as database
+- ✅ postgreSQL as database
+- ✅ Redis as cache
 - ⌛️ Add Unit Test
 - ⌛️ Add Distributed services
 - ⌛️ Add URL Queries
