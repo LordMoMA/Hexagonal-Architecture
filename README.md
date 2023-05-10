@@ -292,7 +292,7 @@ At a deeper level, our Payments platform is implemented as a collection of micro
 
 ### Key Technology: Apache Kafka
 
-The key technology used by our Payments Platform is Apache Kafka - an open-source stream-processing software platform
+The key technology used by our Payments Platform is Apache Kafka: an open-source stream-processing software platform
 
 ![](images/kafka.png)
 
