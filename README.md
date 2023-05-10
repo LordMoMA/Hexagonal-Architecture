@@ -155,9 +155,9 @@ In the provided structure, the unit folder contains the user_service_test.go fil
 
 The integration folder contains the user_integration_test.go file, which likely contains tests that simulate the interaction between the UserService and the adapters, such as the UserRepository. These tests may use a real database or external API, and aim to test the behavior of the system as a whole.
 
-# 🏃🏻‍♀️ How to Improve the Maximum TPS of the v1/payments API Service
+# 🏃🏻‍♀️ How to Improve the Maximum TPS of the v2/payments API Service
 
-To improve the maximum TPS (transactions per second) of the v1/payments API service, there are several strategies that can be employed:
+To improve the maximum TPS (transactions per second) of the v2/payments API service, there are several strategies that can be employed:
 
 ### Optimize database queries:
 
