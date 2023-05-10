@@ -47,8 +47,8 @@ func (u *DB) CreateUser(email, password string) (*domain.User, error) {
 }
 
 func (u *DB) ReadUser(id string) (*domain.User, error) {
-	cachekey := "users"
 	user := &domain.User{}
+	cachekey := user.ID
 	err := u.cache.Get(cachekey, &user)
 	if err == nil {
 		return user, nil
@@ -68,7 +68,7 @@ func (u *DB) ReadUser(id string) (*domain.User, error) {
 
 func (u *DB) ReadUsers() ([]*domain.User, error) {
 	// Define the key for the Redis cache
-	cacheKey := "users"
+	cacheKey := uuid.
 
 	var users []*domain.User
 
