@@ -99,7 +99,7 @@ func (u *DB) UpdateUser(id, email, password string) error {
 	}
 
 	// delete user in the cache
-	err = u.cache.Delete("users", user)
+	err = u.cache.Delete(id)
 	if err != nil {
 		fmt.Printf("Error deleting user in cache: %v", err)
 	}
