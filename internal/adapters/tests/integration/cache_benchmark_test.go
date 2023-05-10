@@ -16,7 +16,7 @@ func BenchmarkCache(b *testing.B) {
 	key := "testKey"
 
 	// Set the value in the cache
-	err := ports.CacheRepository.Set(key, user, 10*time.Minute)
+	err := ports.CacheRepository.Set(ports.CacheRepository, key, user, 10*time.Minute)
 	if err != nil {
 		b.Fatalf("error setting value in cache: %v", err)
 	}
@@ -25,7 +25,7 @@ func BenchmarkCache(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		var result domain.User
-		err := ports.CacheRepository.Get(key, &result)
+		err := ports.CacheRepository.Get(ports.CacheRepository, key, &result)
 		if err != nil {
 			b.Fatalf("error getting value from cache: %v", err)
 		}
