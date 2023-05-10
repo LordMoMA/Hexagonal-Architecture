@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/database"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
+	"github.com/jinzhu/gorm"
 )
 
 func TestDBIntegration(t *testing.T) {
 	// initialize the database and cache
-	db := database.New()
-	cache := cache.New()
+	db := repository.NewDB(db *gorm.DB, cache *cache.RedisCache)
 
 	// create a test user
 	email := "test@example.com"
