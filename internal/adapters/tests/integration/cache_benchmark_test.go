@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 )
 
