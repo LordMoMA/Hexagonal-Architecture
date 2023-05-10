@@ -10,6 +10,7 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func TestDBIntegration(t *testing.T) {
@@ -81,7 +82,15 @@ func TestDBIntegration(t *testing.T) {
 	if readUser.Email != newEmail {
 		t.Errorf("expected email %q, got %q", newEmail, readUser.Email)
 	}
-	repository.VerifyPassword(newPassword, readUser.Password)
+
+	hashedNewPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("password not hashed: %v", err)
+	}
+	
+	if readUser.Password != hashedNewPassword {
+		t.Errorf("expected password %q, got %q", newPassword, readUser.Password)
+	}
 
 	// test deleting a user
 	err = store.DeleteUser(user.ID)
