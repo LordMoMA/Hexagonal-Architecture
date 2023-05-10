@@ -114,11 +114,11 @@ PaymentIntent, on the other hand, is a flexible API that allows merchants to cre
 
 In summary, Stripe Checkout is a pre-built payment form that makes it easy for merchants to get started with Stripe payments, while PaymentIntent provides a more flexible and powerful API for handling payment transactions programmatically.
 
-# On Redis Parameters
+# 🌱 On Redis Parameters
 
 In the Get method of RedisCache, the value parameter is defined as interface{} because it can take any type of value that is stored in the cache. The Get method is used to retrieve a value from the cache by providing the key. However, since the type of the value stored in the cache is unknown, it is specified as an empty interface interface{} which is a type that can hold any value.
 
-# On Redis Cache and PostgreSQL DB Dada Consistency
+# 🚇 On Redis Cache and PostgreSQL DB Dada Consistency
 
 To maintain consistency between Redis Cache and PostgreSQL DB, you can implement a write-through or write-behind caching strategy.
 
@@ -139,7 +139,7 @@ I will delete the cache data everytime the database is updated.
 
 For example: when a user's email is updated in the database, I can delete the corresponding user's cache in Redis, so that the next time the user data is requested, it will be fetched from the database and cached again with the updated email. This ensures that the cache data remains consistent with the database data.
 
-To achieve this, I will add a cache invalidation logic in the code that detects changes in the database and deletes the corresponding cache data. This can be done using database triggers, which are special stored procedures that automatically execute in response to certain database events, such as an update or delete operation on a table.
+To achieve this, I added a cache invalidation logic in the code that detects changes in the database and deletes the corresponding cache data. This can be done using database triggers, which are special stored procedures that automatically execute in response to certain database events, such as an update or delete operation on a table.
 
 Note: I have improved user query speed by 11.37 (10.438294ms / 918.226µs) times. (1 ms millisecond = 1000 µs microseconds).
 
