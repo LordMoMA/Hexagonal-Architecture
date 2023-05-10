@@ -114,6 +114,10 @@ func (u *DB) DeleteUser(id string) error {
 	if req.RowsAffected == 0 {
 		return errors.New("user not found")
 	}
+	err := u.cache.Delete(id)
+	if err != nil {
+		fmt.Printf("Error deleting user in cache: %v", err)
+	}
 	return nil
 }
 
@@ -152,7 +156,6 @@ func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
 	}, nil
 }
 
-// UpdateMembershipStatus
 func (u *DB) UpdateMembershipStatus(id string, membership bool) error {
 	user := &domain.User{}
 	req := u.db.First(&user, "id = ? ", id)
