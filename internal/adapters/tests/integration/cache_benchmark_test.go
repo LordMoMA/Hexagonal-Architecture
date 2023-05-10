@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 )
 
@@ -15,7 +16,7 @@ func BenchmarkCache(b *testing.B) {
 	key := "testKey"
 
 	// Set the value in the cache
-	err := cache.cache.Set(key, user, 10*time.Minute)
+	err := cache.Set(key, user, 10*time.Minute)
 	if err != nil {
 		b.Fatalf("error setting value in cache: %v", err)
 	}
@@ -24,7 +25,7 @@ func BenchmarkCache(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		var result domain.User
-		err := cache.cache.Get(key, &result)
+		err := cache.Get(key, &result)
 		if err != nil {
 			b.Fatalf("error getting value from cache: %v", err)
 		}
