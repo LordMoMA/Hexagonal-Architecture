@@ -273,7 +273,7 @@ So, with this configuration, Nginx is distributing the load across multiple back
 
 # About the Payment Platform's Architecture
 
-Zooming in our payment architecture, we can distinguish several key components:
+Zooming in our payment architecture, we can distinguish several key components (see the picture below):
 
 1. API (a part of Uber.com API), providing a uniform interface to the payment functionality,
 2. Risk Engine, making decisions about payment-related risks,
