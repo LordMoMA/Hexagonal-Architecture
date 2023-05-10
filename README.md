@@ -141,7 +141,7 @@ For example: when a user's email is updated in the database, I can delete the co
 
 To achieve this, I added a cache invalidation logic in the code that detects changes in the database and deletes the corresponding cache data. This can be done using database triggers, which are special stored procedures that automatically execute in response to certain database events, such as an update or delete operation on a table.
 
-Note: I have improved user query speed by 11.37 (10.438294ms / 918.226µs) times. (1 ms millisecond = 1000 µs microseconds).
+🕺 Note: I have improved user query speed by 11.37 (10.438294ms / 918.226µs) times. (1 ms millisecond = 1000 µs microseconds).
 
 # 👾 The Myths of Integration Testing and Unit Testing
 
