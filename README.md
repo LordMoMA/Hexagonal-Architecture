@@ -216,8 +216,7 @@ Following are the thoughts I collected from the internet:
 
 Here is a simple flow chart:
 
-```mermaid
-graph LR
+```
 └── Messenger
    ├── cmd
    │   └── main.go
