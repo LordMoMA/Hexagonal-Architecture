@@ -218,8 +218,23 @@ Here is a simple flow chart:
 
 ```mermaid
 graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+└── Messenger
+   ├── cmd
+   │   └── main.go
+   ├── go.mod
+   ├── go.sum
+   └── internal
+       ├── adapters
+       │   ├── handler
+       │   │   └── http.go
+       │   └── repository
+       │       ├── postgres.go
+       │       └── redis.go
+       └── core
+           ├── domain
+           │   └── model.go
+           ├── ports
+           │   └── ports.go
+           └── services
+               └── services.go
 ```
