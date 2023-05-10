@@ -1,4 +1,4 @@
-# 🌌 Hexagonal Architecture with Go - A Thorough Exploration of Backend Engineering
+# 🌌 Hexagonal Architecture with Go - A Thorough Exploration of Backend Engineering and Distributed System
 
 ![](images/arch.webp)
 This is the source code for the original article:
@@ -57,6 +57,54 @@ These are the external libraries or services that the application depends on. Th
 
 Now, let's dive into how to create a messaging backend that allows users to save and read messages. Hexagonal architecture adheres to strict application layout that needs to be implemented. Below is the application layout that we will use. This might look like a lot of work, but it will make sense as we move forward.
 
+# Structure of the Project
+
+```
+└── Hexagonal Architecture
+   ├── cmd
+   │   └── main.go
+   ├── images
+   ├── go.mod
+   ├── go.sum
+   └── internal
+       ├── adapters
+       │   ├── cache
+       │   │   └── cache.go
+       │   │
+       │   ├── handler
+       │   │   ├── error_handler.go
+       │   │   ├── login_handler.go
+       │   │   ├── message_handler.go
+       │   │   ├── stripe_handler.go
+       │   │   ├── user_handler.go
+       │   │   └── webhook_handler.go
+       │   │
+       │   ├── repository
+       │   │   ├── apiCfg.go
+       │   │   ├── db.go
+       │   │   ├── message.go
+       │   │   ├── payment.go
+       │   │   └── user.go
+       │   └── tests
+       │       ├── integration
+       │       └── unit
+       │
+       ├── config
+       │    ├── config.go
+       │    └── nginx.conf
+       └── core
+       │   ├── domain
+       │   │   └── model.go
+       │   ├── ports
+       │   │   ├── ports.go
+       │   │   └── ports.go
+       │   ├── services
+       │   │   ├── message.go
+       │   │   ├── payment.go
+       │   │   └── user.go
+       │   └── web
+```
+
 ![](images/structure.png)
 
 # 👺 To-dos:
@@ -72,7 +120,8 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ postgreSQL as database
 - ✅ Redis as cache on users to improve performance
 - ✅ Add a new server for v2/payments endpoint
-- ⌛️ Add load balancer for server cluster
+- ✅ Add load balancer for server cluster
+- ✅ Add observability and monitoring to the /users/:id endpoint
 - ⌛️ Design wallet service
 - ⌛️ Design payment event service
 - ⌛️ Design a double-entry ledger system
@@ -142,6 +191,30 @@ For example: when a user's email is updated in the database, I can delete the co
 To achieve this, I added a cache invalidation logic in the code that detects changes in the database and deletes the corresponding cache data. This can be done using database triggers, which are special stored procedures that automatically execute in response to certain database events, such as an update or delete operation on a table.
 
 🕺 Note: I have improved user query speed by 11.37 (10.438294ms / 918.226µs) times. (1 ms millisecond = 1000 µs microseconds).
+
+# 🔭 On Observability and Monitoring to the `/users/:id` Endpoint
+
+### Add instrumentation to the endpoint code:
+
+Use a tracing library like OpenTelemetry or OpenTracing to add instrumentation to the code that handles the `/users/:id` endpoint. This will allow you to track the duration of the request, as well as any errors that occur during processing.
+
+OpenTelemetry span is a way to track an operation's progress through a distributed system. A span represents a single operation, which could be a function call or a network request, and contains metadata about that operation such as the start and end times, any attributes, events, and links associated with the operation.
+
+In the case of the ReadUser function, using OpenTelemetry span would allow you to track the progress of the function call and collect relevant metadata for the operation. For example, you could create a span to represent the ReadUser function call, add attributes to the span such as the user ID being read, and record any events associated with the operation, such as when the database query was executed.
+
+Using OpenTelemetry span in this way would allow you to gather valuable data about the ReadUser operation, such as the time it takes to execute, any errors that occur, and the performance of the underlying systems involved. This data could be used to diagnose issues, optimize performance, and improve the overall reliability of the system.
+
+### Use a metrics library to collect metrics:
+
+Use a metrics library like Prometheus or StatsD to collect metrics about your application. You can instrument your code to emit metrics related to the /users/:id endpoint, such as the number of requests received or the latency of each request.
+
+### Use a logging library to log important events:
+
+Use a logging library like Logrus or Zap to log important events related to the /users/:id endpoint. For example, you can log when a request is received, when it is processed, and when it is completed.
+
+### Use a monitoring tool to visualize the data:
+
+Use a monitoring tool like Grafana or Kibana to visualize the data collected by your metrics and logging libraries. This will allow you to identify trends, spot anomalies, and diagnose issues.
 
 # 👾 The Myths of Integration Testing and Unit Testing
 
@@ -213,27 +286,3 @@ Following are the thoughts I collected from the internet:
 - One engineer added in a Reddit debate on the shift: “Microservices have overhead. What used to be a simple inter-process communication or even an in-memory call between two small parts of a system becomes a full HTTPS, OAuth, JSON encoding/decoding exercise every time one of those short conversations needs to happen. When your system is blown apart into 500,000 pieces and each communication requires that setup, AND you’re being billed for each transaction, the cost and complexity adds up. The reaction against monoliths was the need to replace the entire application in one shot, meaning developers would actually need to test stuff. DevOps means there’s no more testing and we fail forward in production, and the only way you can do that is by having tiny functional pieces so you can find/fix stuff fast. I don’t think there’s anything wrong with saying these super-chatty parts of the application belong together without the need to open millions of connections all the time…”
 
 - “The relentless drumbeat of a distributed, microservices-based platform that decouples everything from data, network endpoints to segregated UX with various protocols was maddening without context” commented one global CTO on LinkedIn after reading the post, which was originally filed in March but just attracted attention across the engineering and broadly technology community this month, adding drily: “I wonder if cloud providers are now going to patternize and sell full stack monoliths on their platform.”
-
-Here is a simple flow chart:
-
-```
-└── Messenger
-   ├── cmd
-   │   └── main.go
-   ├── go.mod
-   ├── go.sum
-   └── internal
-       ├── adapters
-       │   ├── handler
-       │   │   └── http.go
-       │   └── repository
-       │       ├── postgres.go
-       │       └── redis.go
-       └── core
-           ├── domain
-           │   └── model.go
-           ├── ports
-           │   └── ports.go
-           └── services
-               └── services.go
-```

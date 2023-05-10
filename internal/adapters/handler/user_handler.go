@@ -11,6 +11,9 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+
+	"go.opentelemetry.io/otel/api/global"
+	"go.opentelemetry.io/otel/trace"
 )
 
 type UserHandler struct {
@@ -38,22 +41,26 @@ func (h *UserHandler) CreateUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, gin.H{
 		"message": "New user created successfully",
-	})	
+	})
 }
 
 func (h *UserHandler) ReadUser(ctx *gin.Context) {
+	span := global.Tracer("user-service").Start(ctx.Request.Context(), "ReadUser")
+	defer span.End()
+
 	id := ctx.Param("id")
 	user, err := h.svc.ReadUser(id)
 
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
+		span.SetStatus(trace.Status{Code: trace.StatusCodeUnknown, Message: err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
 }
 
 func (h *UserHandler) ReadUsers(ctx *gin.Context) {
-	
+
 	users, err := h.svc.ReadUsers()
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
@@ -124,7 +131,7 @@ func ValidateToken(authHeader string, jwtSecret string) (string, error) {
 	if authHeader == "" {
 		return "", errors.New("token not found")
 	}
-	
+
 	// Extract token from header
 	tokenString := authHeader[7:]
 
