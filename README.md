@@ -201,6 +201,11 @@ So, with this configuration, Nginx is distributing the load across multiple back
 
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
+I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
+Amazon Prime Video's case as a retrospection on our current architecture.
+
+Following are the thoughts I collected from the internet:
+
 - The main scaling bottleneck in the architecture was the orchestration management that was implemented using AWS Step Functions. Our service performed multiple state transitions for every second of the stream, so we quickly reached account limits. Besides that, AWS Step Functions charges users per state transition. The second cost problem we discovered was about the way we were passing video frames (images) around different components. To reduce computationally expensive video conversion jobs, we built a microservice that splits videos into frames and temporarily uploads images to an… S3 bucket. Defect detectors (where each of them also runs as a separate microservice) then downloaded images and processed it concurrently using AWS Lambda. However, the high number of Tier-1 calls to the S3 bucket was expensive.
 
 - To some observers, “the design in the PV [Prime Video] article is problematic. Misusing services doesn’t fix architecture issues, it exposes them” as Lambros Petrou, a senior software engineer at DataDog added on Twitter; a view to some degree shared by former CTO Steve Chambers, who said: “Basically, they now use the same architecture but condense components into containers so they don’t have expensive calls and data transfers across a network between different cloud services… it's kind of an obvious optimization!
