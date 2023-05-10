@@ -15,7 +15,7 @@ func BenchmarkCache(b *testing.B) {
 	key := "testKey"
 
 	// Set the value in the cache
-	err := cache.Set(key, user, 10*time.Minute)
+	err := cache.cache.Set(key, user, 10*time.Minute)
 	if err != nil {
 		b.Fatalf("error setting value in cache: %v", err)
 	}
