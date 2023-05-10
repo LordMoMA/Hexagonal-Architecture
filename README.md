@@ -271,6 +271,8 @@ In this configuration, Nginx is acting as a reverse proxy and load balancer. It 
 
 So, with this configuration, Nginx is distributing the load across multiple backend servers, which can help improve the performance and availability of your application.
 
+# About the Payment Service
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
