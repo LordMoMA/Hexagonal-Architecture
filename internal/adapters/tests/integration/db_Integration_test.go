@@ -88,7 +88,7 @@ func TestDBIntegration(t *testing.T) {
 		return fmt.Errorf("password not hashed: %v", err)
 	}
 	
-	if readUser.Password != hashedNewPassword {
+	if readUser.Password != hashedNewPassword.String() {
 		t.Errorf("expected password %q, got %q", newPassword, readUser.Password)
 	}
 
