@@ -102,10 +102,8 @@ Now, let's dive into how to create a messaging backend that allows users to save
        │   │   ├── message.go
        │   │   ├── payment.go
        │   │   └── user.go
-       │   └── web
+       └── └── web
 ```
-
-![](images/structure.png)
 
 # 👺 To-dos:
 
