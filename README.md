@@ -294,6 +294,18 @@ At a deeper level, our Payments platform is implemented as a collection of micro
 The key technology used by our Payments Platform is Apache Kafka - an open-source stream-processing software platform
 ![](images/kafka.png)
 
+Kafka has several key capabilities, could be inherited by the our Payments platform:
+
+- Publishing and subscribing to streams of records, similar to message queues or enterprise messaging systems.
+
+- Storing streams of records in a fault-tolerant durable way.
+
+- Asynchronously processing streams of records as they occur. Asynchronous processing maps well on the transactions in the payments domain: payment processing requires high reliability, but can afford to be implemented asynchronously (within a time-bound).
+
+- Horizontal scaling to handle changing load.
+
+Nodes connected via Kafka are typically microservices, can be built in Go and Java, NodeJS or Python.
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
