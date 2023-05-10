@@ -6,6 +6,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/jinzhu/gorm"
@@ -13,8 +14,6 @@ import (
 )
 
 func TestDBIntegration(t *testing.T) {
-	// initialize the database and cache
-	
 	err := godotenv.Load()
 	if err != nil {
 		panic(err)
@@ -33,6 +32,11 @@ func TestDBIntegration(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+	redisCache, err := cache.NewRedisCache("localhost:6379", "")
+	if err != nil {
+		panic(err)
+	}
+	
 	db := repository.NewDB(db, redisCache)
 
 	// create a test user
