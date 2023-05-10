@@ -218,40 +218,19 @@ Here is a simple flow chart:
 
 ```mermaid
 erDiagram
-    ENTITY Messenger {
-        cmd
-        go.mod
-        go.sum
-    }
-    ENTITY adapter {
-        handler
-        http.go
-        repository
-        postgres.go
-        redis.go
-    }
-    ENTITY core {
-        domain
-        model.go
-        ports
-        ports.go
-        services
-        services.go
-    }
-
-    Messenger ||.. cmd
-    Messenger ||.. go.mod
-    Messenger ||.. go.sum
-    adapter ||--o handler
-    handler ||--| http.go
-    adapter ||--o repository
-    repository ||--| postgres.go
-    repository ||--| redis.go
-    core ||--o domain
-    domain ||--| model.go
-    core ||--o ports
-    ports ||--| ports.go
-    core ||--o services
-    services ||--| services.go
+Messenger ||.. cmd
+Messenger ||.. go.mod
+Messenger ||.. go.sum
+adapter ||--o handler
+handler ||--| http.go
+adapter ||--o repository
+repository ||--| postgres.go
+repository ||--| redis.go
+core ||--o domain
+domain ||--| model.go
+core ||--o ports
+ports ||--| ports.go
+core ||--o services
+services ||--| services.go
 
 ```
