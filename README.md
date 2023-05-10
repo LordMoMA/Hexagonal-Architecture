@@ -283,6 +283,7 @@ Zooming in our payment architecture, we can distinguish several key components:
 6. PSP Gateways, implementing the integration with payment service providers (PSPs),
 7. Order store, storing data about orders, and
 8. Account store, storing data about the accounts of payment parties.
+   ![](images/payment.png)
 
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
