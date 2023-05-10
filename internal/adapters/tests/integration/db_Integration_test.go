@@ -98,7 +98,7 @@ func TestDBIntegration(t *testing.T) {
 		t.Fatalf("failed to delete user: %v", err)
 	}
 	_, err = store.ReadUser(user.ID)
-	if !errors.Is(err, "user not found") {
+	if !errors.Is(err, fs.ErrUserNotFound) {
 		t.Errorf("expected user not found error, got %v", err)
 	}
 }
