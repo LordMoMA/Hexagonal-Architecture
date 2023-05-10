@@ -85,7 +85,7 @@ func TestDBIntegration(t *testing.T) {
 
 	hashedNewPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
 	if err != nil {
-		return t.Errorf("password not hashed: %v", err)
+		t.Errorf("password not hashed: %v", err)
 	}
 	
 	if readUser.Password != string(hashedNewPassword) {
