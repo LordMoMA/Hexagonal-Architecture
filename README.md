@@ -213,3 +213,13 @@ Following are the thoughts I collected from the internet:
 - One engineer added in a Reddit debate on the shift: “Microservices have overhead. What used to be a simple inter-process communication or even an in-memory call between two small parts of a system becomes a full HTTPS, OAuth, JSON encoding/decoding exercise every time one of those short conversations needs to happen. When your system is blown apart into 500,000 pieces and each communication requires that setup, AND you’re being billed for each transaction, the cost and complexity adds up. The reaction against monoliths was the need to replace the entire application in one shot, meaning developers would actually need to test stuff. DevOps means there’s no more testing and we fail forward in production, and the only way you can do that is by having tiny functional pieces so you can find/fix stuff fast. I don’t think there’s anything wrong with saying these super-chatty parts of the application belong together without the need to open millions of connections all the time…”
 
 - “The relentless drumbeat of a distributed, microservices-based platform that decouples everything from data, network endpoints to segregated UX with various protocols was maddening without context” commented one global CTO on LinkedIn after reading the post, which was originally filed in March but just attracted attention across the engineering and broadly technology community this month, adding drily: “I wonder if cloud providers are now going to patternize and sell full stack monoliths on their platform.”
+
+Here is a simple flow chart:
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
