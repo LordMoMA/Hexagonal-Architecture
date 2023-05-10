@@ -118,6 +118,27 @@ In summary, Stripe Checkout is a pre-built payment form that makes it easy for m
 
 In the Get method of RedisCache, the value parameter is defined as interface{} because it can take any type of value that is stored in the cache. The Get method is used to retrieve a value from the cache by providing the key. However, since the type of the value stored in the cache is unknown, it is specified as an empty interface interface{} which is a type that can hold any value.
 
+# On Redis Cache and PostgreSQL DB Dada Consistency
+
+To maintain consistency between Redis Cache and PostgreSQL DB, you can implement a write-through or write-behind caching strategy.
+
+In the write-through caching strategy, when data is updated in the PostgreSQL DB, it is also updated in the Redis Cache. This ensures that the data in the Redis Cache is always up-to-date with the latest data in the PostgreSQL DB. However, this approach can result in slower write performance due to the additional overhead of updating the cache.
+
+In the write-behind caching strategy, data is first updated in the Redis Cache and then asynchronously updated in the PostgreSQL DB. This approach can improve write performance as data is first updated in the faster Redis Cache and then updated in the slower PostgreSQL DB. However, this approach can result in a temporary inconsistency between the Redis Cache and PostgreSQL DB.
+
+Additionally, you can use a combination of database transactions and cache invalidation to ensure consistency. When a transaction is committed to the PostgreSQL DB, the cache is invalidated, and the next read from the cache will result in the latest data from the PostgreSQL DB.
+
+Please read my article for more information on Cache Invalidation:
+[The Hard Thing in Computer Science: Cache Invalidation](https://medium.com/@lordmoma/the-hard-thing-in-computer-science-cache-invalidation-11ca0da2dba4)
+
+It's also important to ensure that the TTL (Time-to-Live) of the cached data is set appropriately. This ensures that the cached data is not stale and remains consistent with the data in the PostgreSQL DB.
+
+However, in this project I want to keep this problem simple and easy to handle:
+
+I will delete the cache data everytime the database is updated.
+
+For example: when a user's email is updated in the database, I can delete the corresponding user's cache in Redis, so that the next time the user data is requested, it will be fetched from the database and cached again with the updated email. This ensures that the cache data remains consistent with the database data.
+
 # 👾 The Myths of Integration Testing and Unit Testing
 
 In the context of software testing, integration testing and unit testing are two different types of tests that serve different purposes.
