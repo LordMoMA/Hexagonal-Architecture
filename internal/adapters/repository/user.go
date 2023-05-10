@@ -67,25 +67,11 @@ func (u *DB) ReadUser(id string) (*domain.User, error) {
 }
 
 func (u *DB) ReadUsers() ([]*domain.User, error) {
-	// Define the key for the Redis cache
-	cacheKey := uuid.
-
 	var users []*domain.User
-
-	err := u.cache.Get(cacheKey, &users)
-	if err == nil {
-		// Value exists in cache, return it
-		return users, nil
-	}
 
 	req := u.db.Find(&users)
 	if req.Error != nil {
 		return nil, fmt.Errorf("users not found: %v", req.Error)
-	}
-	// Store users in cache for future use
-	err = u.cache.Set(cacheKey, users, time.Minute*10)
-	if err != nil {
-		fmt.Printf("Error storing users in cache: %v", err)
 	}
 
 	return users, nil
