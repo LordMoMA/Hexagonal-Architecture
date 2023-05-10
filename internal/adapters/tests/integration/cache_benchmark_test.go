@@ -5,10 +5,9 @@ import (
 	"time"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/ports"
 )
 
-func BenchmarkCache(b *testing.B, cache ports.CacheRepository) {
+func BenchmarkCache(b *testing.B) {
 	user := domain.User{
 		Email:    "test@example.com",
 		Password: "password",
@@ -25,7 +24,7 @@ func BenchmarkCache(b *testing.B, cache ports.CacheRepository) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		var result domain.User
-		err := cache.Get(key, &result)
+		err := cache.cache.Get(key, &result)
 		if err != nil {
 			b.Fatalf("error getting value from cache: %v", err)
 		}
