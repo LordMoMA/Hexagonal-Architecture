@@ -139,6 +139,8 @@ I will delete the cache data everytime the database is updated.
 
 For example: when a user's email is updated in the database, I can delete the corresponding user's cache in Redis, so that the next time the user data is requested, it will be fetched from the database and cached again with the updated email. This ensures that the cache data remains consistent with the database data.
 
+To achieve this, I will add a cache invalidation logic in the code that detects changes in the database and deletes the corresponding cache data. This can be done using database triggers, which are special stored procedures that automatically execute in response to certain database events, such as an update or delete operation on a table.
+
 # 👾 The Myths of Integration Testing and Unit Testing
 
 In the context of software testing, integration testing and unit testing are two different types of tests that serve different purposes.
