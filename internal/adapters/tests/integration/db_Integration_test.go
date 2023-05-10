@@ -2,17 +2,38 @@ package integration
 
 import (
 	"errors"
+	"fmt"
+	"os"
 	"testing"
 
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 )
 
 func TestDBIntegration(t *testing.T) {
 	// initialize the database and cache
-	db := repository.NewDB(db *gorm.DB, cache *cache.RedisCache)
+	
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+
+	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := gorm.Open("postgres", conn)
+	if err != nil {
+		panic(err)
+	}
+	db := repository.NewDB(db, redisCache)
 
 	// create a test user
 	email := "test@example.com"
