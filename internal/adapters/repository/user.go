@@ -132,7 +132,7 @@ func (u *DB) LoginUser(email, password string) (*LoginResponse, error) {
 		return nil, err
 	}
 
-	err = u.verifyPassword(user.Password, password)
+	err = u.VerifyPassword(user.Password, password)
 	if err != nil {
 		return nil, err
 	}
@@ -182,7 +182,7 @@ func (u *DB) findUserByEmail(email string) (*domain.User, error) {
 	return user, nil
 }
 
-func (u *DB) verifyPassword(hash, password string) error {
+func (u *DB) VerifyPassword(hash, password string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	if err != nil {
 		return errors.New("password not matched")
