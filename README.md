@@ -271,7 +271,18 @@ In this configuration, Nginx is acting as a reverse proxy and load balancer. It 
 
 So, with this configuration, Nginx is distributing the load across multiple backend servers, which can help improve the performance and availability of your application.
 
-# About the Payment Service
+# About the Payment Platform's Architecture
+
+Zooming in our payment architecture, we can distinguish several key components:
+
+1. API (a part of Uber.com API), providing a uniform interface to the payment functionality,
+2. Risk Engine, making decisions about payment-related risks,
+3. Payment Profile Service, providing the details of payment mechanisms,
+4. User Profile Service, providing details about user payment and other settings,
+5. Payment Auth Service, providing services for authentication of payments,
+6. PSP Gateways, implementing the integration with payment service providers (PSPs),
+7. Order store, storing data about orders, and
+8. Account store, storing data about the accounts of payment parties.
 
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
