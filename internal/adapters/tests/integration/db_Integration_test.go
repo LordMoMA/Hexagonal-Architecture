@@ -8,7 +8,6 @@ import (
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 )
@@ -82,9 +81,7 @@ func TestDBIntegration(t *testing.T) {
 	if readUser.Email != newEmail {
 		t.Errorf("expected email %q, got %q", newEmail, readUser.Email)
 	}
-	if !domain.CheckPassword(newPassword, readUser.Password) {
-		t.Errorf("password not updated")
-	}
+	repository.VerifyPassword(newPassword, readUser.Password)
 
 	// test deleting a user
 	err = store.DeleteUser(user.ID)
