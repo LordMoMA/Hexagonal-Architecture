@@ -111,6 +111,13 @@ func (u *DB) UpdateUser(id, email, password string) error {
 	if req.RowsAffected == 0 {
 		return errors.New("unable to update user :(")
 	}
+
+	// delete user in the cache
+	err = u.cache.Delete("users", user)
+	if err != nil {
+		fmt.Printf("Error deleting user in cache: %v", err)
+	}
+
 	return nil
 
 }
