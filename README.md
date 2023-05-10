@@ -283,6 +283,7 @@ Zooming in our payment architecture, we can distinguish several key components (
 6. PSP Gateways, implementing the integration with payment service providers (PSPs),
 7. Order store, storing data about orders, and
 8. Account store, storing data about the accounts of payment parties.
+
    ![](images/payment.png)
 
 ## Implementation: Distributed Stream-Processing
@@ -292,6 +293,7 @@ At a deeper level, our Payments platform is implemented as a collection of micro
 ### Key Technology: Apache Kafka
 
 The key technology used by our Payments Platform is Apache Kafka - an open-source stream-processing software platform
+
 ![](images/kafka.png)
 
 Kafka has several key capabilities, could be inherited by the our Payments platform:
