@@ -21,12 +21,12 @@ func TestDBIntegration(t *testing.T) {
 
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
 	dbname := os.Getenv("DB_NAME")
 
 	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		host, port, dbUser, dbPassword, dbname)
 
 	db, err := gorm.Open("postgres", conn)
 	if err != nil {
@@ -48,7 +48,7 @@ func TestDBIntegration(t *testing.T) {
 	}
 
 	// test reading a user
-	readUser, err := db.ReadUser(user.ID)
+	readUser, err := store.ReadUser(user.ID)
 	if err != nil {
 		t.Fatalf("failed to read user: %v", err)
 	}
@@ -57,7 +57,7 @@ func TestDBIntegration(t *testing.T) {
 	}
 
 	// test reading all users
-	users, err := db.ReadUsers()
+	users, err := store.ReadUsers()
 	if err != nil {
 		t.Fatalf("failed to read users: %v", err)
 	}
@@ -71,11 +71,11 @@ func TestDBIntegration(t *testing.T) {
 	// test updating a user
 	newEmail := "newemail@example.com"
 	newPassword := "newpassword"
-	err = db.UpdateUser(user.ID, newEmail, newPassword)
+	err = store.UpdateUser(user.ID, newEmail, newPassword)
 	if err != nil {
 		t.Fatalf("failed to update user: %v", err)
 	}
-	readUser, err = db.ReadUser(user.ID)
+	readUser, err = store.ReadUser(user.ID)
 	if err != nil {
 		t.Fatalf("failed to read updated user: %v", err)
 	}
@@ -87,11 +87,11 @@ func TestDBIntegration(t *testing.T) {
 	}
 
 	// test deleting a user
-	err = db.DeleteUser(user.ID)
+	err = store.DeleteUser(user.ID)
 	if err != nil {
 		t.Fatalf("failed to delete user: %v", err)
 	}
-	_, err = db.ReadUser(user.ID)
+	_, err = store.ReadUser(user.ID)
 	if !errors.Is(err, database.ErrUserNotFound) {
 		t.Errorf("expected user not found error, got %v", err)
 	}
