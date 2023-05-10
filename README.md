@@ -217,34 +217,24 @@ Following are the thoughts I collected from the internet:
 Here is a simple flow chart:
 
 ```mermaid
-mindmap
-  root Messenger
-  branchdef internal "Internal"
-  branchdef adapters "Adapters"
-  branchdef core "Core"
-
-  Messenger-->|contains| cmd
-  Messenger-->|contains| go.mod
-  Messenger-->|contains| go.sum
-
-  internal-->|contains| adapters
-  internal-->|contains| core
-
-  adapters-->|contains| handler
-  adapters-->|contains| repository
-
-  handler-->|contains| http.go
-
-  repository-->|contains| postgres.go
-  repository-->|contains| redis.go
-
-  core-->|contains| domain
-  core-->|contains| ports
-  core-->|contains| services
-
-  domain-->|contains| model.go
-  ports-->|contains| ports.go
-  services-->|contains| services.go
-
-
+graph LR
+└── Messenger
+   ├── cmd
+   │   └── main.go
+   ├── go.mod
+   ├── go.sum
+   └── internal
+       ├── adapters
+       │   ├── handler
+       │   │   └── http.go
+       │   └── repository
+       │       ├── postgres.go
+       │       └── redis.go
+       └── core
+           ├── domain
+           │   └── model.go
+           ├── ports
+           │   └── ports.go
+           └── services
+               └── services.go
 ```
