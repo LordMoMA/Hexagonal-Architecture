@@ -285,6 +285,15 @@ Zooming in our payment architecture, we can distinguish several key components (
 8. Account store, storing data about the accounts of payment parties.
    ![](images/payment.png)
 
+## Implementation: Distributed Stream-Processing
+
+At a deeper level, our Payments platform is implemented as a collection of microservices organized as a stream-processing architecture. Streaming data refers to data that is continuously generated, typically in high volumes and at high velocity. Uber handles dozens of millions of transactions daily, making a streaming-based architecture a natural choice.
+
+### Key Technology: Apache Kafka
+
+The key technology used by our Payments Platform is Apache Kafka - an open-source stream-processing software platform
+![](images/kafka.png)
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
