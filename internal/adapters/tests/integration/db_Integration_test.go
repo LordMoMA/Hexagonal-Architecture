@@ -3,6 +3,7 @@ package integration
 import (
 	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"testing"
 
