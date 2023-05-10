@@ -63,6 +63,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 └── Hexagonal Architecture
    ├── cmd
    │   └── main.go
+   ├── .env
    ├── images
    ├── go.mod
    ├── go.sum
@@ -92,7 +93,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
        ├── config
        │    ├── config.go
        │    └── nginx.conf
-       └── core
+       ├── core
        │   ├── domain
        │   │   └── model.go
        │   ├── ports
@@ -102,7 +103,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
        │   │   ├── message.go
        │   │   ├── payment.go
        │   │   └── user.go
-       └── └── web
+       └── web
 ```
 
 # 👺 To-dos:
