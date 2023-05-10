@@ -217,16 +217,41 @@ Following are the thoughts I collected from the internet:
 Here is a simple flow chart:
 
 ```mermaid
-sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice->>John: Hello John, how are you?
-    loop Healthcheck
-        John->>John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts <br/>prevail!
-    John-->>Alice: Great!
-    John->>Bob: How about you?
-    Bob-->>John: Jolly good!
+erDiagram
+    ENTITY Messenger {
+        cmd
+        go.mod
+        go.sum
+    }
+    ENTITY adapter {
+        handler
+        http.go
+        repository
+        postgres.go
+        redis.go
+    }
+    ENTITY core {
+        domain
+        model.go
+        ports
+        ports.go
+        services
+        services.go
+    }
+
+    Messenger ||.. cmd
+    Messenger ||.. go.mod
+    Messenger ||.. go.sum
+    adapter ||--o handler
+    handler ||--| http.go
+    adapter ||--o repository
+    repository ||--| postgres.go
+    repository ||--| redis.go
+    core ||--o domain
+    domain ||--| model.go
+    core ||--o ports
+    ports ||--| ports.go
+    core ||--o services
+    services ||--| services.go
 
 ```
