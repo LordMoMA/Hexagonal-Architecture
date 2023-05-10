@@ -9,6 +9,7 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 )
@@ -37,7 +38,9 @@ func TestDBIntegration(t *testing.T) {
 		panic(err)
 	}
 	
-	db := repository.NewDB(db, redisCache)
+	store := repository.NewDB(db, redisCache)
+	userService = services.NewUserService(store)
+
 
 	// create a test user
 	email := "test@example.com"
