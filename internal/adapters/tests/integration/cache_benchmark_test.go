@@ -1,33 +1,73 @@
 package integration
 
 import (
+	"errors"
 	"testing"
-	"time"
 
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/database"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/ports"
 )
 
-func BenchmarkCache(b *testing.B) {
-	user := domain.User{
-		Email:    "test@example.com",
-		Password: "password",
-	}
-	key := "testKey"
+func TestDBIntegration(t *testing.T) {
+	// initialize the database and cache
+	db := database.New()
+	cache := cache.New()
 
-	// Set the value in the cache
-	err := ports.CacheRepository.Set(key, &user, 10*time.Minute)
+	// create a test user
+	email := "test@example.com"
+	password := "password"
+	user, err := db.CreateUser(email, password)
 	if err != nil {
-		b.Fatalf("error setting value in cache: %v", err)
+		t.Fatalf("failed to create test user: %v", err)
 	}
 
-	// Measure the time taken to retrieve the value from the cache
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		var result domain.User
-		err := ports.CacheRepository.Get(key, &result)
-		if err != nil {
-			b.Fatalf("error getting value from cache: %v", err)
-		}
+	// test reading a user
+	readUser, err := db.ReadUser(user.ID)
+	if err != nil {
+		t.Fatalf("failed to read user: %v", err)
+	}
+	if readUser.Email != email {
+		t.Errorf("expected email %q, got %q", email, readUser.Email)
+	}
+
+	// test reading all users
+	users, err := db.ReadUsers()
+	if err != nil {
+		t.Fatalf("failed to read users: %v", err)
+	}
+	if len(users) != 1 {
+		t.Errorf("expected 1 user, got %d", len(users))
+	}
+	if users[0].Email != email {
+		t.Errorf("expected email %q, got %q", email, users[0].Email)
+	}
+
+	// test updating a user
+	newEmail := "newemail@example.com"
+	newPassword := "newpassword"
+	err = db.UpdateUser(user.ID, newEmail, newPassword)
+	if err != nil {
+		t.Fatalf("failed to update user: %v", err)
+	}
+	readUser, err = db.ReadUser(user.ID)
+	if err != nil {
+		t.Fatalf("failed to read updated user: %v", err)
+	}
+	if readUser.Email != newEmail {
+		t.Errorf("expected email %q, got %q", newEmail, readUser.Email)
+	}
+	if !domain.CheckPassword(newPassword, readUser.Password) {
+		t.Errorf("password not updated")
+	}
+
+	// test deleting a user
+	err = db.DeleteUser(user.ID)
+	if err != nil {
+		t.Fatalf("failed to delete user: %v", err)
+	}
+	_, err = db.ReadUser(user.ID)
+	if !errors.Is(err, database.ErrUserNotFound) {
+		t.Errorf("expected user not found error, got %v", err)
 	}
 }
