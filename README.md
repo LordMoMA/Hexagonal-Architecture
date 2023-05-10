@@ -217,24 +217,16 @@ Following are the thoughts I collected from the internet:
 Here is a simple flow chart:
 
 ```mermaid
-graph TD;
-└── Messenger
-   ├── cmd
-   │   └── main.go
-   ├── go.mod
-   ├── go.sum
-   └── internal
-       ├── adapters
-       │   ├── handler
-       │   │   └── http.go
-       │   └── repository
-       │       ├── postgres.go
-       │       └── redis.go
-       └── core
-           ├── domain
-           │   └── model.go
-           ├── ports
-           │   └── ports.go
-           └── services
-               └── services.go
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Healthcheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+
 ```
