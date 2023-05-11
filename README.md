@@ -369,6 +369,24 @@ Each integration with PSPs and banks is different, we can distinguish two integr
 ![](images/external_integrations.png)
 Figure 5: Two integrations styles for integration with external systems: API-based, and file-based.
 
+Idempotency is an essential theme in integration with external payment systems. A good thing about PSP and banking systems is that they are normally implementing their services as idempotent message processors. Idempotency is essential for payment systems for two reasons:
+
+- It helps to prevent double charging
+- It improves reliability and simplifies system architecture.
+
+When a failure occurs (e.g., a network error), it may be challenging to determine if some operation succeeded or failed and in which state the system is. Without idempotency, for instance, retying operations may be risky, as you may execute the same operation twice (e.g. charging a customer twice for the same service).
+
+With idempotency, you can repeat the failed operation without such worries. Figure 6 illustrates how idempotency (in the context of integration with external systems) works in an ideal scenario.
+
+![](images/idempotency.png)
+Figure 6: Idempotent message processing systems will not process the same message twice.
+
+The good news is that I have developed our own webhook handler to solve this problem. We can also adopt Stripe API's webhook to solve this problem.
+
+However, idempotency works well if you repeat the request against the same system, with the same operation ID. The operations ID needs to be provided by the application calling an idempotent service so that the service knows if it is getting the new request (not previously processed ID) or a repeated operation (already processed ID).
+
+One challenge of implementing idempotency when interacting with external systems relates to the IDs used for idempotent operations. Legacy payments systems accept a more limited range of values for IDs. Careful rotation and timing of such IDs are essential to avoid the external system rejecting the payment request.
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
