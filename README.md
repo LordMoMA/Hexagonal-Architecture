@@ -312,6 +312,22 @@ In addition, Kafka supports well high performance and scalability requirements. 
 
 ## Performance and Scalability
 
+Let's look at the Uber's example to see how the Payments platform is implemented in practice.
+
+One of the key technical challenges that Uber faces in the implementation of payments platform is the scale of its operations. For illustration, here are some recent stats:
+
+65 countries, 600 cities,
+75 million Uber passengers,
+3.9 million Uber drivers,
+14 million Uber trips per day (well over 10 billion trips have been completed worldwide).
+In addition to the worldwide scale, the load is not uniform and may have unexpected spikes.
+
+While details are not publically available, the technical presentations provide some insights in mechanisms used by Uber for handling performance and scalability requirements, such as:
+
+Extensive parallelization of processing with the competing consumers pattern, by having multiple parallelly running (micro)service instances
+Independent scaling of processing components, to more flexibly manage needed capacity, and
+Using optimistic locking, to avoid the need for complex distributed locking mechanisms.
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
