@@ -215,20 +215,6 @@ Use a logging library like Logrus or Zap to log important events related to the 
 
 Use a monitoring tool like Grafana or Kibana to visualize the data collected by your metrics and logging libraries. This will allow you to identify trends, spot anomalies, and diagnose issues.
 
-# 👾 The Myths of Integration Testing and Unit Testing
-
-In the context of software testing, integration testing and unit testing are two different types of tests that serve different purposes.
-
-Unit testing focuses on testing individual units of code in isolation, typically at the function or method level. The goal of unit testing is to ensure that each unit of code works correctly on its own, without dependencies on other parts of the system. Unit tests are usually automated and can be run frequently as part of a continuous integration process.
-
-Integration testing, on the other hand, tests the interactions and dependencies between different parts of the system. Integration tests may involve multiple units of code, subsystems, or external systems. The goal of integration testing is to ensure that all the pieces of the system work correctly together as a whole.
-
-In the context of the hexagonal architecture, the unit tests would typically test the behavior of the core domain logic in isolation, while the integration tests would test the interactions and dependencies between the core logic and the adapters (such as the database or external APIs).
-
-In the provided structure, the unit folder contains the user_service_test.go file, which likely contains tests for the UserService functions at the core level, testing their functionality in isolation from other parts of the system.
-
-The integration folder contains the user_integration_test.go file, which likely contains tests that simulate the interaction between the UserService and the adapters, such as the UserRepository. These tests may use a real database or external API, and aim to test the behavior of the system as a whole.
-
 # 🏃🏻‍♀️ How to Improve the Maximum TPS of the v2/payments API Service
 
 To improve the maximum TPS (transactions per second) of the v2/payments API service, there are several strategies that can be employed:
@@ -403,7 +389,21 @@ Using dedicated request storage when a retry needs to be performed, to ensure th
 ![](images/request_storage.png)
 Figure 8: The correct way to retry operations in the case of network failures when working with multiple PSPs. Using dedicated request storage to ensure that retry goes back to an original service.
 
-# On Test
+# 👾 On Test
+
+## The Myths of Integration Testing and Unit Testing
+
+In the context of software testing, integration testing and unit testing are two different types of tests that serve different purposes.
+
+Unit testing focuses on testing individual units of code in isolation, typically at the function or method level. The goal of unit testing is to ensure that each unit of code works correctly on its own, without dependencies on other parts of the system. Unit tests are usually automated and can be run frequently as part of a continuous integration process.
+
+Integration testing, on the other hand, tests the interactions and dependencies between different parts of the system. Integration tests may involve multiple units of code, subsystems, or external systems. The goal of integration testing is to ensure that all the pieces of the system work correctly together as a whole.
+
+In the context of the hexagonal architecture, the unit tests would typically test the behavior of the core domain logic in isolation, while the integration tests would test the interactions and dependencies between the core logic and the adapters (such as the database or external APIs).
+
+In the provided structure, the unit folder contains the user_service_test.go file, which likely contains tests for the UserService functions at the core level, testing their functionality in isolation from other parts of the system.
+
+The integration folder contains the user_integration_test.go file, which likely contains tests that simulate the interaction between the UserService and the adapters, such as the UserRepository. These tests may use a real database or external API, and aim to test the behavior of the system as a whole.
 
 ## Benchmarking
 
