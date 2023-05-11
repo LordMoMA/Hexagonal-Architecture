@@ -308,6 +308,8 @@ Kafka has several key capabilities, could be inherited by the our Payments platf
 
 Nodes connected via Kafka are typically microservices, can be built in Go and Java, NodeJS or Python.
 
+In addition, Kafka supports well high performance and scalability requirements. Kafka is horizontally scalable, fault-tolerant, and optimized for speed, running as a cluster on one or more servers that can span multiple data centers (For example: Uber uses use a combination of third-party cloud computing services and co-located data centers).
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
