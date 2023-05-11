@@ -120,7 +120,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Redis as cache on users to improve performance
 - ✅ Add a new server for v2/payments endpoint
 - ✅ Add load balancer for server cluster
-- ✅ Add observability and monitoring to the /users/:id endpoint
+- ⌛️ Add observability and monitoring to the /users/:id endpoint
 - ⌛️ Design wallet service
 - ⌛️ Design payment event service
 - ⌛️ Design a double-entry ledger system
@@ -275,7 +275,7 @@ So, with this configuration, Nginx is distributing the load across multiple back
 
 Zooming in our payment architecture, we can distinguish several key components (see the picture below):
 
-1. API (a part of Uber.com API), providing a uniform interface to the payment functionality,
+1. API, providing a uniform interface to the payment functionality,
 2. Risk Engine, making decisions about payment-related risks,
 3. Payment Profile Service, providing the details of payment mechanisms,
 4. User Profile Service, providing details about user payment and other settings,
