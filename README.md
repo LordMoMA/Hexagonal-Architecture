@@ -273,7 +273,7 @@ So, with this configuration, Nginx is distributing the load across multiple back
 
 # 👽 About the Payment Platform's Architecture
 
-Zooming in our payment architecture, we can distinguish several key components (see the picture below):
+Zooming in our payment architecture, we can distinguish several key components (see figure 1 below):
 
 1. API, providing a uniform interface to the payment functionality,
 2. Risk Engine, making decisions about payment-related risks,
@@ -285,6 +285,7 @@ Zooming in our payment architecture, we can distinguish several key components (
 8. Account store, storing data about the accounts of payment parties.
 
    ![](images/payment.png)
+   figure 1
 
 ## Implementation: Distributed Stream-Processing
 
@@ -295,6 +296,7 @@ At a deeper level, our Payments platform is implemented as a collection of micro
 The key technology used by our Payments Platform is Apache Kafka: an open-source stream-processing software platform
 
 ![](images/kafka.png)
+figure 2
 
 Kafka has several key capabilities, could be inherited by the our Payments platform:
 
@@ -326,8 +328,46 @@ While details are not publically available, the technical presentations provide 
 
 - Extensive parallelization of processing with the [competing consumers pattern](https://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html), by having multiple parallelly running (micro)service instances
 
-- Independent scaling of processing components, to more flexibly manage needed capacity, and
-  Using optimistic locking, to avoid the need for complex distributed locking mechanisms.
+- Independent scaling of processing components, to more flexibly manage needed capacity
+
+- Using optimistic locking, to avoid the need for complex distributed locking mechanisms.
+
+## Reliability
+
+Implementing a reliable streaming-based payment system comes with several challenges:
+
+- System failures (a failure may occur midway through processing)
+- Poison pill (an inbound message cannot be consumed)
+- Functional bugs (no technical errors, but results are invalid)
+
+Key mechanisms to deal with reliability requirements include:
+
+- Redundancy of all services, including the messaging infrastructure, enables resilience during internal system failures,
+- Implementation of the guaranteed delivery pattern pattern, by using Kafka capability to persist messages so that they are not lost even if the messaging system crashes,
+- Implemention of timeouts, both in integration with external systems, as well as internal services to prevent long-term system overloading,
+- Retrying operations, based on a defined error strategy (see figure 3), or move messages to a dead letter queue, so that messages are never lost,
+- Implementation of idempotent message handling for service operations. An [idempotent operation](https://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation) is one that has no additional effect if it is called more than once with the same input parameters. Apache Kafka implements the “at least once” message delivery strategy, implying subscribers may receive the same message multiple times, so subscribers that manage state and cause side effects should implement idempotent message handling.
+- Load-smoothing through queuing, to avoid overloading of services, and
+- Validation of processing results based on side-effects recording
+
+![](images/error.png)
+Figure 3: Error handling requires an error strategy. An error can lead to retry of an operation, of its achiving the dead message queue (DMQ).
+
+![](images/validation.png)
+Figure 4: Each complex operation will lead to some side effects. A validator can them at some moment check if actual side effects match the expected once.
+
+## Implementation: Integration with External Systems
+
+The Payments Platform interacts with payment service providers (PSPs) and banks to execute payment transactions.
+
+Each integration with PSPs and banks is different, we can distinguish two integrations styles (Figure 5):
+
+- API-based integrations with modern PSP integrations, with REST-based APIs, exchanging data in JSON, one transaction at a time, near-real time.
+
+- Legacy batch integration with banks, where integrations are done by exchanging files via SFTP, with relatively low frequency (day or hours).
+
+![](images/external_integrations.png)
+Figure 5: Two integrations styles for integration with external systems: API-based, and file-based.
 
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
