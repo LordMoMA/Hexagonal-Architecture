@@ -403,6 +403,48 @@ Using dedicated request storage when a retry needs to be performed, to ensure th
 ![](images/request_storage.png)
 Figure 8: The correct way to retry operations in the case of network failures when working with multiple PSPs. Using dedicated request storage to ensure that retry goes back to an original service.
 
+# On Test
+
+## Benchmarking
+
+Please read my article on [6 Tips on High Performance Go — Advanced Go Topics](https://medium.com/@lordmoma/6-tips-on-high-performance-go-advanced-go-topics-37b601fa329d) for more information.
+
+We have implemented a benchmarking on `createUser_test.go` to make sure that
+the performance of our code is not degraded.
+
+```bash
+go test -bench=. -benchmem
+```
+
+Output:
+
+```bash
+goos: darwin
+goarch: amd64
+pkg: github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/tests/benchmark
+cpu: Intel(R) Core(TM) i5-7267U CPU @ 3.10GHz
+BenchmarkCreateUser-4                 16          70744288 ns/op           35311 B/op        594 allocs/op
+PASS
+ok      github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/tests/benchmark    3.321s
+```
+
+Analysis:
+
+```bash
+goos: the operating system the benchmark was run on.
+goarch: the architecture of the processor the benchmark was run on.
+pkg: the package being benchmarked.
+cpu: the processor being used.
+BenchmarkCreateUser-4: the name of the benchmark.
+The "-4" indicates that the benchmark was run with 4 CPUs.
+16: the number of iterations run in the benchmark.
+70744288 ns/op: the average time it took to run one iteration of the benchmark, measured in nanoseconds.
+35311 B/op: the average number of bytes allocated per iteration of the benchmark.
+594 allocs/op: the average number of allocations per iteration of the benchmark.
+```
+
+In this case, the BenchmarkCreateUser benchmark was run with 16 iterations, and each iteration took an average of 70,744,288 nanoseconds (or about 70.7 milliseconds) to complete. During each iteration, an average of 35,311 bytes were allocated, and an average of 594 allocations were made.
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with

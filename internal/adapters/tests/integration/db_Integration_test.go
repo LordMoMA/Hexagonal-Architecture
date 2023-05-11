@@ -2,7 +2,6 @@ package integration
 
 import (
 	"errors"
-	"fmt"
 	"io/fs"
 	"os"
 	"testing"
@@ -10,26 +9,14 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/jinzhu/gorm"
-	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestDBIntegration(t *testing.T) {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
+var store *repository.DB
 
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
+func TestMain(m *testing.M) {
 
-	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, dbUser, dbPassword, dbname)
-
-	db, err := gorm.Open("postgres", conn)
+	db, err := gorm.Open("postgres", "postgres://postgres:password@localhost:5432/postgres?sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
@@ -37,8 +24,14 @@ func TestDBIntegration(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	
-	store := repository.NewDB(db, redisCache)
+	store = repository.NewDB(db, redisCache)
+
+	code := m.Run()
+
+	os.Exit(code)
+}
+
+func TestDBIntegration(t *testing.T) {
 
 	// create a test user
 	email := "test@example.com"
@@ -88,7 +81,7 @@ func TestDBIntegration(t *testing.T) {
 	if err != nil {
 		t.Errorf("password not hashed: %v", err)
 	}
-	
+
 	if readUser.Password != string(hashedNewPassword) {
 		t.Errorf("expected password %q, got %q", newPassword, readUser.Password)
 	}
@@ -99,6 +92,12 @@ func TestDBIntegration(t *testing.T) {
 		t.Fatalf("failed to delete user: %v", err)
 	}
 	_, err = store.ReadUser(user.ID)
+	if !errors.Is(err, fs.ErrNotExist) {
+		t.Errorf("expected user not found error, got %v", err)
+	}
+
+	// test deleting the same user again should return error
+	err = store.DeleteUser(user.ID)
 	if !errors.Is(err, fs.ErrNotExist) {
 		t.Errorf("expected user not found error, got %v", err)
 	}
