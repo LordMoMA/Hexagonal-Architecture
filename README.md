@@ -383,9 +383,25 @@ Figure 6: Idempotent message processing systems will not process the same messag
 
 The good news is that I have developed our own webhook handler to solve this problem. We can also adopt Stripe API's webhook to solve this problem.
 
-However, idempotency works well if you repeat the request against the same system, with the same operation ID. The operations ID needs to be provided by the application calling an idempotent service so that the service knows if it is getting the new request (not previously processed ID) or a repeated operation (already processed ID).
+### Challenges with Idempotency
+
+Idempotency works well if you repeat the request against the same system, with the same operation ID. The operations ID needs to be provided by the application calling an idempotent service so that the service knows if it is getting the new request (not previously processed ID) or a repeated operation (already processed ID).
 
 One challenge of implementing idempotency when interacting with external systems relates to the IDs used for idempotent operations. Legacy payments systems accept a more limited range of values for IDs. Careful rotation and timing of such IDs are essential to avoid the external system rejecting the payment request.
+
+Another challenge is multiplexing PSPs:
+
+Payments operations use several PSPs in a complex arrangement, and another PSP may be used if a payment fails with the originally selected one. Such practice may improve collection rate, but naively retrying a failed operation on another PSP may lead to double charging, as illustrated in Figure 7.
+
+![](images/multiplexing.png)
+Figure 7: The incorrect way to retry operations in the case of network failures when working with multiple PSPs. Network error does not necessarily mean that the operation has failed, and retrying the operation on a different PSP may thus lead to double charging.
+
+### Solutions to this problem:
+
+Using dedicated request storage when a retry needs to be performed, to ensure that retry goes back to an original service (Figure 8).
+
+![](images/request_storage.png)
+Figure 8: The correct way to retry operations in the case of network failures when working with multiple PSPs. Using dedicated request storage to ensure that retry goes back to an original service.
 
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
