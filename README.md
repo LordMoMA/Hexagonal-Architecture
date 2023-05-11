@@ -324,9 +324,10 @@ In addition to the worldwide scale, the load is not uniform and may have unexpec
 
 While details are not publically available, the technical presentations provide some insights in mechanisms used by Uber for handling performance and scalability requirements, such as:
 
-Extensive parallelization of processing with the competing consumers pattern, by having multiple parallelly running (micro)service instances
-Independent scaling of processing components, to more flexibly manage needed capacity, and
-Using optimistic locking, to avoid the need for complex distributed locking mechanisms.
+- Extensive parallelization of processing with the [competing consumers pattern](https://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html), by having multiple parallelly running (micro)service instances
+
+- Independent scaling of processing components, to more flexibly manage needed capacity, and
+  Using optimistic locking, to avoid the need for complex distributed locking mechanisms.
 
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
