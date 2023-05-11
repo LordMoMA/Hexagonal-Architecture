@@ -445,6 +445,51 @@ The "-4" indicates that the benchmark was run with 4 CPUs.
 
 In this case, the BenchmarkCreateUser benchmark was run with 16 iterations, and each iteration took an average of 70,744,288 nanoseconds (or about 70.7 milliseconds) to complete. During each iteration, an average of 35,311 bytes were allocated, and an average of 594 allocations were made.
 
+## Profiling
+
+Please read my article on [6 Tips on High Performance Go — Advanced Go Topics](https://medium.com/@lordmoma/6-tips-on-high-performance-go-advanced-go-topics-37b601fa329d) for more information.
+
+Go has built-in profiling tools that can help you gain insight into what your code is doing. The most common profiling tool is the CPU profiler, which can be enabled by adding the -cpuprofile flag to the go test command.
+
+```bash
+go test -cpuprofile=prof.out
+```
+
+Output:
+
+```bash
+testing: warning: no tests to run
+PASS
+ok      github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/tests/benchmark    1.381s
+```
+
+```bash
+go tool pprof prof.out
+```
+
+Output:
+
+```bash
+Type: cpu
+Time: May 11, 2023 at 8:04pm (CST)
+Duration: 202.62ms, Total samples = 0
+No samples were found with the default sample value type.
+Try "sample_index" command to analyze different sample values.
+Entering interactive mode (type "help" for commands, "o" for options)
+```
+
+After entering interactive mode in the go tool pprof, you can use the following commands to analyze and interact with the CPU profile:
+
+```bash
+top: Show top entries in the profile.
+list [function]: Show source code of a function, or list functions in the profile.
+web: Open a graphical representation of the profile in your default web browser.
+focus [function]: Focus on a specific function in the profile, hiding everything else.
+unfocus: Remove focus on a function, showing everything again.
+help: Show a list of available commands.
+quit: Exit the interactive mode.
+```
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
