@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
+	"time"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
-	"github.com/LordMoMA/Hexagonal-Architecture/internal/monitoring"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
@@ -59,12 +60,26 @@ func main() {
 
 	InitRoutes()
 
-	address := "localhost:5000/v1/users"
-	rt, err := monitoring.MeasureRT(address)
+	url := "http://localhost:5000/v1/users"
+
+	startTime := time.Now()
+
+	// Send an HTTP GET request
+	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println("Error measuring RT:", err)
+		fmt.Println("Error making HTTP request:", err)
 		return
 	}
+	defer resp.Body.Close()
+
+	// You can optionally read the response body
+	// _, err = ioutil.ReadAll(resp.Body)
+	// if err != nil {
+	//     fmt.Println("Error reading response body:", err)
+	//     return
+	// }
+
+	rt := time.Since(startTime)
 
 	fmt.Println("Round Trip Time:", rt)
 
