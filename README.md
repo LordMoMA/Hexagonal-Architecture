@@ -506,6 +506,54 @@ It's important to note that tcpdump operates at a lower level of the network sta
 
 In summary, while Gin's built-in logging is typically sufficient for measuring the RTT of your application's requests, tcpdump can be a valuable tool for in-depth network analysis, troubleshooting, performance analysis, and security assessment.
 
+## To use tcpdump for network troubleshooting, you can follow these steps:
+
+### Install tcpdump:
+
+Ensure that tcpdump is installed on your system. The installation process may vary depending on your operating system.
+
+```bash
+brew install tcpdump
+```
+
+### Capture network packets:
+
+Run tcpdump with appropriate options to capture network packets. For example, to capture all packets on a specific network interface (e.g., eth0), you can use the following command:
+
+```bash
+sudo tcpdump -i eth0
+```
+
+This will start capturing network packets on the specified interface. If it does not work, Use the `ifconfig` or `ip addr` command to list the available network interfaces on your system. Look for the interface you want to capture packets on. The interface name may differ depending on your system and network configuration.
+
+### Filter captured packets:
+
+By default, tcpdump captures all packets on the specified interface. However, you can use filters to narrow down the captured packets based on specific criteria. Filters can be based on source/destination IP addresses, port numbers, protocols, etc. For example, to capture only HTTP packets, you can use the following command:
+
+```bash
+sudo tcpdump -i eth0 port 80
+```
+
+This will capture only packets with the destination or source port set to 80 (HTTP).
+
+### Analyze captured packets:
+
+Once tcpdump is capturing packets, it will display information about each packet in real-time. This includes details such as source/destination IP addresses, port numbers, packet size, packet flags, etc. Analyze this information to identify any anomalies or issues.
+
+## Packet Loss:
+
+Packet loss refers to the situation where one or more network packets fail to reach their destination. It can occur due to various reasons such as network congestion, faulty network equipment, high latency, or other network issues. Packet loss can negatively impact network performance and result in degraded application performance.
+
+Here's an example of using tcpdump to capture packets on a specific network interface (eth0) and filter based on source IP address:
+
+```bash
+sudo tcpdump -i eth0 src 192.168.1.100
+```
+
+This command will capture all packets coming from the source IP address 192.168.1.100 on the eth0 interface. You can modify the filter based on your specific requirements.
+
+Remember to run tcpdump with appropriate permissions (e.g., using sudo) to capture packets effectively. Additionally, tcpdump provides numerous options and filters to customize the capture process further. You can refer to the tcpdump documentation or use the man tcpdump command in the terminal for more information on its usage and available options.
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
