@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -58,7 +59,14 @@ func main() {
 	userService = services.NewUserService(store)
 	paymentService = services.NewPaymentService(store)
 
-	InitRoutes()
+	done := make(chan bool)
+
+	go func() {
+		InitRoutes()
+	}()
+
+	// Wait for the HTTP servers to start
+	time.Sleep(1 * time.Second)
 
 	url := "http://localhost:5000/v1/users"
 
@@ -73,16 +81,19 @@ func main() {
 	defer resp.Body.Close()
 
 	// You can optionally read the response body
-	// _, err = ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	//     fmt.Println("Error reading response body:", err)
-	//     return
-	// }
+	responseBody, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return
+	}
 
 	rt := time.Since(startTime)
 
 	fmt.Println("Round Trip Time:", rt)
+	fmt.Println("Response Body:", string(responseBody))
 
+	// Keep the program running by blocking on the `done` channel
+	<-done
 }
 
 func InitRoutes() {
