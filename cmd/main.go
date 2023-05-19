@@ -10,6 +10,7 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/monitoring"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
@@ -58,6 +59,15 @@ func main() {
 
 	InitRoutes()
 
+	address := "localhost:5000/v1/users"
+	rt, err := monitoring.MeasureRT(address)
+	if err != nil {
+		fmt.Println("Error measuring RT:", err)
+		return
+	}
+
+	fmt.Println("Round Trip Time:", rt)
+
 }
 
 func InitRoutes() {
@@ -86,11 +96,10 @@ func InitRoutes() {
 	v2 := router2.Group("/v2")
 	paymentHandler := handler.NewPaymentHandler(*paymentService)
 	v2.POST("/create-checkout-session", paymentHandler.CreateCheckoutSession)
-	
+
 	// v2.POST("?success=true", paymentHandler.CreateCheckoutSession)
 	// v2.POST("/wallet/deposit", paymentHandler.Deposit)
 	// v2.POST("/wallet/withdraw", paymentHandler.Withdraw)
-
 
 	go func() {
 		if err := router.Run(":5000"); err != nil {
