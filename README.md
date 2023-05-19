@@ -554,6 +554,24 @@ This command will capture all packets coming from the source IP address 192.168.
 
 Remember to run tcpdump with appropriate permissions (e.g., using sudo) to capture packets effectively. Additionally, tcpdump provides numerous options and filters to customize the capture process further. You can refer to the tcpdump documentation or use the man tcpdump command in the terminal for more information on its usage and available options.
 
+When you run sudo tcpdump -i en0, tcpdump starts capturing packets on the en0 network interface. By default, tcpdump will capture packets continuously until you stop it manually. To stop tcpdump, you can press Ctrl+C in the terminal where it's running.
+
+The summary information at the end of the logs provides statistics about the captured packets:
+
+```bash
+606 packets captured
+606 packets received by filter
+0 packets dropped by kernel
+```
+
+- "606 packets captured" indicates the total number of packets captured by tcpdump.
+- "606 packets received by filter" indicates the number of packets that passed the filter criteria specified in the tcpdump command.
+- "0 packets dropped by kernel" indicates that no packets were dropped by the network stack/kernel during the capture.
+
+## TCPDump Tutorial
+
+[TCPDump-Tutorial](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/11-Bonus/TCPDump-Tutorial.md)
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with
