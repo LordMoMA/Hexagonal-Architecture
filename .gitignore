@@ -1,5 +1,5 @@
 .env
-git_automation.py
+git_auto.py
 # Folder view configuration files
 .DS_Store
 Desktop.ini

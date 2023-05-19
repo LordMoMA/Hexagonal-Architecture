@@ -86,6 +86,8 @@ func InitRoutes() {
 	v2 := router2.Group("/v2")
 	paymentHandler := handler.NewPaymentHandler(*paymentService)
 	v2.POST("/create-checkout-session", paymentHandler.CreateCheckoutSession)
+	
+	// v2.POST("?success=true", paymentHandler.CreateCheckoutSession)
 	// v2.POST("/wallet/deposit", paymentHandler.Deposit)
 	// v2.POST("/wallet/withdraw", paymentHandler.Withdraw)
 

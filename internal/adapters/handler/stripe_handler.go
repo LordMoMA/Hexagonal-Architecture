@@ -59,11 +59,15 @@ func (h *PaymentHandler) CreateCheckoutSession(ctx *gin.Context) {
 	ctx.Redirect(http.StatusSeeOther, s.URL)
 }
 
+
 func generateOrderID() string {
 	// Generate a unique order ID, for example:
 	return uuid.New().String()
 }
 
+func (h *PaymentHandler) HandleSuccess(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "<h1>Payment Successful!</h1>", nil)
+}
 /*
 
 // CreateCheckoutSessionRequest
