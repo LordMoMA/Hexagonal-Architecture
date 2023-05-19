@@ -490,6 +490,22 @@ help: Show a list of available commands.
 quit: Exit the interactive mode.
 ```
 
+# 🥊 Adding `tcpdump` for Network Analysis
+
+While Gin provides built-in logging functionality to measure and log the Round Trip Time (RTT) of requests, there may be situations where you would want to use tcpdump for network analysis. Here are some scenarios where tcpdump can be useful:
+
+Network troubleshooting: tcpdump can be used to capture network packets and analyze their contents. If you encounter issues related to network connectivity, packet loss, or unexpected behavior, tcpdump can help you inspect the network traffic to identify potential problems.
+
+Performance analysis: While Gin's built-in logging provides an overview of request processing time, tcpdump allows you to inspect the actual network packets exchanged between the client and server. This can provide more detailed insights into network performance, including packet latency, retransmissions, and other network-level metrics.
+
+Security analysis: tcpdump can be used to capture and analyze network traffic for security purposes. It allows you to inspect packet payloads, detect potential vulnerabilities, or investigate suspicious network activity.
+
+Protocol analysis: If you're working with custom protocols or need to debug protocol-level issues, tcpdump can help you capture and analyze the protocol-specific packets to understand the communication flow and identify any anomalies.
+
+It's important to note that tcpdump operates at a lower level of the network stack compared to Gin's logging. It captures all network traffic, not just the traffic related to your specific application. This can provide a broader perspective on network behavior but may require additional analysis and filtering to focus on the relevant traffic.
+
+In summary, while Gin's built-in logging is typically sufficient for measuring the RTT of your application's requests, tcpdump can be a valuable tool for in-depth network analysis, troubleshooting, performance analysis, and security assessment.
+
 # 🍕 Thoughts Collection on Recent Amazon Prime Video's Dump of its AWS Distributed Serverless Architecture and Move to “Monolith”
 
 I think it is important for a software engineer to constantly keep track of the software architecture, so I brought this topic up to discussion with

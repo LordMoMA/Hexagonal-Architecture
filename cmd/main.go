@@ -2,11 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
-	"time"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/handler"
@@ -59,41 +56,7 @@ func main() {
 	userService = services.NewUserService(store)
 	paymentService = services.NewPaymentService(store)
 
-	done := make(chan bool)
-
-	go func() {
-		InitRoutes()
-	}()
-
-	// Wait for the HTTP servers to start
-	time.Sleep(1 * time.Second)
-
-	url := "http://localhost:5000/v1/users"
-
-	startTime := time.Now()
-
-	// Send an HTTP GET request
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Println("Error making HTTP request:", err)
-		return
-	}
-	defer resp.Body.Close()
-
-	// You can optionally read the response body
-	responseBody, err = ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Error reading response body:", err)
-		return
-	}
-
-	rt := time.Since(startTime)
-
-	fmt.Println("Round Trip Time:", rt)
-	fmt.Println("Response Body:", string(responseBody))
-
-	// Keep the program running by blocking on the `done` channel
-	<-done
+	InitRoutes()
 }
 
 func InitRoutes() {
