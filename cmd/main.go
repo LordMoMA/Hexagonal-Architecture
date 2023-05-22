@@ -63,6 +63,9 @@ func InitRoutes() {
 	router := gin.Default()
 	router2 := gin.Default()
 
+	pprof.Register(router)
+	pprof.Register(router2)
+
 	v1 := router.Group("/v1")
 
 	messageHandler := handler.NewMessageHandler(*msgService)
