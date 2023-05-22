@@ -515,6 +515,14 @@ you will see:
 
 ![](images/pprof.png)
 
+Goroutine: stack traces of all current Goroutines
+CPU: stack traces of CPU returned by the runtime
+Heap: a sampling of memory allocations of live objects
+Allocation: a sampling of all past memory allocations
+Thread: stack traces that led to the creation of new OS threads
+Block: stack traces that led to blocking on synchronization primitives
+Mutex: stack traces of holders of contended mutexes
+
 ## Measuring the performance
 
 We are going to measure how many requests per second the microservice is able to handle. This can be done using the HTTP load generators.
@@ -617,6 +625,51 @@ Status code distribution:
 The number of responses for each status code is provided. In this case, there were 140,629 responses with a status code of 200 (OK).
 
 Overall, this analysis gives insights into the performance characteristics of the system, including the distribution of response times, latency percentiles, and details about different stages of the request-response cycle. It helps identify areas that may require optimization or further investigation to improve the system's performance.
+
+## Generating a report
+
+Make sure your app is running!
+
+### CPU profile
+
+The CPU profiler runs for 30 seconds by default. It uses sampling to determine which functions spend most of the CPU time. The Go runtime stops the execution every 10 milliseconds and records the current call stack of all running goroutines.
+
+```bash
+go tool pprof http://localhost:5000/debug/pprof/profile
+```
+
+After 30 seconds, you will see something like this:
+
+```bash
+(base) lifuyis-MacBook-Pro:Hexagonal-Architecture davidlee$ go tool pprof http://localhost:5000/debug/pprof/profile
+Fetching profile over HTTP from http://localhost:5000/debug/pprof/profile
+Saved profile in /Users/davidlee/pprof/pprof.samples.cpu.001.pb.gz
+Type: cpu
+Time: May 23, 2023 at 12:27am (CST)
+Duration: 30s, Total samples = 0
+No samples were found with the default sample value type.
+Try "sample_index" command to analyze different sample values.
+Entering interactive mode (type "help" for commands, "o" for options)
+(pprof)
+```
+
+When pprof enters the interactive mode, type top, the command will show a list of functions that appeared most in the collected samples. In our case these are all runtime and standard library functions, which is not very useful:
+
+```bash
+Entering interactive mode (type "help" for commands, "o" for options)
+(pprof) top
+Showing nodes accounting for 0, 0% of 0 total
+      flat  flat%   sum%        cum   cum%
+(pprof)
+```
+
+Now let’s load some requests to the server:
+
+```bash
+hey -n 10000000 http://localhost:5000/v1/users
+```
+
+Again, when fetching the profile and looking at the top:
 
 # 🥊 Adding `tcpdump` for Network Analysis
 
