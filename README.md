@@ -490,6 +490,71 @@ help: Show a list of available commands.
 quit: Exit the interactive mode.
 ```
 
+## Measuring the performance
+
+We are going to measure how many requests per second the microservice is able to handle. This can be done using the HTTP load generators.
+
+Install hey
+
+```bash
+brew install hey
+```
+
+To check the performance of our app let’s run our app with go run command i.e. go run cmd/main.go
+
+Then let’s generate load to our web app as below:
+
+```bash
+hey -n 10000000 -c 8 http://localhost:5000/v1/users
+```
+
+output:
+
+```bash
+Summary:
+  Total:        199.9452 secs
+  Slowest:      0.8245 secs
+  Fastest:      0.0004 secs
+  Average:      0.0114 secs
+  Requests/sec: 703.3378
+
+
+Response time histogram:
+  0.000 [1]     |
+  0.083 [137442]|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.165 [2552]  |■
+  0.248 [396]   |
+  0.330 [137]   |
+  0.412 [47]    |
+  0.495 [16]    |
+  0.577 [17]    |
+  0.660 [15]    |
+  0.742 [4]     |
+  0.824 [2]     |
+
+
+Latency distribution:
+  10% in 0.0012 secs
+  25% in 0.0020 secs
+  50% in 0.0036 secs
+  75% in 0.0066 secs
+  90% in 0.0329 secs
+  95% in 0.0536 secs
+  99% in 0.1218 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:   0.0000 secs, 0.0004 secs, 0.8245 secs
+  DNS-lookup:   0.0000 secs, 0.0000 secs, 0.0056 secs
+  req write:    0.0000 secs, 0.0000 secs, 0.0022 secs
+  resp wait:    0.0111 secs, 0.0004 secs, 0.8243 secs
+  resp read:    0.0002 secs, 0.0000 secs, 0.2291 secs
+
+Status code distribution:
+  [200] 140629 responses
+```
+
+This will generate 10000000 of requests to /api/user with maximum 8 number of workers to run concurrently. By default, hey sets 50 number of workers.
+
 # 🥊 Adding `tcpdump` for Network Analysis
 
 While Gin provides built-in logging functionality to measure and log the Round Trip Time (RTT) of requests, there may be situations where you would want to use tcpdump for network analysis. Here are some scenarios where tcpdump can be useful:
