@@ -671,6 +671,24 @@ hey -n 10000000 http://localhost:5000/v1/users
 
 Again, when fetching the profile and looking at the top:
 
+```bash
+
+```
+
+Let’s check this in the graphical chart; we do this by using -http flag.
+
+```bash
+go tool pprof -http=:5001 http://localhost:5000/debug/pprof/profile
+```
+
+Browse to `http://localhost:5001`
+
+![](images/graph.png)
+
+### How to read graph?
+
+I would suggest you to go through [this section](https://github.com/google/pprof/blob/master/doc/README.md#interpreting-the-callgraph) and know how you can read more clearly the graph.
+
 # 🥊 Adding `tcpdump` for Network Analysis
 
 While Gin provides built-in logging functionality to measure and log the Round Trip Time (RTT) of requests, there may be situations where you would want to use tcpdump for network analysis. Here are some scenarios where tcpdump can be useful:
