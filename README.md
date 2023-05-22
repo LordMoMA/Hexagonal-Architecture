@@ -689,6 +689,52 @@ Browse to `http://localhost:5001`
 
 I would suggest you to go through [this section](https://github.com/google/pprof/blob/master/doc/README.md#interpreting-the-callgraph) and know how you can read more clearly the graph.
 
+### Heap profile
+
+Run the heap profiler:
+
+```bash
+go tool pprof http://localhost:5000/debug/pprof/heap
+```
+
+In graphical chart:
+
+```bash
+go tool pprof -http=:5003 http://localhost:5000/debug/pprof/heap
+```
+
+![](images/heap.png)
+
+But we are more interested in the number of allocated objects. Call pprof with -alloc_objects option:
+
+```bash
+go tool pprof -alloc_objects -http=:5002 http://localhost:5000/debug/pprof/heap
+```
+
+### Block profile
+
+Blocking profile shows function calls that led to blocking on synchronization primitives like mutexes and channels.
+
+```bash
+go tool pprof http://localhost:8080/debug/pprof/block
+```
+
+In this way, you can check other profiles of your web app.
+
+### Optimization tips
+
+Avoid unnecessary heap allocations.
+
+For big structures, it might be cheaper to pass a pointer than to copy the whole structure. But, prefer values over pointers for not big structures.
+
+Go compiler is smart enough to turn some dynamic allocations into stack allocations. Things get worse for example when you start dealing with interfaces. So, preallocate maps and slices if you know the size beforehand.
+Don’t log if you don’t have to.
+
+Use buffered I/O if you do many sequential reads or writes.
+If your application extensively uses JSON, consider utilizing parser/serializer generators.
+
+Sometimes the bottleneck maybe not be what you are expecting — profiling is the best and sometimes the only way to understand the real performance of your application.
+
 # 🥊 Adding `tcpdump` for Network Analysis
 
 While Gin provides built-in logging functionality to measure and log the Round Trip Time (RTT) of requests, there may be situations where you would want to use tcpdump for network analysis. Here are some scenarios where tcpdump can be useful:
