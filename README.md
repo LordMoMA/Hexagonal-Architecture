@@ -490,6 +490,31 @@ help: Show a list of available commands.
 quit: Exit the interactive mode.
 ```
 
+### Introduction to gin-contrib/pprof
+
+This is gin middleware pprof. You can find it at https://github.com/gin-contrib/pprof.
+
+Integration of pprof:
+
+First of all, install pprof:
+
+```bash
+$ go get github.com/gin-contrib/pprof
+```
+
+Then integrate pprof into the gin router:
+
+```go
+httpRouter := gin.Default()
+pprof.Register(httpRouter)
+```
+
+After start the server, go to `http://localhost:5000/debug/pprof/`
+
+you will see:
+
+![](images/pprof.png)
+
 ## Measuring the performance
 
 We are going to measure how many requests per second the microservice is able to handle. This can be done using the HTTP load generators.
@@ -507,6 +532,8 @@ Then let’s generate load to our web app as below:
 ```bash
 hey -n 10000000 -c 8 http://localhost:5000/v1/users
 ```
+
+This will generate 10000000 of requests to /api/user with maximum 8 number of workers to run concurrently. By default, hey sets 50 number of workers.
 
 output:
 
@@ -553,7 +580,43 @@ Status code distribution:
   [200] 140629 responses
 ```
 
-This will generate 10000000 of requests to /api/user with maximum 8 number of workers to run concurrently. By default, hey sets 50 number of workers.
+The analysis provides information about the performance of a system based on the given summary, response time histogram, latency distribution, and details. Let's break down the information:
+
+Summary:
+
+- Total time: 199.9452 seconds: This is the total duration of the performance test.
+- Slowest response: 0.8245 seconds: The slowest individual response recorded during the test.
+- Fastest response: 0.0004 seconds: The fastest individual response recorded during the test.
+- Average response time: 0.0114 seconds: The average response time across all requests.
+- Requests per second: 703.3378: The number of requests processed per second.
+
+Response time histogram:
+
+The histogram displays the distribution of response times in different ranges. The number of requests falling within each range is represented by the vertical bars.
+
+Latency distribution:
+
+This section shows the distribution of response times based on percentiles.
+
+For example, 10% of the requests had a response time of 0.0012 seconds or lower.
+90% of the requests had a response time of 0.0329 seconds or lower.
+99% of the requests had a response time of 0.1218 seconds or lower.
+
+Details:
+
+The details section provides average, fastest, and slowest times for different stages of the request-response cycle.
+
+- DNS+dialup: The time taken for DNS resolution and establishing a connection with the server.
+- DNS-lookup: The time taken for DNS resolution only.
+- req write: The time taken to write the request to the server.
+- resp wait: The time spent waiting for the server's response.
+- resp read: The time taken to read the response from the server.
+
+Status code distribution:
+
+The number of responses for each status code is provided. In this case, there were 140,629 responses with a status code of 200 (OK).
+
+Overall, this analysis gives insights into the performance characteristics of the system, including the distribution of response times, latency percentiles, and details about different stages of the request-response cycle. It helps identify areas that may require optimization or further investigation to improve the system's performance.
 
 # 🥊 Adding `tcpdump` for Network Analysis
 
