@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
@@ -94,15 +93,16 @@ func InitRoutes() {
 	// v2.POST("/wallet/deposit", paymentHandler.Deposit)
 	// v2.POST("/wallet/withdraw", paymentHandler.Withdraw)
 
-	go func() {
-		if err := router.Run(":5000"); err != nil {
-			log.Fatalf("failed to run messages and users service: %v", err)
-		}
-	}()
+	router.Run(":4242")
 
-	if err := router2.Run(":4242"); err != nil {
-		log.Fatalf("failed to run payments service: %v", err)
-	}
+	// go func() {
+	// 	if err := router.Run(":5000"); err != nil {
+	// 		log.Fatalf("failed to run messages and users service: %v", err)
+	// 	}
+	// }()
 
-	// router.Run(":4242")
+	// if err := router2.Run(":4242"); err != nil {
+	// 	log.Fatalf("failed to run payments service: %v", err)
+	// }
+
 }
