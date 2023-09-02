@@ -42,7 +42,7 @@ func main() {
 		panic(err)
 	}
 
-	redisCache, err := cache.NewRedisCache("localhost:6379", "")
+	redisCache, err := cache.NewRedisCache("127.0.0.1:6379", "")
 	if err != nil {
 		panic(err)
 	}
