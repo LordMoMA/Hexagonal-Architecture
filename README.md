@@ -120,7 +120,9 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Redis as cache on users to improve performance
 - ✅ Add a new server for v2/payments endpoint
 - ✅ Add load balancer for server cluster
-- ⌛️ Add observability and monitoring to the /users/:id endpoint
+- ⌛️ Fix tests to use DB migration and pass the CI 
+- ⌛️ Add telemetry to APIs 
+- ⌛️ Add observability and monitoring to the /users/:id endpointd
 - ⌛️ Design wallet service
 - ⌛️ Design payment event service
 - ⌛️ Design a double-entry ledger system
@@ -128,7 +130,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ⌛️ Add Distributed services
 - ⌛️ Add URL Queries
 
-![badge](https://github.com/LordMoMA/Hexagonal-Architecture/github/workflows/go.yml/badge.svg)
+![badge](https://github.com/LordMoMA/Hexagonal-Architecture/.github/workflows/go.yml/badge.svg)
 
 # 🚀 Pros and Cons of using GORM in this project
 
