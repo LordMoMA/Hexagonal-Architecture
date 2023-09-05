@@ -48,7 +48,7 @@ func (h *UserHandler) ReadUser(ctx *gin.Context) {
 
 	if err != nil {
 		HandleError(ctx, http.StatusBadRequest, err)
-        return
+		return
 	}
 	ctx.JSON(http.StatusOK, user)
 }

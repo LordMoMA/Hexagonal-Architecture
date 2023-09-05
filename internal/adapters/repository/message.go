@@ -13,11 +13,10 @@ import (
 // 	db *gorm.DB
 // }
 
-
 func (m *DB) CreateMessage(userID string, message domain.Message) error {
 	message.ID = uuid.New().String()
 	message = domain.Message{
-		ID:      message.ID,
+		ID:     message.ID,
 		UserID: userID,
 		Body:   message.Body,
 	}
@@ -25,7 +24,7 @@ func (m *DB) CreateMessage(userID string, message domain.Message) error {
 	if req.RowsAffected == 0 {
 		return fmt.Errorf("messages not saved: %v", req.Error)
 	}
-	return  nil
+	return nil
 }
 
 func (m *DB) ReadMessage(id string) (*domain.Message, error) {
@@ -62,6 +61,3 @@ func (m *DB) DeleteMessage(id string) error {
 	}
 	return nil
 }
-
-
-	

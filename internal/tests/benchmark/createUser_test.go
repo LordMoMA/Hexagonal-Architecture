@@ -26,7 +26,7 @@ func BenchmarkCreateUser(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		email := fmt.Sprintf("test_user_%d@example.com", i)
-        password := "password"
+		password := "password"
 		// Delete user if it exists
 		var user domain.User
 		if err := db.Where("email = ?", email).First(&user).Error; err == nil {

@@ -6,14 +6,14 @@ import (
 )
 
 type DB struct {
-	db *gorm.DB
+	db    *gorm.DB
 	cache *cache.RedisCache
 }
 
 // new database
 func NewDB(db *gorm.DB, cache *cache.RedisCache) *DB {
 	return &DB{
-		db: db,
+		db:    db,
 		cache: cache,
 	}
 }

@@ -7,12 +7,12 @@ import (
 )
 
 type UserService struct {
-	repo  ports.UserRepository
+	repo ports.UserRepository
 }
 
 func NewUserService(repo ports.UserRepository) *UserService {
 	return &UserService{
-		repo:  repo,
+		repo: repo,
 	}
 }
 

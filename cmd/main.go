@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
@@ -96,7 +97,10 @@ func InitRoutes() {
 	// v2.POST("/wallet/deposit", paymentHandler.Deposit)
 	// v2.POST("/wallet/withdraw", paymentHandler.Withdraw)
 
-	router.Run(":4242")
+	err := router.Run(":4242")
+	if err != nil {
+		log.Fatalf("Error starting server: %v", err)
+	}
 
 	// go func() {
 	// 	if err := router.Run(":5000"); err != nil {

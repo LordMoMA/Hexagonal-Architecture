@@ -1,0 +1,23 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.20
+
+    - name: Build
+      run: scripts/hex_arch.sh
+
+    - name: Deploy
+      run: |
+        # Add deployment steps here

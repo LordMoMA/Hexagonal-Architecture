@@ -1,7 +1,7 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Go
+name: CI
 
 on:
   push:
@@ -20,9 +20,21 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.20
-
+        
     - name: Build
       run: go build -v ./...
+
+    - name: install staticcheck
+      run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+    - name: staticcheck
+      run: staticcheck ./...
+
+    - name: install gosec
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+    
+    - name: security check
+      run: gosec ./...
 
     - name: Test
       run: |
