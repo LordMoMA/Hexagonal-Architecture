@@ -9,6 +9,7 @@ import (
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/domain"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/core/services"
+	"github.com/LordMoMA/Hexagonal-Architecture/internal/logger"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -46,6 +47,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	logger.SetupLogger()
 
 	// Create or modify the database tables based on the model structs found in the imported package
 	db.AutoMigrate(&domain.Message{}, &domain.User{}, &domain.Payment{})

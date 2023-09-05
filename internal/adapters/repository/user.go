@@ -89,10 +89,15 @@ func (u *DB) UpdateUser(id, email, password string) error {
 		return fmt.Errorf("password not hashed: %v", err)
 	}
 
-	user = &domain.User{
-		Email:    email,
-		Password: string(hashedPassword),
-	}
+	// user = &domain.User{
+	// 	Email:    email,
+	// 	Password: string(hashedPassword),
+	// }
+
+	// Update the email and password fields of the user
+	user.Email = email
+	user.Password = string(hashedPassword)
+
 	req = u.db.Model(&user).Where("id = ?", id).Update(user)
 	if req.RowsAffected == 0 {
 		return errors.New("unable to update user :(")
