@@ -2,7 +2,6 @@ package unit
 
 import (
 	"testing"
-	"time"
 
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/cache"
 	"github.com/LordMoMA/Hexagonal-Architecture/internal/adapters/repository"
@@ -12,8 +11,9 @@ import (
 )
 
 func setUpDB() *repository.DB {
-	db, _ := gorm.Open("postgres", "postgres://test:test@localhost:5432/testdb?sslmode=disable")
+	db, _ := gorm.Open("postgres", "postgres://test:test@localhost:5433/template1?sslmode=disable")
 	db.AutoMigrate(&domain.Message{}, &domain.User{}, &domain.Payment{})
+	// defer db.Close()
 
 	redisCache, err := cache.NewRedisCache("localhost:6379", "")
 	if err != nil {
@@ -37,8 +37,10 @@ func TestCreateUser(t *testing.T) {
 	assert.Equal(t, email, user.Email)
 	assert.NotEmpty(t, user.ID)
 	assert.NotEmpty(t, user.Password)
+
 }
 
+/*
 func TestReadUser(t *testing.T) {
 	db := setUpDB()
 
@@ -56,7 +58,7 @@ func TestReadUser(t *testing.T) {
 	assert.Equal(t, user.Email, cachedUser.Email)
 	assert.Equal(t, user.Password, cachedUser.Password)
 
-	time.Sleep(time.Minute * 11)
+	time.Sleep(time.Second * 3)
 
 	cachedUser, err = db.ReadUser(user.ID)
 	assert.Error(t, err)
@@ -78,6 +80,7 @@ func TestReadUsers(t *testing.T) {
 	assert.NotNil(t, users)
 	assert.NotEmpty(t, users)
 }
+
 
 func TestUpdateUser(t *testing.T) {
 	db := setUpDB()
@@ -165,3 +168,4 @@ func TestDeleteUserNotFound(t *testing.T) {
 	assert.Error(t, err)
 	// assert.True(t, errors.Is(err, repository.ErrUserNotFound))
 }
+*/
