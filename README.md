@@ -130,6 +130,21 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ⌛️ Add Distributed services
 - ⌛️ Add URL Queries
 
+## How to keep the Test DB running and test the exact func with the triangle button in an IDE?
+
+```bash
+chmod +x testDB.sh
+```
+Now you can use the following command to start the test database:
+```bash
+./testDB.sh -t start
+```
+And use the following command to run tests and stop the test database afterwards:
+```bash
+./testDB.sh -t unit    # For unit tests
+./testDB.sh -t integration    # For integration tests
+./testDB.sh    # For all tests
+```
 ![badge](https://github.com/LordMoMA/Hexagonal-Architecture/.github/workflows/go.yml/badge.svg)
 
 # 🚀 Pros and Cons of using GORM in this project
