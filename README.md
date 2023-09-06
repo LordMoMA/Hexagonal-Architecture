@@ -120,7 +120,8 @@ Now, let's dive into how to create a messaging backend that allows users to save
 - ✅ Redis as cache on users to improve performance
 - ✅ Add a new server for v2/payments endpoint
 - ✅ Add load balancer for server cluster
-- 🥷🏻 Fix tests to use DB migration and pass the CI 
+- ✅ Add postgres image as test DB 
+- 🥷🏻 Fix tests to use DB migration and pass the CI (data is persisted, and should be emptied after each test run)
 - ⌛️ Add telemetry to APIs 
 - ⌛️ Add observability and monitoring to the /users/:id endpointd
 - ⌛️ Design wallet service
