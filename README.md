@@ -59,7 +59,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
 
 # Structure of the Project
 
-```
+```md
 └── Hexagonal Architecture
    ├── cmd
    │   └── main.go
@@ -105,6 +105,7 @@ Now, let's dive into how to create a messaging backend that allows users to save
        │   │   └── user.go
        └── web
 ```
+> If you find any files other than the above are bugging you for understanding the structure, please feel free to delete them manually.
 
 # 👺 To-dos:
 
