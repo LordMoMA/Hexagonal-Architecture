@@ -148,7 +148,6 @@ And use the following command to run tests and stop the test database afterwards
 ./testDB.sh    # For all tests
 ./testDB.sh -t stop # stop the test database
 ```
-![badge](https://github.com/LordMoMA/Hexagonal-Architecture/.github/workflows/go.yml/badge.svg)
 
 # 🚀 Pros and Cons of using GORM in this project
 
